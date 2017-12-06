@@ -32,4 +32,4 @@ function Soulforge:CacheUpdate(player, CacheFlag)
     end
   end
 end
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CachUpdate);
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CachUpdate);
