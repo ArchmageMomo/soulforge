@@ -1,3 +1,3 @@
-<items version="1" gfxroot ="gfx/items">
+<items version="1" gfxroot ="gfx/items/">
 	<passive cache="damage speed shotspeed range luck" name="Bum-bo Soul" description="You'r hungry for Gold" gfx="bumbo_soul.png"/>
 </items>	
