@@ -3,4 +3,8 @@
 
 This is a Bindig of Isaac Mod 
 
-ToDo: Edit the Lua code so that the game will load it.
+ToDo: 
+
+Done:
+	Overworked the XML
+	Fix the Bug from main.lua
