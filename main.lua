@@ -4,8 +4,9 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul");
 
 function Soulforge:CacheUpdate(player, cacheFlag)
   local player = Isaac.GetPlayer(0);
-  
+   if (PickupVariant==PickupVariant.PICKUP_COIN) then 
   if player:HasCollectible(BumboSoul) == true then 
+   
     local random = math.random(0,5);
     if (random <=1 )then
       if cacheFlag == CacheFlag.CACHE_DAMAGE then
@@ -33,6 +34,9 @@ function Soulforge:CacheUpdate(player, cacheFlag)
       end
     end
   end
+  end
 end
-Isaac.DebugString("Help")
+
+
+
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate);
