@@ -9,17 +9,17 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     local random = math.random(1,5);
     if (random <=1 )then
       if cacheFlag == CacheFlag.CACHE_DAMAGE then
-        player.Damage = player.Damage +1;
+        player.Damage = player.Damage +0,3;
       end
     end
     if (random > 1 and random <= 2 )then
       if cacheFlag == CacheFlag.CACHE_SPEED then
-        player.MoveSpeed = player.MoveSpeed +1;
+        player.MoveSpeed = player.MoveSpeed + 0,2;
       end
     end
     if (random > 2 and random <= 3 )then
       if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-        player.ShotSpeed = player.ShotSpeed+1;
+        player.ShotSpeed = player.ShotSpeed+ 0,2;
       end
     end
     if (random > 3 and random <= 4 )then
