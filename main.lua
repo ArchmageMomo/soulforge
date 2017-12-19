@@ -4,10 +4,10 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul");
 
 function Soulforge:CacheUpdate(player, cacheFlag)
   local player = Isaac.GetPlayer(0);
-   if (PickupVariant==PickupVariant.PICKUP_COIN) then 
+   
   if player:HasCollectible(BumboSoul) == true then 
    
-    local random = math.random(0,5);
+    local random = math.random(0,6);
     if (random <=1 )then
       if cacheFlag == CacheFlag.CACHE_DAMAGE then
         player.Damage = player.Damage +0,3;
@@ -21,7 +21,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     if (random > 2 and random <= 3 )then
       if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
         player.ShotSpeed = player.ShotSpeed+ 0,2;
-      end
+      end 
     end
     if (random > 3 and random <= 4 )then
       if cacheFlag == CacheFlag.CACHE_RANGE then
@@ -33,7 +33,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
         player.Luck = player.Luck +1;
       end
     end
-  end
+  
   end
 end
 
