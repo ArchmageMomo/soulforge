@@ -1,10 +1,12 @@
 # soulforge
 
 
-This is a Bindig of Isaac Mod 
+This is a Binding of Isaac Mod
 
-ToDo: 
+ToDo:
+	Angle Soul: HP(eternal Harts) pro floor Angle Deal
+	Arcane Lockdown: an Amount of Hits on the same Enemy creates a Tear burs from the enemy, but must not kill it 
 
 Done:
-	Overworked the XML
-	Fix the Bug from main.lua
+	Flamethrower
+	BumBo Soul
