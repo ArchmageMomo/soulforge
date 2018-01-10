@@ -17,43 +17,18 @@ function Soulforge:CacheUpdate(player, CacheFlag)
     Isaac.GetPlayer(0).Damage = 3
     Isaac.GetPlayer(0).FireDelay = fd-1
     Isaac.GetPlayer(0).TearHeight = 2
-    Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
+    Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags +             TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
     
   end
 
   if player:HasCollectible(BumboSoul) == true then 
 
-    local random = math.random(0,6);
-    if (random >= 0 and random < 6) then
-      if (random <=1 )then
-        if cacheFlag == CacheFlag.CACHE_DAMAGE then
-          player.Damage=player.Damage+1.0
-        end
-      end
-      if (random > 1 and random <= 2 )then
-        if cacheFlag == CacheFlag.CACHE_SPEED then
-          player.MoveSpeed=player.MoveSpeed+1.0
-        end
-      end
-      if (random > 2 and random <= 3 )then
-        if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-          player.ShotSpeed=player.ShotSpeed+1.0
-        end 
-      end
-      if (random > 3 and random <= 4 )then
-        if cacheFlag == CacheFlag.CACHE_RANGE then
-          player.TearHeight = player.TearHeight +1.0 
-        end
-      end 
-      if (random > 4 and random <= 5 )then
-        if cacheFlag == CacheFlag.CACHE_LUCK then
-          player.Luck = player.Luck+1.0
-        end
-      end
-
-    end
-
-end
+    player.Damage=player.Damage+math.random(0,1);
+    player.MoveSpeed=player.MoveSpeed+math.random(0,1);
+    player.ShotSpeed=player.ShotSpeed+math.random(0,1);
+    player.TearHeight = player.TearHeight +math.random(0,1);
+    player.Luck = player.Luck+math.random(0,1);
+  end
 end
 
 
