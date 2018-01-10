@@ -1,4 +1,4 @@
 <items version="1" gfxroot="gfx/items/">
-	<passive cache="firedelay damage speed range" description="He's Hungry For Gold" gfx="bumbo_soul.png" name="BumBo Soul" />
+	<passive cache="firedelay damage speed range" description="He's Hungry For Gold" gfx="bumbo_soul.jpg" name="BumBo Soul" />
 	<passive cache="heart" maxhearts="2" dedication="You Have The Urge To Spread Your Wings" gfx="angle_soul.png" name="Angle Soul"/>
 </items>	
