@@ -2,4 +2,5 @@
 	<passive cache="firedelay damage speed range" description="He's Hungry For Gold" gfx="bumbo_soul.png" name="BumBo Soul" />
 	<passive cache="firedelay" description="Burn Them ALL" gfx="dark_soul.png" name="Item1" />
 	<passive description="Go for It" gfx="angel_soul.png" name="Item2" />
+	<passive description="HitIt" gfx="demon_soul.png" name="Item3" />
 </items>	

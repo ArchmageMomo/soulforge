@@ -2,6 +2,9 @@ local Soulforge = RegisterMod("Soulforge",1);
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Item1")
 local AngleSoul = Isaac.GetItemIdByName ("Item2")
+local DemonSoul = Isaac.GetitemIdByName ("Item3")
+
+
 --ArcaneLockdown: Nachtrefferfolge auf selben gegner explodieren aus ihm (zerstört die gegner nicht) Tears(Player)
 --Flamethrower: Flammenwerfer (check)
 --Angle Soul:HP(ethernal Harts) pro flooor Angle Deal 
@@ -13,6 +16,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   local fd = Isaac.GetPlayer(0).MaxFireDelay * 4; 
   local isStatChanged = 0
   local heart = true
+      
   
   if (cacheFlag == CacheFlag.CACHE_FIREDELAY) then 
     isStatChanged = 1 
@@ -39,13 +43,14 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5;
 end
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) and heart == true then 
+    
    pos = Vector(Isaac.GetPlayer(0).Position.X, player.Position.Y);
    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
    heart=false
   end   
-   
-
+  
 end
+
 
 function Soulforge:Color()
     local player= Isaac.GetPlayer(0)
@@ -63,8 +68,20 @@ function Soulforge:GiveHeart()
   end
 end
 
+function Soulforge:demonSoulFkt()
+  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) then 
+    if PickupVariant == PickupVariant.PICKUP_HEART then
+      ran = math.random(0,6)
+      if ran > 3 then 
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+      else
+        Isaac.GetPlayer(0).HitPoints = Isaac.GetPlayer(0).HitPoints-1
+    end
+  end
+end
+end
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Color)
   Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Color)
   Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.GiveHeart)
-  
+  Soulforge:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, Soulforge.demmonSoulFkt)
