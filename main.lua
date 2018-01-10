@@ -23,14 +23,14 @@ function Soulforge:CacheUpdate(player, CacheFlag)
 
   if player:HasCollectible(BumboSoul) == true then 
 
-    player.Damage=player.Damage+math.random(0,1);
-    player.MoveSpeed=player.MoveSpeed+math.random(0,1);
-    player.ShotSpeed=player.ShotSpeed+math.random(0,1);
-    player.TearHeight = player.TearHeight +math.random(0,1);
-    player.Luck = player.Luck+math.random(0,1);
-  end
+    player.Damage=player.Damage+math.random(0,1)*0.5;
+    player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
+    player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
+    player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
+    player.Luck = player.Luck+math.random(0,1)*0.5;
+  
 end
-
+end
 
 function Soulforge:Color()
     local player= Isaac.GetPlayer(0)
