@@ -1,5 +1,5 @@
 <items version="1" gfxroot="gfx/items/">
 	<passive cache="firedelay damage speed range" description="Greedy Stats" gfx="bumbo_soul.png" name="BumBo Soul" />
-	<passive cache="firedelay" description="Burn Them ALL" gfx="dark_soul.png" name="Flamespitter" />
+	<passive cache="firedelay" description="Burn Them ALL" gfx="flamethrower5.png" name="Flamespitter" />
 	<passive description="You Feel Immortal" gfx="angel_soul.png" name="Angel Soul" />
 </items>	
