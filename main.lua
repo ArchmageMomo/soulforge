@@ -1,4 +1,5 @@
 local Soulforge = RegisterMod("Soulforge",1);
+
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
@@ -22,6 +23,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   local fd = Isaac.GetPlayer(0).MaxFireDelay * 4; 
   local isStatChanged = 0
   local heart = true
+  
       
   
   if (cacheFlag == CacheFlag.CACHE_FIREDELAY) then 
@@ -72,7 +74,7 @@ function Soulforge:GiveHeart()
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
-
+    
   end
 end
 
