@@ -4,6 +4,6 @@
 	<passive description="You Feel Immortal" gfx="angel_soul.png" name="Angel Soul" />
 	<passive description="Dark Soul" gfx ="dark_soul.png" name ="Dark Soul"/>
 	<passive description="Stained Soul" gfx="stained_soul.png" name="Stained Soul" />
-	<passive dedication="Pure Soul" gfx="pure_soul.png" name =" Pure Soul"/>
-	
+	<passive dedication="Pure Soul" gfx="pure_soul.png" name ="Pure Soul"/>
+	<passive description="Demon Soul" gfx="demon_soul.png" name ="Demon Soul" />
 </items>	
