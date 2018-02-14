@@ -4,8 +4,9 @@
 This is a Binding of Isaac Mod
 
 ToDo:
-	Angle Soul: HP(eternal Harts) per floor Angle Deal
-	Arcane Lockdown: an Amount of Hits on the same Enemy creates a Tear burs from the enemy, but must not kill it
+	uli: Dark Soul
+
+
 
 Done:
 	Flamethrower
