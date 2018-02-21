@@ -67,6 +67,7 @@ end
   if player:HasCollectible(DarkSoul) == true then
      
      random = math.random(0,100)
+     end
      return log
      
      if random < 30 then
