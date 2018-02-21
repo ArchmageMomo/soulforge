@@ -64,7 +64,7 @@ end
   
   -- This code is for DarkSoul
   -- Test
-  if player:HasCollective(DarkSoul) == true then
+  if player:HasCollectible(DarkSoul) == true then
      
      random = math.random(0,100)
      if random < 30 then
