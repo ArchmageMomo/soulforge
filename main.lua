@@ -64,7 +64,7 @@ end
   
   
   -- This code is for DarkSoul
-  -- Eliastest
+  -- Eliastest int blazeit = 420
   if player:HasCollectible(DarkSoul) == true then
      
      random = math.random(0,100)
