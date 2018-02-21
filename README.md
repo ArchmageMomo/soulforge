@@ -4,7 +4,7 @@
 This is a Binding of Isaac Mod
 
 ToDo:
-	uli: Dark Soul
+	Momo: Demon Soul
 
 
 
