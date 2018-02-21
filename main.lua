@@ -64,14 +64,13 @@ end
   
   
   -- This code is for DarkSoul
-  -- Eliastest int blazeit = 420 ohne spaß qwertzuio
   if player:HasCollectible(DarkSoul) == true then
      
      random = math.random(0,100)
-      player.Damage=player.Damage+random
+      Isaac.GetPlayer(0).Damage=player.Damage+random
       
      if random < 30 then
-        player:AddHealth(-0.5)
+        Isaac.GetPlayer(0):AddHealth(-0.5)
       else 
          Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
       end
@@ -80,14 +79,14 @@ end
 
 
 
---This function is just an additionsal if the tearcolor changes 
+--This function is just additionally if the tearcolor changes 
 function Soulforge:Color()
     local player= Isaac.GetPlayer(0)
     if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     end
   end
--- This function Gives Isaac one Ethernal heart each floor
+-- This function gives Isaac one Ethernal heart each floor
 function Soulforge:GiveHeart()
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
