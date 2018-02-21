@@ -9,6 +9,7 @@ local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
 local repItem1 = true
+local log = {}
 
 
 --BumboSoul: Gives a random Stat up
@@ -64,10 +65,9 @@ end
   
   -- This code is for DarkSoul
   if player:HasCollectible(DarkSoul) == true then
-     logger = optim.Logger('logfile.log')
      
      random = math.random(0,100)
-     logger:add{['random'] = random}
+     return log
      
      if random < 30 then
         player:AddHealth(-0.5)
