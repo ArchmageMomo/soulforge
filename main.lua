@@ -63,10 +63,12 @@ end
   
   
   -- This code is for DarkSoul
-  -- Test
   if player:HasCollectible(DarkSoul) == true then
+     logger = optim.Logger('logfile.log')
      
      random = math.random(0,100)
+     logger:add{['random'] = random}
+     
      if random < 30 then
         player:AddHealth(-0.5)
       else 
