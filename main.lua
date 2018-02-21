@@ -5,8 +5,8 @@ local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
-local StainedSoul = Isaac.GetItemIdByName ("Stained Soul")
-local PureSoul = Isaac.GetItemIdByName ("Pure Soul")
+local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
+local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
 local repItem1 = true
 
