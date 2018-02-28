@@ -74,6 +74,7 @@ end
     --Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
     
 end
+<<<<<<< HEAD
 
   
   -- This code is for DarkSoul
@@ -91,6 +92,8 @@ end
 
 
 function Soulforge:darksoul()
+=======
+>>>>>>> 60e0f48bb24b245d979a39ea7fba7764141cded7
   
   if Isaac.GetPlayer(0):HasCollectible(item) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
