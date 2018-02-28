@@ -65,15 +65,14 @@ end
   
   -- This code is for DarkSoul
   if player:HasCollectible(DarkSoul) == true then
-     
-     random = math.random(0,100)
-      Isaac.GetPlayer(0).Damage=player.Damage+random
+    random = math.random(0,100)
+    Isaac.GetPlayer(0).Damage=player.Damage+random
       
-     if random < 30 then
-        Isaac.GetPlayer(0):AddHealth(-0.5)
-      else 
-         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
-      end
+    if random < 30 then
+      Isaac.GetPlayer(0):AddHealth(-0.5)
+    else 
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+    end
     end
 end
 
