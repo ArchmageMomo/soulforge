@@ -61,6 +61,15 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5;
 end
   
+  if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
+    AddEternalHearts(1)
+    
+  end
+  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
+    Isaac.GetPlayer(0).TakeDamage(1)
+end
+  
+  
 end
 
 
@@ -74,13 +83,7 @@ function Soulforge:Color()
   end
 -- This function Gives Isaac one Ethernal heart each floor
 function Soulforge:GiveHeart()
-  if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
-    Isaac.GetPlayer(0).AddEternalHearts(1)
-    
-  end
-  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    Isaac.GetPlayer(0).TakeDamage(1)
-end
+  
   
 end
 
