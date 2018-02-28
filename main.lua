@@ -62,7 +62,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5
 end
   
-  
+  --
   -- This code is for DarkSoul
   if Isaac.GetPlayer(0):HasCollectible(Item) == true then
     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
