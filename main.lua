@@ -78,7 +78,7 @@ end
 
   
   -- This code is for DarkSoul
-  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
+  if Isaac.GetPlayer(0):HasCollectible(item) == true then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
