@@ -79,11 +79,7 @@ function Soulforge:GiveHeart()
     
   end
   if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-<<<<<<< HEAD
     EntityPlayer.TakeDamage(1)
-=======
-    EntityPlayer.TakeDamage(1.0)
->>>>>>> 0ba35cdf1d9c9091b67ab8bb985f7726e8e807d9
 end
   
 end
