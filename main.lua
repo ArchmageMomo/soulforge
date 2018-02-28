@@ -61,7 +61,6 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5;
 end
   
-  
 end
 
 
@@ -80,6 +79,10 @@ function Soulforge:GiveHeart()
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
     
   end
+  if player:HasCollectible(DemonSoul) == true then 
+    EntityPlayer.TakeDamage(1)
+end
+  
 end
 
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
