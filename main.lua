@@ -4,11 +4,12 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
-local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
+local item = Isaac.GetItemIdByName ("Dark Soul")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
 local repItem1 = true
+local log = {}
 
 
 --BumboSoul: Gives a random Stat up
@@ -61,30 +62,46 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5;
 end
   
-  if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
-    EntityPlayer.AddEternalHearts(1)
-    
+  
+  -- This code is for DarkSoul
+  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
+    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
+    Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
+      
+    if math.random(0,100) < 30 then
+      Isaac.GetPlayer(0):AddHealth(-0.5)
+    else 
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+    end
+    end
+end
+
+
+function Soulforge:darksoul()
+  
+  if Isaac.GetPlayer(0):HasCollectible(item) == true then 
+    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
   end
-  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    EntityPlayer.TakeDamage(1.0)  
-end
-  
-  
 end
 
 
 
---This function is just an additionsal if the tearcolor changes 
+--This function is just additionally if the tearcolor changes 
 function Soulforge:Color()
     local player= Isaac.GetPlayer(0)
     if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
-    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
+      Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     end
   end
--- This function Gives Isaac one Ethernal heart each floor
+  
+  
+-- This function gives Isaac one Ethernal heart each floor
 function Soulforge:GiveHeart()
-  
-  
+  if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
+    pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
+    
+  end
 end
 
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
@@ -92,3 +109,4 @@ end
   Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Color)
   Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.GiveHeart)
   Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoul)
