@@ -62,11 +62,11 @@ function Soulforge:CacheUpdate(player, cacheFlag)
 end
   
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
-    EntityPlayer::AddEternalHearts(1)
+    EntityPlayer:AddEternalHearts(1)
     
   end
   if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    EntityPlayer::TakeDamage(1.0)
+    EntityPlayer:TakeDamage(1.0)
 end
   
   
