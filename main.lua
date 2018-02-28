@@ -66,7 +66,7 @@ end
     
   end
   if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    EntityPlayer.TakeDamage(1.0)
+    EntityPlayer.TakeDamage(1.0)  
 end
   
   
