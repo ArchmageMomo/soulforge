@@ -4,7 +4,7 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
-local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
+local DarkSoul = Isaac.GetItemIdByName ("Item")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
@@ -59,12 +59,12 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
     player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
     player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
-    player.Luck = player.Luck+math.random(0,1)*0.5;
+    player.Luck = player.Luck+math.random(0,1)*0.5
 end
   
   
   -- This code is for DarkSoul
-  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
+  if Isaac.GetPlayer(0):HasCollectible(Item) == true then
     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
     if math.random(0,100) < 30 then
@@ -73,7 +73,7 @@ end
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
     end
     end
-end
+end 
 
 
 
