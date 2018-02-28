@@ -82,7 +82,9 @@ function Soulforge:Color()
     local player= Isaac.GetPlayer(0)
     if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
-    end
+  end
+  
+  
   end
   
   
