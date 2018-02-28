@@ -64,13 +64,13 @@ end
   
   if player:HasCollectible(DemonSoul) == true then 
     pos1 = Vector(player.Position.X, player.Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
     --Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
     
 end
