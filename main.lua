@@ -79,8 +79,8 @@ function Soulforge:GiveHeart()
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
     
   end
-  if player:HasCollectible(DemonSoul) == true then 
-    EntityPlayer.TakeDamage(1)
+  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
+    EntityPlayer.TakeDamage(1.0)
 end
   
 end
