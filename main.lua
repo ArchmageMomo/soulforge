@@ -64,9 +64,8 @@ end
   
   
   -- This code is for DarkSoul
-  if player:HasCollectible(DarkSoul) == true then
-    random = math.random(0,100)
-    Isaac.GetPlayer(0).Damage=player.Damage+random
+  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
+    Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
     if random < 30 then
       Isaac.GetPlayer(0):AddHealth(-0.5)
@@ -85,6 +84,8 @@ function Soulforge:Color()
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     end
   end
+  
+  
 -- This function gives Isaac one Ethernal heart each floor
 function Soulforge:GiveHeart()
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
