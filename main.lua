@@ -75,11 +75,11 @@ function Soulforge:Color()
 -- This function Gives Isaac one Ethernal heart each floor
 function Soulforge:GiveHeart()
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
-    EntityPlayer.AddEternalHearts(1)
+    Isaac.GetPlayer(0).AddEternalHearts(1)
     
   end
   if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    EntityPlayer.TakeDamage(1)
+    Isaac.GetPlayer(0).TakeDamage(1)
 end
   
 end
