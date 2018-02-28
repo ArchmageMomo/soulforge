@@ -62,7 +62,6 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5;
 end
   
-<<<<<<< HEAD
   if player:HasCollectible(DemonSoul) == true then 
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos, Vector(0, 0), player)
@@ -75,8 +74,7 @@ end
     --Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
     
 end
-=======
->>>>>>> 3c19191e61a741d3258a53f52de922dcc50d7f5a
+
   
   -- This code is for DarkSoul
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
@@ -107,12 +105,6 @@ function Soulforge:Color()
     if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
       Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     end
-  end
-  
-  if player   :HasCollectible(AngleSoul) == true then 
-    pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
-    
   end
   
 -- This function gives Isaac one Ethernal heart each floor
