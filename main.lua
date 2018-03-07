@@ -65,13 +65,20 @@ end
   if player:HasCollectible(DemonSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     pos1 = Vector(player.Position.X, player.Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, PickupVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X, player.Position.Y-1);
     --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X-1, player.Position.Y-1);
     --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X+1, player.Position.Y-1);
     --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X+1, player.Position.Y);
     --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X+1, player.Position.Y+1);
     --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X, player.Position.Y-1);
     --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    --pos1 = Vector(player.Position.X, player.Position.Y-1);
     --Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
     
 end
