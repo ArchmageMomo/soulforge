@@ -160,5 +160,5 @@ end
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulC)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
 
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.demonFloor)
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
   
