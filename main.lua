@@ -4,7 +4,7 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
-local DarkSoul = Isaac.GetItemIdByName ("Item")
+local Item = Isaac.GetItemIdByName ("Item")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
@@ -62,15 +62,20 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5
 end
   
-  --
   -- This code is for DarkSoul
   if Isaac.GetPlayer(0):HasCollectible(Item) == true then
     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
-    if math.random(0,100) < 30 then
-      Isaac.GetPlayer(0):AddHealth(-0.5)
-    else 
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+    
+    --[[if  --Isaac collects red heart
+      if math.random(0,100) >= 50 then --for 50% chance
+         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))--]]
+      
+    if math.random(0,100) < 30 then --for 30% chance
+      Isaac.GetPlayer(0):AddHealth(-0.5) --Isaac takes damage
+    else --else (for 70%)
+      --Isaac is healed (picks up black heart)
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0)) 
     end
     end
 end 
