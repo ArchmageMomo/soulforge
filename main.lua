@@ -38,7 +38,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     isStatChanged = 1 
   end
   
-  -- This Code let's me change the Tearrate 
+  -- This Code let's me change the Tear-rate 
   if player:HasCollectible(FlameThrower) == true and isStatChanged == 1  then
     player.MaxFireDelay = player.MaxFireDelay - (fd/4)
     isStatChanged = 0
@@ -68,7 +68,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
 end
 
 function Soulforge:demonF()
-  
+  local player=Isaac.GetPlayer(0)
   
   if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
@@ -132,7 +132,10 @@ function Soulforge:AngleFloor()
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_ETERNAL, pos, Vector(0, 0), Isaac.GetPlayer(0))
     
   end
-  
+end
+
+function Soulforge:DemonFloor()
+  local player=Isaac.GetPlayer(0)
   if player:HasCollectible(DemonSoul) == true then 
     local rand = math.random(0,5)
     if rand==0 then
