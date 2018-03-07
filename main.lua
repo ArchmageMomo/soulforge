@@ -4,7 +4,7 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
-local item = Isaac.GetItemIdByName ("Dark Soul")
+local DarkSoul= Isaac.GetItemIdByName ("Dark Soul")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
@@ -70,7 +70,7 @@ end
 --DarkSoul Function
 function Soulforge:darksoulF()
   -- This code is for DarkSoul
-  if Isaac.GetPlayer(0):HasCollectible(item) == true then
+  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
@@ -84,7 +84,7 @@ end
 
 
 function Soulforge:darksoulC()
-  if Isaac.GetPlayer(0):HasCollectible(item) == true then 
+  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
   end
 end
