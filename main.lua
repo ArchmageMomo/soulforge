@@ -115,15 +115,15 @@ function Soulforge:DemonFloor()
   if player:HasCollectible(DemonSoul) == true then 
     local rand = math.random(0,5)
     if rand==0 then
-      player.Damage=player.Damage+0.5;
+      player.Damage=player.Damage+0.8;
     elseif rand==1 then
-      player.MoveSpeed=player.MoveSpeed+0.5;
+      player.MoveSpeed=player.MoveSpeed+0.7;
     elseif rand==1 then
-      player.ShotSpeed=player.ShotSpeed+0.2;
+      player.ShotSpeed=player.ShotSpeed+0.6;
     elseif rand==1 then
-      player.TearHeight = player.TearHeight +0.3;
+      player.TearHeight = player.TearHeight +0.5;
     elseif rand==1 then
-      player.Luck = player.Luck+0.5;
+      player.Luck = player.Luck+1;
     end
     
     pos1 = Vector(player.Position.X, player.Position.Y);
@@ -140,8 +140,8 @@ function Soulforge:DemonFloor()
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
     pos1 = Vector(player.Position.X, player.Position.Y-1);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    
-    Isaac.TrySpawnDevilRoomDoor()
+    pos1 = Vector(player.Position.X-2, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
     
   end
 end
