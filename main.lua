@@ -54,17 +54,17 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   end
   
   -- This code is for Bumbo Soul
-  if player:HasCollectible(BumboSoul) == true then 
-    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
-    player.Damage=player.Damage+math.random(0,1)*0.5;
-    player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
-    player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
-    player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
-    player.Luck = player.Luck+math.random(0,1)*0.5;
+  --if player:HasCollectible(BumboSoul) == true then 
+    
+    --player.Damage=player.Damage+math.random(0,1)*0.5;
+    --player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
+    --player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
+    --player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
+    --player.Luck = player.Luck+math.random(0,1)*0.5;
   end
   
-  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    
+  if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then 
+    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     pos1 = Vector(player.Position.X, player.Position.Y);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
     --pos1 = Vector(player.Position.X, player.Position.Y-1);
