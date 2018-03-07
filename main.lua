@@ -67,28 +67,6 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   end
 end
 
-function Soulforge:demonF()
-  local player=Isaac.GetPlayer(0)
-  
-  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) and repitem2 == true then 
-    pos1 = Vector(player.Position.X, player.Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X-1, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X+1, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X+1, player.Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X+1, player.Position.Y+1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    repItem2=false
-  end
-end
-
 --DarkSoul Function
 function Soulforge:darksoulF()
   -- This code is for DarkSoul
@@ -133,6 +111,9 @@ end
 
 function Soulforge:DemonFloor()
   local player=Isaac.GetPlayer(0)
+  
+  
+  
   if player:HasCollectible(DemonSoul) == true then 
     local rand = math.random(0,5)
     if rand==0 then
@@ -146,6 +127,24 @@ function Soulforge:DemonFloor()
     elseif rand==1 then
       player.Luck = player.Luck+0.5;
     end
+    
+    pos1 = Vector(player.Position.X, player.Position.Y);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X-1, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X+1, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X+1, player.Position.Y);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X+1, player.Position.Y+1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    
+    Isaac.GetPlayer(0).TearColor = Color(180.0,180,0,1,1,0,0) 
+    
   end
 end
   
@@ -158,8 +157,8 @@ end
   
   Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngleFloor)
   
-  
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulC)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
+
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.demonFloor)
   
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.demonF)
