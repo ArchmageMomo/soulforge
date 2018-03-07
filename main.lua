@@ -3,7 +3,7 @@ local Soulforge = RegisterMod("Soulforge",1);
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
-local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
+local DemonSoul = Isaac.GetItemIdByName ("Demons Soul")
 local item = Isaac.GetItemIdByName ("Dark Soul")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
@@ -54,14 +54,14 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   end
   
   -- This code is for Bumbo Soul
-  --if player:HasCollectible(BumboSoul) == true then 
+  if player:HasCollectible(BumboSoul) == true then 
     
-    --player.Damage=player.Damage+math.random(0,1)*0.5;
-    --player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
-    --player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
-    --player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
-    --player.Luck = player.Luck+math.random(0,1)*0.5;
-  --end
+    player.Damage=player.Damage+math.random(0,1)*0.5;
+    player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
+    player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
+    player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
+    player.Luck = player.Luck+math.random(0,1)*0.5;
+  end
   
   if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
