@@ -2,7 +2,7 @@ local Soulforge = RegisterMod("Soulforge",1);
 
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
-local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
+local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")  --Hallo
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
