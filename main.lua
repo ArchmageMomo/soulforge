@@ -70,8 +70,7 @@ end
 function Soulforge:demonF()
   local player=Isaac.GetPlayer(0)
   
-  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
-    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
+  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) and repitem2 == true then 
     pos1 = Vector(player.Position.X, player.Position.Y);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
     pos1 = Vector(player.Position.X, player.Position.Y-1);
@@ -86,8 +85,6 @@ function Soulforge:demonF()
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
     pos1 = Vector(player.Position.X, player.Position.Y-1);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
     repItem2=false
   end
 end
