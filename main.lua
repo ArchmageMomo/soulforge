@@ -145,6 +145,8 @@ function Soulforge:DemonFloor()
     
     Isaac.GetPlayer(0).TearColor = Color(180.0,180,0,1,1,0,0) 
     
+    Isaac.TrySpawnDevilRoomDoor()
+    
   end
 end
   
@@ -160,5 +162,5 @@ end
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulC)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
 
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.demonFloor)
+  Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.demonFloor)
   
