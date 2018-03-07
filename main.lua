@@ -61,7 +61,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     --player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
     --player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
     --player.Luck = player.Luck+math.random(0,1)*0.5;
-  end
+  --end
   
   if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
