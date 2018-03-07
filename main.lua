@@ -3,7 +3,7 @@ local Soulforge = RegisterMod("Soulforge",1);
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
-local DemonSoul = Isaac.GetItemIdByName ("Pyrokinesis")
+local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local item = Isaac.GetItemIdByName ("Dark Soul")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
@@ -63,7 +63,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.Luck = player.Luck+math.random(0,1)*0.5;
   end
   
-  if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then 
+  if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     pos1 = Vector(player.Position.X, player.Position.Y);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
@@ -127,7 +127,7 @@ function Soulforge:GiveHeart()
     
   end
   
-  if player:HasCollectible(BumboSoul) == true then 
+  if player:HasCollectible(DemonSoul) == true then 
     local rand = math.random(0,5)
     if rand==0 then
       player.Damage=player.Damage+0.5;
