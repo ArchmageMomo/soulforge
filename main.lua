@@ -112,8 +112,6 @@ end
 function Soulforge:DemonFloor()
   local player=Isaac.GetPlayer(0)
   
-  
-  
   if player:HasCollectible(DemonSoul) == true then 
     local rand = math.random(0,5)
     if rand==0 then
@@ -162,5 +160,5 @@ end
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulC)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
 
-  Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.demonFloor)
+  Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
   
