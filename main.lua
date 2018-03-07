@@ -4,7 +4,7 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
-local Item = Isaac.GetItemIdByName ("Item")
+local fuckisaac = Isaac.GetItemIdByName ("fuckisaac")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
@@ -63,8 +63,8 @@ function Soulforge:CacheUpdate(player, cacheFlag)
 end
   
   -- This code is for DarkSoul
-  if Isaac.GetPlayer(0):HasCollectible(Item) == true then
-    Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
+  if Isaac.GetPlayer(0):HasCollectible(fuckisaac) == true then
+     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
     
     --[[if  --Isaac collects red heart
