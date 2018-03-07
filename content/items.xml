@@ -2,8 +2,8 @@
 	<passive cache="firedelay damage speed range" description="Greedy Stats" gfx="bumbo_soul.png" name="BumBo Soul" />
 	<passive cache="firedelay" description="Burn Them ALL" gfx="flamethrower5.png" name="Flamespitter" />
 	<passive description="You Feel Immortal" gfx="angel_soul.png" name="Angel Soul" />
-	<passive description="Item" gfx ="dark_soul.png" name ="Item"/>
+	<passive description="Dark Soul" gfx ="dark_soul.png" name ="Item"/>
 	<passive description="Stained Soul" gfx="stained_soul.png" name="Stained Soul" />
 	<passive dedication="Pure Soul" gfx="pure_soul.png" name ="Pure Soul"/>
 	<passive description="Demon Soul" gfx="demon_soul.png" name ="Demon Soul" />
-</items>	
+</items>
