@@ -9,6 +9,7 @@ local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
 local repItem1 = true
+local repItem2 = true
 local log = {}
 
 
@@ -19,6 +20,8 @@ local log = {}
 --this funktions sets the boolean false if the player has the Item
 function Soulforge:Reset()
     repItem1 = true
+    repItem2 = true
+
 end
 
 
@@ -62,30 +65,35 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
     player.Luck = player.Luck+math.random(0,1)*0.5;
   end
+end
+
+function Soulforge:demonF()
+  
   
   if Isaac.GetPlayer(0):HasCollectible(DemonSoul) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     pos1 = Vector(player.Position.X, player.Position.Y);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X, player.Position.Y-1);
-    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X-1, player.Position.Y-1);
-    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X+1, player.Position.Y-1);
-    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X+1, player.Position.Y);
-    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X+1, player.Position.Y+1);
-    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X, player.Position.Y-1);
-    --Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
-    --pos1 = Vector(player.Position.X, player.Position.Y-1);
-    --Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
-    
+    pos1 = Vector(player.Position.X, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X-1, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X+1, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X+1, player.Position.Y);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X+1, player.Position.Y+1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
+    pos1 = Vector(player.Position.X, player.Position.Y-1);
+    Isaac.Spawn(EntityType.ENTITY_ENEMY, EnemyVariant.FLY, 0, pos, Vector(1,1), player)
+    repItem2=false
   end
+end
 
-
-  
+--DarkSoul Function
+function Soulforge:darksoulF()
   -- This code is for DarkSoul
   if Isaac.GetPlayer(0):HasCollectible(item) == true then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
@@ -100,9 +108,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
 end
 
 
-function Soulforge:darksoul()
-
-  
+function Soulforge:darksoulC()
   if Isaac.GetPlayer(0):HasCollectible(item) == true then 
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
   end
@@ -111,7 +117,7 @@ end
 
 
 --This function is just additionally if the tearcolor changes 
-function Soulforge:Color()
+function Soulforge:FlamethrowerC()
     local player= Isaac.GetPlayer(0)
     if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
       Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
@@ -119,7 +125,7 @@ function Soulforge:Color()
   end
   
 -- This function gives Isaac one Ethernal heart each floor
-function Soulforge:GiveHeart()
+function Soulforge:AngleFloor()
   local player=Isaac.GetPlayer(0)
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
@@ -142,10 +148,18 @@ function Soulforge:GiveHeart()
     end
   end
 end
-
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Color)
-  Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Color)
-  Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.GiveHeart)
+  
   Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoul)
+  
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
+  
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerC)
+  Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerC)
+  
+  Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngleFloor)
+  
+  
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulC)
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
+  
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.demonF)
