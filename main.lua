@@ -141,9 +141,7 @@ function Soulforge:DemonFloor()
     pos1 = Vector(player.Position.X, player.Position.Y-1);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
     
-    Isaac.GetPlayer(0).TearColor = Color(180.0,180,0,1,1,0,0) 
-    
-    Isaac.TrySpawnDevilRoomDoor()
+    TrySpawnDevilRoomDoor()
     
   end
 end
