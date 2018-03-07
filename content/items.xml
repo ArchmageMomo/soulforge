@@ -5,5 +5,5 @@
 	<passive description="Dark Soul" gfx ="dark_soul.png" name ="Dark Soul"/>
 	<passive description="Stained Soul" gfx="stained_soul.png" name="Stained Soul" />
 	<passive dedication="Pure Soul" gfx="pure_soul.png" name ="Pure Soul"/>
-	<passive description="Demon Soul" gfx="demon_soul.png" name ="HELIX" />
+	<passive description="Demon Soul" gfx="demon_soul.png" name ="Pyrokinesis" />
 </items>	
