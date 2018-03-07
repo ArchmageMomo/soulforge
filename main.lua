@@ -141,7 +141,7 @@ function Soulforge:DemonFloor()
     pos1 = Vector(player.Position.X, player.Position.Y-1);
     Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_TROLL,  0, pos1, Vector(0, 0), player)
     
-    TrySpawnDevilRoomDoor()
+    Isaac.TrySpawnDevilRoomDoor()
     
   end
 end
