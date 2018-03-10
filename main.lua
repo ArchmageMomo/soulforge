@@ -71,23 +71,17 @@ end
 function Soulforge:darksoulF()
   -- This code is for DarkSoul
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
-    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
-    Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
+    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0) --In Final entfernen
       
     if math.random(0,100) < 30 then
       Isaac.GetPlayer(0):AddHealth(-0.5)
     else 
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
     end
   end
 end
 
 
-function Soulforge:darksoulC()
-  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then 
-    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
-  end
-end
 
 
 
@@ -156,8 +150,7 @@ end
   Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerC)
   
   Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngleFloor)
-  
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulC)
+
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
 
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
