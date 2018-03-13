@@ -4,7 +4,10 @@ local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
 local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")  --Hallo
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
+<<<<<<< HEAD
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
+=======
+>>>>>>> Fruestueck
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
@@ -19,6 +22,11 @@ local log = {}
 --this funktions sets the boolean false if the player has the Item
 function Soulforge:Reset()
     repItem1 = true
+<<<<<<< HEAD
+=======
+    repItem2 = true
+
+>>>>>>> Fruestueck
 end
 
 
@@ -54,6 +62,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   end
   
   -- This code is for Bumbo Soul
+<<<<<<< HEAD
   if player:HasCollectible(BumboSoul) == true then 
     Soulforge.BumboSoulColor
     player.Damage=player.Damage+math.random(0,1)*0.5;
@@ -86,6 +95,8 @@ end
     end
     end
 end 
+=======
+>>>>>>> Fruestueck
 
 
 
@@ -115,6 +126,7 @@ end
 function Soulforge:BumboSoulColor():
   Isaac.GetPlayer(0).TearColor = Color(227,198,197,1,1,0,0)
 end
+<<<<<<< HEAD
 
 function Soulforge:AngelSoulColor():
   Isaac.GetPlayer(0).TearColor = Color(108,122,189,1,1,0,0)
@@ -133,6 +145,8 @@ function Soulforge:PureSoulColor():
 end
 
 
+=======
+>>>>>>> Fruestueck
   
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Color)
