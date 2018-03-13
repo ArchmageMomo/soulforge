@@ -7,6 +7,7 @@ local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 <<<<<<< HEAD
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
 =======
+local DarkSoul= Isaac.GetItemIdByName ("Dark Soul")
 >>>>>>> Fruestueck
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
@@ -14,6 +15,12 @@ local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 local repItem1 = true
 local log = {}
 
+local debugText = "hello";
+
+local currCoins = 0;
+local currKeys = 0;
+local currBombs = 0;
+local currHearts = 0;
 
 --BumboSoul: Gives a random Stat up
 --Flamethrower: A fucking Flamethrower what would you expect
@@ -21,14 +28,47 @@ local log = {}
 
 --this funktions sets the boolean false if the player has the Item
 function Soulforge:Reset()
+    player=Isaac.GetPlayer(0)
+  
     repItem1 = true
 <<<<<<< HEAD
 =======
     repItem2 = true
+    
+    currCoins = player:GetNumCoins();
+    currKeys = player:GetNumKeys();
+    currBombs = player:GetNumBombs();
+    currHearts = player:GetHearts();
 
 >>>>>>> Fruestueck
 end
 
+function Soulforge:checkConsumables()
+  player = Isaac.GetPlayer(0);
+ 
+  if(currCoins < player:GetNumCoins()) then
+      debugText = "picked up a coin";
+      bumboAfterPickup()
+  end
+ 
+  if(currKeys < player:GetNumKeys()) then
+      debugText = "picked up a key"; -- HasGoldenKey()
+  end
+ 
+  if(currBombs < player:GetNumBombs()) then
+      debugText = "picked up a bomb"; -- HasGoldenBomb()
+  end
+ 
+  if(currHearts < player:GetHearts()) then
+      debugText = "picked up a heart";
+      darkAfterPickup()
+  end
+ 
+  currCoins = player:GetNumCoins();
+  currKeys = player:GetNumKeys();
+  currBombs = player:GetNumBombs();
+  currHearts = player:GetHearts(); -- GetMaxHearts(), GetSoulHearts(), GetBlackHearts(), GetEternalHearts(), GetGoldenHearts()
+end
 
 function Soulforge:CacheUpdate(player, cacheFlag)
   
@@ -96,6 +136,46 @@ end
     end
 end 
 =======
+  --if player:HasCollectible(BumboSoul) == true then 
+    
+    --player.Damage=player.Damage+math.random(0,1)*0.5;
+    --player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
+    --player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
+    --player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
+    --player.Luck = player.Luck+math.random(0,1)*0.5;
+  --end
+end
+
+
+function bumboAfterPickup()
+  if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then
+    local rand = math.random(0,5)
+    if rand==0 then
+      player.Damage=player.Damage+0.5;
+    elseif rand==1 then
+      player.MoveSpeed=player.MoveSpeed+0.5;
+    elseif rand==1 then
+      player.ShotSpeed=player.ShotSpeed+0.2;
+    elseif rand==1 then
+      player.TearHeight = player.TearHeight +0.3;
+    elseif rand==1 then
+      player.Luck = player.Luck+0.5;
+    end
+  end
+end
+--DarkSoul Function
+function darkAfterPickup()
+  if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
+    pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
+    if math.random(0,100) < 30 then
+      Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+    else 
+      Isaac.GetPlayer(0):AddBlackHearts(1)
+    end
+  end
+end
+
+
 >>>>>>> Fruestueck
 
 
@@ -146,6 +226,20 @@ end
 
 
 =======
+  
+  Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
+  Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
+  
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
+  
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerC)
+  Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerC)
+  
+  Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngleFloor)
+
+  --Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
+
+  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 >>>>>>> Fruestueck
   
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
