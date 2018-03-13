@@ -69,10 +69,8 @@ end
 
 --DarkSoul Function
 function Soulforge:darksoulF()
-  Isaac.RenderText("Es Lädt", 100, 100, 255, 0, 0, 255)
-  
+  Isaac.GetPlayer(0):AddHealth(-1)
   -- This code is for DarkSoul
-  
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
     if math.random(0,100) < 30 then
