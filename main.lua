@@ -70,13 +70,13 @@ end
 --DarkSoul Function
 function Soulforge:darksoulF()
   Isaac.GetPlayer(0):AddBlackHearts(1)
-  -- This code is for DarkSoul
+  
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
     if math.random(0,100) < 30 then
       Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     else 
-      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+      --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
     end
   end
 end
