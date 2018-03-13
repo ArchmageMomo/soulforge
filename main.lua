@@ -70,7 +70,7 @@ end
 --DarkSoul Function
 function Soulforge:darksoulF()
   -- This code is for DarkSoul
-  
+  pos = Vector(player.Position.X, player.Position.Y);
   if math.random(0,100) < 30 then
     Isaac.GetPlayer(0):AddHealth(-1)
   else 
