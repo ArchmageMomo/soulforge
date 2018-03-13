@@ -69,7 +69,7 @@ end
 
 --DarkSoul Function
 function Soulforge:darksoulF()
-  Isaac.GetPlayer(0):AddHealth(1)
+  Isaac.GetPlayer(0):TakeDamage(2, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
   -- This code is for DarkSoul
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
