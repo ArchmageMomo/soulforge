@@ -55,7 +55,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   
   -- This code is for Bumbo Soul
   if player:HasCollectible(BumboSoul) == true then 
-    Soulforge.BumbSoulColor
+    Soulforge.BumboSoulColor
     player.Damage=player.Damage+math.random(0,1)*0.5;
     player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
     player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
@@ -116,7 +116,7 @@ function Soulforge:BumboSoulColor():
   Isaac.GetPlayer(0).TearColor = Color(227,198,197,1,1,0,0)
 end
 
-function Soulforge:AngleSoulColor():
+function Soulforge:AngelSoulColor():
   Isaac.GetPlayer(0).TearColor = Color(108,122,189,1,1,0,0)
 end
 
