@@ -55,6 +55,7 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   
   -- This code is for Bumbo Soul
   if player:HasCollectible(BumboSoul) == true then 
+    Soulforge.BumbSoulColor
     player.Damage=player.Damage+math.random(0,1)*0.5;
     player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
     player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
@@ -65,7 +66,7 @@ end
   
   -- This code is for DarkSoul
   if player:HasCollectible(DarkSoul) == true then
-     
+     Soulforge.DarkSoulColor
      random = math.random(0,100)
       Isaac.GetPlayer(0).Damage=player.Damage+random
       
@@ -95,6 +96,33 @@ function Soulforge:GiveHeart()
   end
 end
 
+
+function Soulforge:DarkSoulColor()
+  Isaac.GetPlayer(0).TearColor = Color(0,0,0,1,1,0,0)
+end
+
+function Soulforge:BumboSoulColor():
+  Isaac.GetPlayer(0).TearColor = Color(227,198,197,1,1,0,0)
+end
+
+function Soulforge:AngleSoulColor():
+  Isaac.GetPlayer(0).TearColor = Color(108,122,189,1,1,0,0)
+end
+
+function Soulforge:DemonSoulColor():
+  Isaac.GetPlayer(0).TearColor = Color(159,117,117,1,1,0,0)
+end
+
+function Soulforge:StainedSoulColor():
+  Isaac.GetPlayer(0).TearColor = Color(94,110,98,1,1,0,0)
+end
+
+function Soulforge:PureSoulColor():
+  Isaac.GetPlayer(0).TearColor = Color(255,255,255,1,1,0,0)
+end
+
+
+  
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Color)
   Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Color)
