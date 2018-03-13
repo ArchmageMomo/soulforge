@@ -25,6 +25,8 @@ local currHearts = 0;
 
 --this funktions sets the boolean false if the player has the Item
 function Soulforge:Reset()
+    player=Isaac.GetPlayer(0)
+  
     repItem1 = true
     repItem2 = true
     
@@ -40,6 +42,7 @@ function Soulforge:checkConsumables()
  
   if(currCoins < player:GetNumCoins()) then
       debugText = "picked up a coin";
+      bumboAfterPickup()
   end
  
   if(currKeys < player:GetNumKeys()) then
@@ -93,16 +96,33 @@ function Soulforge:CacheUpdate(player, cacheFlag)
   end
   
   -- This code is for Bumbo Soul
-  if player:HasCollectible(BumboSoul) == true then 
+  --if player:HasCollectible(BumboSoul) == true then 
     
-    player.Damage=player.Damage+math.random(0,1)*0.5;
-    player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
-    player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
-    player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
-    player.Luck = player.Luck+math.random(0,1)*0.5;
-  end
+    --player.Damage=player.Damage+math.random(0,1)*0.5;
+    --player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
+    --player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
+    --player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
+    --player.Luck = player.Luck+math.random(0,1)*0.5;
+  --end
 end
 
+
+function bumboAfterPickup()
+  if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then
+    local rand = math.random(0,5)
+    if rand==0 then
+      player.Damage=player.Damage+0.5;
+    elseif rand==1 then
+      player.MoveSpeed=player.MoveSpeed+0.5;
+    elseif rand==1 then
+      player.ShotSpeed=player.ShotSpeed+0.2;
+    elseif rand==1 then
+      player.TearHeight = player.TearHeight +0.3;
+    elseif rand==1 then
+      player.Luck = player.Luck+0.5;
+    end
+  end
+end
 --DarkSoul Function
 function darkAfterPickup()
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
