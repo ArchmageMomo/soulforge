@@ -12,6 +12,12 @@ local repItem1 = true
 local repItem2 = true
 local log = {}
 
+local debugText = "hello";
+
+local currCoins = 0;
+local currKeys = 0;
+local currBombs = 0;
+local currHearts = 0;
 
 --BumboSoul: Gives a random Stat up
 --Flamethrower: A fucking Flamethrower what would you expect
@@ -21,9 +27,39 @@ local log = {}
 function Soulforge:Reset()
     repItem1 = true
     repItem2 = true
+    
+    currCoins = player:GetNumCoins();
+    currKeys = player:GetNumKeys();
+    currBombs = player:GetNumBombs();
+    currHearts = player:GetHearts();
 
 end
 
+function Soulforge:checkConsumables()
+  player = Isaac.GetPlayer(0);
+ 
+  if(currCoins < player:GetNumCoins()) then
+      debugText = "picked up a coin";
+  end
+ 
+  if(currKeys < player:GetNumKeys()) then
+      debugText = "picked up a key"; -- HasGoldenKey()
+  end
+ 
+  if(currBombs < player:GetNumBombs()) then
+      debugText = "picked up a bomb"; -- HasGoldenBomb()
+  end
+ 
+  if(currHearts < player:GetHearts()) then
+      debugText = "picked up a heart";
+      darkAfterPickup()
+  end
+ 
+  currCoins = player:GetNumCoins();
+  currKeys = player:GetNumKeys();
+  currBombs = player:GetNumBombs();
+  currHearts = player:GetHearts(); -- GetMaxHearts(), GetSoulHearts(), GetBlackHearts(), GetEternalHearts(), GetGoldenHearts()
+end
 
 function Soulforge:CacheUpdate(player, cacheFlag)
   
@@ -68,15 +104,13 @@ function Soulforge:CacheUpdate(player, cacheFlag)
 end
 
 --DarkSoul Function
-function Soulforge:darksoulF()
-  Isaac.GetPlayer(0):AddBlackHearts(1)
-  
+function darkAfterPickup()
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
     if math.random(0,100) < 30 then
       Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     else 
-      --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+      Isaac.GetPlayer(0):AddBlackHearts(1)
     end
   end
 end
@@ -143,6 +177,7 @@ function Soulforge:DemonFloor()
 end
   
   Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
+  Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
   
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.CacheUpdate)
   
