@@ -2,7 +2,7 @@ local Soulforge = RegisterMod("Soulforge",1);
 
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamespitter")
-local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")
+local AngleSoul = Isaac.GetItemIdByName ("Angel Soul")  --Hallo
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
 local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
@@ -60,23 +60,32 @@ function Soulforge:CacheUpdate(player, cacheFlag)
     player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
     player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
     player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
-    player.Luck = player.Luck+math.random(0,1)*0.5;
+    player.Luck = player.Luck+math.random(0,1)*0.5
 end
-  
   
   -- This code is for DarkSoul
   if player:HasCollectible(DarkSoul) == true then
+<<<<<<< HEAD
      Soulforge.DarkSoulColor
      random = math.random(0,100)
       Isaac.GetPlayer(0).Damage=player.Damage+random
+=======
+     Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+math.random(0,100)
       
-     if random < 30 then
-        Isaac.GetPlayer(0):AddHealth(-0.5)
-      else 
-         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
-      end
+    
+    --[[if  --Isaac collects red heart
+      if math.random(0,100) >= 50 then --for 50% chance
+         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))--]]
+>>>>>>> 6eecd06293a7f6a352e41639ba3e23e40528b31e
+      
+    if math.random(0,100) < 30 then --for 30% chance
+      Isaac.GetPlayer(0):AddHealth(-0.5) --Isaac takes damage
+    else --else (for 70%)
+      --Isaac is healed (picks up black heart)
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0)) 
     end
-end
+    end
+end 
 
 
 
@@ -87,6 +96,8 @@ function Soulforge:Color()
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
     end
   end
+  
+  
 -- This function gives Isaac one Ethernal heart each floor
 function Soulforge:GiveHeart()
   if Isaac.GetPlayer(0):HasCollectible(AngleSoul) == true then 
