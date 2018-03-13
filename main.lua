@@ -70,21 +70,20 @@ end
 --DarkSoul Function
 function Soulforge:darksoulF()
   -- This code is for DarkSoul
+  
+  if math.random(0,100) < 30 then
+    Isaac.GetPlayer(0):AddHealth(-1)
+  else 
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+  end
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) == true then
-    
-    player.Damage=player.Damage+math.random(0,1)*0.5;
-    player.MoveSpeed=player.MoveSpeed+math.random(0,1)*0.5;
-    player.ShotSpeed=player.ShotSpeed+math.random(0,1)*0.2;
-    player.TearHeight = player.TearHeight +math.random(0,1)*0.3;
-    player.Luck = player.Luck+math.random(0,1)*0.5;
-    
-    --Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0) --In Final entfernen
+    Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0) --In Final entfernen
       
-    --if math.random(0,100) < 30 then
-    --  Isaac.GetPlayer(0):AddHealth(-1)
-    --else 
-    --  Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
-    --end
+    if math.random(0,100) < 30 then
+      Isaac.GetPlayer(0):AddHealth(-1)
+    else 
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
+    end
   end
 end
 
