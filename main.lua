@@ -74,7 +74,7 @@ function Soulforge:darksoulF()
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0) --In Final entfernen
       
     if math.random(0,100) < 30 then
-      Isaac.GetPlayer(0):AddHealth(-0.5)
+      Isaac.GetPlayer(0):AddHealth(-1)
     else 
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART,  HeartSubType.HEART_BLACK, pos, Vector(0, 0), Isaac.GetPlayer(0))
     end
