@@ -186,7 +186,7 @@ end
   
   Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngleFloor)
 
-  Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
+  --Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.darksoulF)
 
   Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
   
