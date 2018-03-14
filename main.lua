@@ -79,9 +79,11 @@ end
 
 --Stained Soul Mama Mega effect
 function Soulforge:StainedM()
-  rand=math.random(0,1)
-  if (rand == 0) then
-    Game():GetRoom():MamaMegaExplossion()
+  if stainedMama==true then
+    rand=math.random(0,1)
+    if (rand == 0) then
+      Game():GetRoom():MamaMegaExplossion()
+    end
   end
 end
 
