@@ -41,20 +41,20 @@ function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
  
   if(currCoins < player:GetNumCoins()) then
-      debugText = "picked up a coin";
+      --debugText = "picked up a coin";
       bumboAfterPickup()
   end
  
   if(currKeys < player:GetNumKeys()) then
-      debugText = "picked up a key"; -- HasGoldenKey()
+      --debugText = "picked up a key"; -- HasGoldenKey()
   end
  
   if(currBombs < player:GetNumBombs()) then
-      debugText = "picked up a bomb"; -- HasGoldenBomb()
+      --debugText = "picked up a bomb"; -- HasGoldenBomb()
   end
  
   if(currHearts < player:GetHearts()) then
-      debugText = "picked up a heart";
+      --debugText = "picked up a heart";
       darkAfterPickup()
   end
  
@@ -163,19 +163,19 @@ function Soulforge:StainedFloor()
     
     stainedState = math.random(0,5)
     if stainedState==0 then
-      debugText="Add Coins"
+      --debugText="Add Coins"
       player:AddCoins(15)
     elseif stainedState==1 then
-      debugText="Add Damage"
+      --debugText="Add Damage"
       player.Damage=player.Damage+2
     elseif stainedState==2 then
-      debugText="Add Devilroom"
+      --debugText="Add Devilroom"
       Game():GetRoom():TrySpawnDevilRoomDoor()
     elseif stainedState==3 then
-      debugText="Add Hearts"
+      --debugText="Add Hearts"
       player:AddBlackHearts(4)
     elseif stainedState==4 then
-      debugText="Add Mama"
+      --debugText="Add Mama"
       stainedMama=true
     end
   end
