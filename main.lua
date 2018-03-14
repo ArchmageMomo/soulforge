@@ -153,7 +153,7 @@ function Soulforge:PureSoul ()
       level:RemoveCurses()
     elseif rand==2 then
       level:InitializeDevilAngelRoom(true,false)
-      Isaac.GetRoom():TrySpawnDevilRoomDoor()
+      Game():GetRoom():TrySpawnDevilRoomDoor()
     elseif rand==3 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
     elseif rand==4 then
@@ -207,7 +207,7 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.PureSoul)
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
