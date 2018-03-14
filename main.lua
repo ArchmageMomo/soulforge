@@ -81,7 +81,7 @@ end
 function Soulforge:StainedM()
   rand=math.random(0,1)
   if (rand == 0) then
-    Isaac.GetRoom():MamaMegaExplossion()
+    Game():GetRoom():MamaMegaExplossion()
   end
 end
 
