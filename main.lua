@@ -139,8 +139,9 @@ function Soulforge:DemonFloor()
 end
 
 function Soulforge:PureSoul () 
-  player = Isaac.GetPlayer(0);
+  debugText="Outside 'Has Collectible'"
   if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
+    debugText="Inside 'Has Collectible'"
     player=Isaac.GetPlayer(0)
     game = Game() 
     level = game:GetLevel()
