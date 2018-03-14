@@ -181,6 +181,30 @@ function Soulforge:StainedFloor()
   end
 end
 
+--Pure Soul Function
+function Soulforge:PureFloor () 
+  if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
+    player=Isaac.GetPlayer(0)
+    game = Game() 
+    level = game:GetLevel()
+    
+    rand = math.random(0,5)
+    if rand==0 then
+      level:ShowMap()
+    elseif rand==1 then
+      level:RemoveCurses()
+    elseif rand==2 then
+      level:InitializeDevilAngelRoom(true,false)
+      Game():GetRoom():TrySpawnDevilRoomDoor()
+    elseif rand==3 then
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+    elseif rand==4 then
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+    end
+    
+  end
+end
+
 --Function to update colors
 function Soulforge:Colorupdate()
   player = Isaac.GetPlayer(0);
@@ -227,6 +251,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureFloor)
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
