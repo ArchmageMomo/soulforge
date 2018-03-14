@@ -29,6 +29,10 @@ function Soulforge:Reset()
 
 end
 
+function Soulforge:debug()
+  Isaac.RenderText(debugText,100,100,255,0,0,255)
+end
+
 --Function to check if any consumable changed
 function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
@@ -134,9 +138,10 @@ function Soulforge:DemonFloor()
   end
 end
 
-function Soulforge:PureSoul ()
+function Soulforge:PureSoul () 
   player = Isaac.GetPlayer(0);
-  if player:HasCollectible(PureSoul) == true then
+  if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
+    debugText ="1";
     game = Game() 
     level = game:GetLevel()
     level:ShowMap()
@@ -188,3 +193,6 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.PureSoul)
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
+
+--debug
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
