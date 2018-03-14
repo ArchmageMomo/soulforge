@@ -163,7 +163,7 @@ function Soulforge:StainedFloor()
     elseif stainedState==1 then
       player.Damage=player.Damage+2
     elseif stainedState==2 then
-      Isaac.GetRoom():TrySpawnDevilRoomDoor()
+      Game():GetRoom():TrySpawnDevilRoomDoor()
     elseif stainedState==3 then
       player:AddBlackHearts(4)
     elseif stainedState==4 then
