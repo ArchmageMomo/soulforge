@@ -134,6 +134,15 @@ function Soulforge:DemonFloor()
   end
 end
 
+function Soulforge:PureSoul ()
+  player = Isaac.GetPlayer(0);
+  if player:HasCollectible(PureSoul) == true then
+    game = Game() 
+    level = game:GetLevel()
+    level:ShowMap()
+  end
+end
+
 --Function to update colors
 function Soulforge:Colorupdate()
   player = Isaac.GetPlayer(0);
@@ -174,6 +183,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
 --Callback for Items
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.PureSoul)
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
