@@ -141,10 +141,24 @@ end
 function Soulforge:PureSoul () 
   player = Isaac.GetPlayer(0);
   if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
-    debugText ="1";
+    player=Isaac.GetPlayer(0)
     game = Game() 
     level = game:GetLevel()
-    level:ShowMap()
+    
+    rand = math.random(0,5)
+    if rand==0 then
+      level:ShowMap()
+    elseif rand==1 then
+      level:RemoveCurses()
+    elseif rand==2 then
+      level:InitializeDevilAngelRoom(true,false)
+      Isaac.GetRoom():TrySpawnDevilRoomDoor()
+    elseif rand==3 then
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+    elseif rand==4 then
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+    end
+    
   end
 end
 
