@@ -203,11 +203,11 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
 --Callback for Items
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.PureSoul)
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
