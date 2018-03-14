@@ -161,7 +161,8 @@ function Soulforge:StainedFloor()
       stainedMama=false
     end
     
-    stainedState = math.random(0,5)
+    --stainedState = math.random(0,5)
+    stainedState=3 --Debug
     if stainedState==0 then
       --debugText="Add Coins "+stainedState
       player:AddCoins(15)
@@ -188,22 +189,23 @@ function Soulforge:PureFloor ()
     game = Game() 
     level = game:GetLevel()
     
-    rand = math.random(0,5)
+    --rand = math.random(0,5)
+    rand=2 --Debug
     if rand==0 then
-      debugText="Show Map "+rand
+      --debugText="Show Map "+rand
       level:ShowMap()
     elseif rand==1 then
-      debugText="Remove Curses "+rand
+      --debugText="Remove Curses "+rand
       level:RemoveCurses()
     elseif rand==2 then
       debugText="Spawn DevilRoom "+rand
       level:InitializeDevilAngelRoom(true,false)
       Game():GetRoom():TrySpawnDevilRoomDoor()
     elseif rand==3 then
-      debugText="Spawn Golden Key "+rand
+      --debugText="Spawn Golden Key "+rand
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
     elseif rand==4 then
-      debugText="Spawn Golden Bomb "+rand
+      --debugText="Spawn Golden Bomb "+rand
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
     end
     
