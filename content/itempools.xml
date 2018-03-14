@@ -1,0 +1,10 @@
+<ItemPools>
+	<Pool name="soulforge">
+		<Item Name="Angel Soul" Weight="100" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Demon Soul" Weight="100" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Dark Soul" Weight="100" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Stained Soul" Weight="100" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Pure Soul" Weight="100" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+</ItemPools>
+	
