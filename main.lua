@@ -1,4 +1,4 @@
-local Soulforge = RegisterMod("Soulforge",1);
+local Soulforge = RegisterMod("Soulforge",1)
 
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamethrower")
@@ -11,12 +11,15 @@ local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 local repItem1 = true
 local log = {}
 
-local debugText = "";
+local debugText = ""
 
-local currCoins = 0;
-local currKeys = 0;
-local currBombs = 0;
-local currHearts = 0;
+local currCoins = 0
+local currKeys = 0
+local currBombs = 0
+local currHearts = 0
+
+local stainedState=0
+local stainedMama=false
 
 --Function to set default values
 function Soulforge:Reset()
@@ -26,7 +29,7 @@ function Soulforge:Reset()
   currKeys = player:GetNumKeys();
   currBombs = player:GetNumBombs();
   currHearts = player:GetHearts();
-
+  stainedState=0;
 end
 
 --Function to check if any consumable changed
@@ -74,6 +77,14 @@ function Soulforge:FlamethrowerF()
   end
 end
 
+--Stained Soul Mama Mega effect
+function StainedM()
+  rand=math.random(0,1)
+  if rand==0 then
+    Isaac.GetRoom():MamaMegaExplossion()
+  end
+end
+
 --Bumbo Soul Function
 function bumboAfterPickup()
   player = Isaac.GetPlayer(0);
@@ -116,21 +127,46 @@ end
 function Soulforge:DemonFloor()
   player=Isaac.GetPlayer(0)
   if player:HasCollectible(DemonSoul) == true then 
-    local rand = math.random(0,5)
+    rand = math.random(0,5)
     if rand==0 then
       player.Damage=player.Damage+1;
     elseif rand==1 then
       player.MoveSpeed=player.MoveSpeed+1;
-    elseif rand==1 then
+    elseif rand==2 then
       player.ShotSpeed=player.ShotSpeed+0.4;
-    elseif rand==1 then
+    elseif rand==3 then
       player.TearHeight = player.TearHeight +0.6;
-    elseif rand==1 then
+    elseif rand==4 then
       player.Luck = player.Luck+1;
     end
     
     Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     
+  end
+end
+
+--Stained Soul Floor function
+function Soulforge:StainedFloor(StainedSoul)
+  player=Isaac.GetPlayer(0)
+  if player:HasCollectible() == true then
+    if stainedState==1 then
+      player.Damage=player.Damage-2
+    elseif stainedState==4 then
+      stainedMama=false
+    end
+    
+    stainedState = math.random(0,5)
+    if stainedState==0 then
+      player:AddCoins(15)
+    elseif stainedState==1 then
+      player.Damage=player.Damage+2
+    elseif stainedState==2 then
+      Isaac.GetRoom():TrySpawnDevilRoomDoor()
+    elseif stainedState==3 then
+      player:AddBlackHearts(4)
+    elseif stainedState==4 then
+      stainedMama=true
+    end
   end
 end
 
@@ -174,7 +210,9 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
 --Callback for Items
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedM)
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
