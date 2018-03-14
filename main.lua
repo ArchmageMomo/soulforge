@@ -20,11 +20,12 @@ local currHearts = 0;
 
 --Function to set default values
 function Soulforge:Reset()
-    repItem1 = true
-    currCoins = player:GetNumCoins();
-    currKeys = player:GetNumKeys();
-    currBombs = player:GetNumBombs();
-    currHearts = player:GetHearts();
+  player = Isaac.GetPlayer(0);
+  repItem1 = true
+  currCoins = player:GetNumCoins();
+  currKeys = player:GetNumKeys();
+  currBombs = player:GetNumBombs();
+  currHearts = player:GetHearts();
 
 end
 
@@ -59,7 +60,7 @@ end
 
 -- Code for the Flamethrower
 function Soulforge:FlamethrowerF()
-  if player:HasCollectible(FlameThrower) and repItem1 == true then
+  if Isaac.GetPlayer(0):HasCollectible(FlameThrower) and repItem1 == true then
     
     Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*2/3
     Isaac.GetPlayer(0).FireDelay = Isaac.GetPlayer(0).FireDelay-1
@@ -75,6 +76,7 @@ end
 
 --Bumbo Soul Function
 function bumboAfterPickup()
+  player = Isaac.GetPlayer(0);
   if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then
     local rand = math.random(0,5)
     if rand==0 then
@@ -112,7 +114,7 @@ end
 
 --Demon Soul Function
 function Soulforge:DemonFloor()
-  local player=Isaac.GetPlayer(0)
+  player=Isaac.GetPlayer(0)
   if player:HasCollectible(DemonSoul) == true then 
     local rand = math.random(0,5)
     if rand==0 then
