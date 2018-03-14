@@ -129,20 +129,7 @@ function Soulforge:DemonFloor()
       player.Luck = player.Luck+1;
     end
     
-    pos1 = Vector(player.Position.X, player.Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X-1, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X+1, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X+1, player.Position.Y);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X+1, player.Position.Y+1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
-    pos1 = Vector(player.Position.X, player.Position.Y-1);
-    Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_SUPERTROLL,  0, pos1, Vector(0, 0), player)
+    Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     
   end
 end
@@ -163,7 +150,7 @@ function Soulforge:Colorupdate()
     Isaac.GetPlayer(0).TearColor = Color(108,122,189,1,1,0,0)
   end
   if player:HasCollectible(BumboSoul) == true then
-    Isaac.GetPlayer(0).TearColor = Color(227,198,197,1,1,0,0)
+    Isaac.GetPlayer(0).TearColor = Color(255,215,0,1,1,0,0)
   end
   if player:HasCollectible(PureSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(255,255,255,1,1,0,0)
