@@ -159,14 +159,19 @@ function Soulforge:StainedFloor()
     
     stainedState = math.random(0,5)
     if stainedState==0 then
+      debugText="Add Coins"
       player:AddCoins(15)
     elseif stainedState==1 then
+      debugText="Add Damage"
       player.Damage=player.Damage+2
     elseif stainedState==2 then
+      debugText="Add Devilroom"
       Game():GetRoom():TrySpawnDevilRoomDoor()
     elseif stainedState==3 then
+      debugText="Add Hearts"
       player:AddBlackHearts(4)
     elseif stainedState==4 then
+      debugText="Add Mama"
       stainedMama=true
     end
   end
