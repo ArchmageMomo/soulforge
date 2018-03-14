@@ -191,7 +191,7 @@ function Soulforge:Colorupdate()
   if player:HasCollectible(PureSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(255,255,255,1,1,0,0)
   end
-  if player:HasCollectible(StainedSoul) == true then
+  if player:HasCollectible(Stained) == true then
     Isaac.GetPlayer(0).TearColor = Color(94,110,98,1,1,0,0)
   end
 end
