@@ -146,8 +146,8 @@ function Soulforge:DemonFloor()
 end
 
 --Stained Soul Floor function
-function Soulforge:StainedFloor(Stained)
-  if Isaac.GetPlayer(0):HasCollectible(StainedSoul) == true then
+function Soulforge:StainedFloor()
+  if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
     player=Isaac.GetPlayer(0)
     if stainedState==1 then
       player.Damage=player.Damage-2
