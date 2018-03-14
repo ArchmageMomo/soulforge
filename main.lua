@@ -149,6 +149,7 @@ end
 
 --Function to update colors
 function Soulforge:Colorupdate()
+  player = Isaac.GetPlayer(0);
   if player:HasCollectible(FlameThrower) == true then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
   end
