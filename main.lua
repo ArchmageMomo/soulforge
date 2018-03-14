@@ -78,9 +78,9 @@ function Soulforge:FlamethrowerF()
 end
 
 --Stained Soul Mama Mega effect
-function StainedM()
+function Soulforge:StainedM()
   rand=math.random(0,1)
-  if rand==0 then
+  if (rand == 0) then
     Isaac.GetRoom():MamaMegaExplossion()
   end
 end
@@ -210,7 +210,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
 --Callback for Items
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedM)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
