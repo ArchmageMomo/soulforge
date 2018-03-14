@@ -32,6 +32,10 @@ function Soulforge:Reset()
   stainedState=0;
 end
 
+function Soulforge:debug()
+  Isaac.RenderText(debugText,100,100,255,0,0,255)
+end
+
 --Function to check if any consumable changed
 function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
@@ -223,3 +227,6 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
+
+--debug
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
