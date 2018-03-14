@@ -5,7 +5,7 @@ local FlameThrower = Isaac.GetItemIdByName ("Flamethrower")
 local AngelSoul = Isaac.GetItemIdByName ("Angel Soul")  --Hallo
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
-local StainedSoul = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
+local Stained = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
 local repItem1 = true
@@ -146,7 +146,7 @@ function Soulforge:DemonFloor()
 end
 
 --Stained Soul Floor function
-function Soulforge:StainedFloor(StainedSoul)
+function Soulforge:StainedFloor(Stained)
   if Isaac.GetPlayer(0):HasCollectible(StainedSoul) == true then
     player=Isaac.GetPlayer(0)
     if stainedState==1 then
