@@ -166,6 +166,7 @@ function Soulforge:StainedFloor()
     elseif stainedState==4 then
       stainedMama=false
     end
+  
     
     stainedState = math.random(0,5)
     if stainedState==0 then
@@ -184,6 +185,7 @@ function Soulforge:StainedFloor()
       --debugText="Add Mama"
       stainedMama=true
     end
+  end
 
 function Soulforge:PureSoul () 
   if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
