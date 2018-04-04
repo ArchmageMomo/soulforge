@@ -75,8 +75,8 @@ function Soulforge:FlamethrowerF()
   if Isaac.GetPlayer(0):HasCollectible(FlameThrower) and repItem1 == true then
     
     Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*2/3
-    Isaac.GetPlayer(0).FireDelay = Isaac.GetPlayer(0).FireDelay-10
-    Isaac.GetPlayer(0).TearHeight = Isaac.GetPlayer(0).TearHeight-30
+    Isaac.GetPlayer(0).FireDelay = Isaac.GetPlayer(0).FireDelay*10
+    Isaac.GetPlayer(0).TearHeight = Isaac.GetPlayer(0).Range-30
     Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
     
     repItem1 = false
