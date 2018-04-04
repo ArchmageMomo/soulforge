@@ -77,7 +77,7 @@ function Soulforge:FlamethrowerF()
     Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*2/3
     Isaac.GetPlayer(0).FireDelay = Isaac.GetPlayer(0).MaxFireDelay-(Isaac.GetPlayer(0).MaxFireDelay*0.3)
     Isaac.GetPlayer(0).FireDelay = Isaac.GetPlayer(0).MaxFireDelay*0.9
-    Isaac.GetPlayer(0).TearHeight = Isaac.GetPlayer(0).Range-30
+    Isaac.GetPlayer(0).TearHeight = Isaac.GetPlayer(0).TearFallingSpeed+20
     Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
     
     repItem1 = false
