@@ -37,6 +37,10 @@ function Soulforge:debug()
   Isaac.RenderText(debugText,100,100,255,0,0,255)
 end
 
+function Soulforge:debug()
+  Isaac.RenderText(debugText,100,100,255,0,0,255)
+end
+
 --Function to check if any consumable changed
 function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
@@ -152,6 +156,7 @@ function Soulforge:DemonFloor()
   end
 end
 
+<<<<<<< HEAD
 --Stained Soul Floor function
 function Soulforge:StainedFloor()
   if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
@@ -179,6 +184,28 @@ function Soulforge:StainedFloor()
       --debugText="Add Mama"
       stainedMama=true
     end
+=======
+function Soulforge:PureSoul () 
+  if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
+    player=Isaac.GetPlayer(0)
+    game = Game() 
+    level = game:GetLevel()
+    
+    rand = math.random(0,5)
+    if rand==0 then
+      level:ShowMap()
+    elseif rand==1 then
+      level:RemoveCurses()
+    elseif rand==2 then
+      level:InitializeDevilAngelRoom(true,false)
+      Game():GetRoom():TrySpawnDevilRoomDoor()
+    elseif rand==3 then
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+    elseif rand==4 then
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+    end
+    
+>>>>>>> Pure_Soul
   end
 end
 
@@ -256,7 +283,11 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
+<<<<<<< HEAD
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
+=======
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
+>>>>>>> Pure_Soul
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
