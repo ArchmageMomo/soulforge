@@ -162,8 +162,37 @@ end
 
 
 
-
-
+-- Manages the starting-stats of the player
+function Soulforge:AddPlayerStats()
+  player=Isaac.GetPlayer(0)
+  
+  player:GetName() == "Dead Spider" then
+    player.Damage=10
+    player.FireDelay=29
+    player.MoveSpeed=1.5
+    player.Shotspeed=1
+    player.Luck=1
+    player.TearHeigt=30
+  end
+  
+  player:GetName() == "Ullisandra" then
+    player.Damage=10
+    player.FireDelay=29
+    player.MoveSpeed=1.5
+    player.Shotspeed=1
+    player.Luck=1
+    player.TearHeigt=30
+  end
+  
+  player:GetName() == "Neofantasia" then
+    player.Damage=10
+    player.FireDelay=29
+    player.MoveSpeed=1.5
+    player.Shotspeed=1
+    player.Luck=1
+    player.TearHeigt=307
+  end
+end
 
 --Spawning Spiders and tears for the characters
 local spiderlist={}
@@ -221,3 +250,4 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 --Callbacks for Characters
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Spidermanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
