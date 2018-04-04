@@ -186,6 +186,7 @@ function Soulforge:StainedFloor()
       stainedMama=true
     end
   end
+end
 
 function Soulforge:PureSoul () 
   if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
