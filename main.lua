@@ -156,7 +156,7 @@ function Soulforge:DemonFloor()
   end
 end
 
-<<<<<<< HEAD
+
 --Stained Soul Floor function
 function Soulforge:StainedFloor()
   if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
@@ -184,7 +184,7 @@ function Soulforge:StainedFloor()
       --debugText="Add Mama"
       stainedMama=true
     end
-=======
+
 function Soulforge:PureSoul () 
   if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
     player=Isaac.GetPlayer(0)
@@ -205,7 +205,7 @@ function Soulforge:PureSoul ()
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
     end
     
->>>>>>> Pure_Soul
+
   end
 end
 
@@ -285,9 +285,9 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
 <<<<<<< HEAD
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
-=======
+
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
->>>>>>> Pure_Soul
+
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
