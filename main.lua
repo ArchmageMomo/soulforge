@@ -30,7 +30,7 @@ function Soulforge:Reset()
   currBombs = player:GetNumBombs();
   currHearts = player:GetHearts();
   stainedState=0;
-  AddPlayerStats();
+
 end
 
 function Soulforge:debug()
@@ -235,36 +235,6 @@ function Soulforge:Colorupdate()
   end
 end
 
-function Soulforge:AddPlayerStats()
-  player=Isaac.GetPlayer(0)
-  
-  player:GetName() == "Dead Spider" then
-    player.Damage=10
-    player.FireDelay=29
-    player.MoveSpeed=1.5
-    player.Shotspeed=1
-    player.Luck=1
-    player.TearHeigt=30
-  end
-  
-  player:GetName() == "Ullisandra" then
-    player.Damage=10
-    player.FireDelay=29
-    player.MoveSpeed=1.5
-    player.Shotspeed=1
-    player.Luck=1
-    player.TearHeigt=30
-  end
-  
-  player:GetName() == "Neofantasia" then
-    player.Damage=10
-    player.FireDelay=29
-    player.MoveSpeed=1.5
-    player.Shotspeed=1
-    player.Luck=1
-    player.TearHeigt=307
-  end
-end
 
 
 
@@ -283,7 +253,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
-<<<<<<< HEAD
+
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
 
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
