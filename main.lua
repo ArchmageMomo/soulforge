@@ -30,6 +30,7 @@ function Soulforge:Reset()
   currBombs = player:GetNumBombs();
   currHearts = player:GetHearts();
   stainedState=0;
+  AddPlayerStats();
 end
 
 function Soulforge:debug()
@@ -161,54 +162,23 @@ function Soulforge:StainedFloor()
       stainedMama=false
     end
     
-    --stainedState = math.random(0,5)
-    stainedState=3 --Debug
+    stainedState = math.random(0,5)
     if stainedState==0 then
-      --debugText="Add Coins "+stainedState
+      --debugText="Add Coins"
       player:AddCoins(15)
     elseif stainedState==1 then
-      --debugText="Add Damage "+stainedState
+      --debugText="Add Damage"
       player.Damage=player.Damage+2
     elseif stainedState==2 then
-      --debugText="Add Devilroom "+stainedState
+      --debugText="Add Devilroom"
       Game():GetRoom():TrySpawnDevilRoomDoor()
     elseif stainedState==3 then
-      --debugText="Add Hearts "+stainedState
+      --debugText="Add Hearts"
       player:AddBlackHearts(4)
     elseif stainedState==4 then
-      --debugText="Add Mama "+stainedState
+      --debugText="Add Mama"
       stainedMama=true
     end
-  end
-end
-
---Pure Soul Function
-function Soulforge:PureFloor () 
-  if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
-    player=Isaac.GetPlayer(0)
-    game = Game() 
-    level = game:GetLevel()
-    
-    --rand = math.random(0,5)
-    rand=2 --Debug
-    if rand==0 then
-      --debugText="Show Map "+rand
-      level:ShowMap()
-    elseif rand==1 then
-      --debugText="Remove Curses "+rand
-      level:RemoveCurses()
-    elseif rand==2 then
-      debugText="Spawn DevilRoom "+rand
-      level:InitializeDevilAngelRoom(true,false)
-      Game():GetRoom():TrySpawnDevilRoomDoor()
-    elseif rand==3 then
-      --debugText="Spawn Golden Key "+rand
-      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
-    elseif rand==4 then
-      --debugText="Spawn Golden Bomb "+rand
-      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
-    end
-    
   end
 end
 
@@ -238,7 +208,36 @@ function Soulforge:Colorupdate()
   end
 end
 
-
+function Soulforge:AddPlayerStats()
+  player=Isaac.GetPlayer(0)
+  
+  player:GetName() == "Dead Spider" then
+    player.Damage=10
+    player.FireDelay=29
+    player.MoveSpeed=1.5
+    player.Shotspeed=1
+    player.Luck=1
+    player.TearHeigt=30
+  end
+  
+  player:GetName() == "Ullisandra" then
+    player.Damage=10
+    player.FireDelay=29
+    player.MoveSpeed=1.5
+    player.Shotspeed=1
+    player.Luck=1
+    player.TearHeigt=30
+  end
+  
+  player:GetName() == "Neofantasia" then
+    player.Damage=10
+    player.FireDelay=29
+    player.MoveSpeed=1.5
+    player.Shotspeed=1
+    player.Luck=1
+    player.TearHeigt=307
+  end
+end
 
 
 
@@ -258,7 +257,6 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
-Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureFloor)
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
