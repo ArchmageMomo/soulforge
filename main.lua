@@ -8,10 +8,10 @@ local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
 local Stained = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
-local repItem1 = true
 local log = {}
 
 local debugText = ""
+local debugbool=true
 
 local currCoins = 0
 local currKeys = 0
@@ -20,11 +20,12 @@ local currHearts = 0
 
 local stainedState=0
 local stainedMama=false
+local flameFirst=true
+local itemsupdated=false
 
 --Function to set default values
 function Soulforge:Reset()
   player = Isaac.GetPlayer(0);
-  repItem1 = true
   currCoins = player:GetNumCoins();
   currKeys = player:GetNumKeys();
   currBombs = player:GetNumBombs();
@@ -33,9 +34,6 @@ function Soulforge:Reset()
 
 end
 
-function Soulforge:debug()
-  Isaac.RenderText(debugText,100,100,255,0,0,255)
-end
 
 function Soulforge:debug()
   Isaac.RenderText(debugText,100,100,255,0,0,255)
@@ -71,15 +69,22 @@ end
 
 
 -- Code for the Flamethrower
-function Soulforge:FlamethrowerF()
-  if Isaac.GetPlayer(0):HasCollectible(FlameThrower) and repItem1 == true then
+function Soulforge:FlamethrowerF(player,flag)
+  if Isaac.GetPlayer(0):HasCollectible(FlameThrower) == true then
     
-    Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*2/3
-    Isaac.GetPlayer(0).FireDelay = 1.0
-    Isaac.GetPlayer(0).TearHeight = Isaac.GetPlayer(0).TearFallingSpeed+20
-    Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
     
-    repItem1 = false
+    if flag == CacheFlag.CACHE_DAMAGE then 
+      Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*1.5/3
+    elseif flag == CacheFlag.CACHE_FIREDELAY then
+      itemsupdated=true
+      Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed-3
+    end
+    
+    
+    if flameFirst==true then
+      Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
+      flameFirst=false
+    end
   end
 end
 
@@ -91,13 +96,16 @@ function Soulforge:FlamethrowerDamage(player_x, damage, flag, source, countdown)
     end
 end
 
---Stained Soul Mama Mega effect
-function Soulforge:StainedM()
-  if stainedMama==true then
-    rand=math.random(0,4)
-    if (rand == 0) then
-      Game():GetRoom():MamaMegaExplossion()
+--Needed to change the Max-Firedelay
+function Soulforge:FlamethrowerPost()
+  if player:HasCollectible(FlameThrower) and itemsupdated==true then
+    itemsupdated=false
+    if Isaac.GetPlayer(0).MaxFireDelay - 8>0 then
+      Isaac.GetPlayer(0).MaxFireDelay = Isaac.GetPlayer(0).MaxFireDelay - 8
+    else
+      Isaac.GetPlayer(0).MaxFireDelay= 1
     end
+    
   end
 end
 
@@ -168,12 +176,12 @@ function Soulforge:StainedFloor()
     player=Isaac.GetPlayer(0)
     if stainedState==1 then
       player.Damage=player.Damage-2
-    elseif stainedState==4 then
+    elseif stainedState==3 then
       stainedMama=false
     end
   
     
-    stainedState = math.random(0,5)
+    stainedState = math.random(0,4)
     if stainedState==0 then
       --debugText="Add Coins"
       player:AddCoins(15)
@@ -181,14 +189,21 @@ function Soulforge:StainedFloor()
       --debugText="Add Damage"
       player.Damage=player.Damage+2
     elseif stainedState==2 then
-      --debugText="Add Devilroom"
-      Game():GetRoom():TrySpawnDevilRoomDoor()
-    elseif stainedState==3 then
       --debugText="Add Hearts"
       player:AddBlackHearts(4)
-    elseif stainedState==4 then
+    elseif stainedState==3 then
       --debugText="Add Mama"
       stainedMama=true
+    end
+  end
+end
+
+--Stained Soul Mama Mega effect
+function Soulforge:StainedM()
+  if stainedMama==true then
+    rand=math.random(0,4)
+    if (rand == 0) then
+      Game():GetRoom():MamaMegaExplossion()
     end
   end
 end
@@ -199,17 +214,15 @@ function Soulforge:PureSoul ()
     game = Game() 
     level = game:GetLevel()
     
-    rand = math.random(0,5)
+    rand = math.random(0,4)
+    rand= 3
     if rand==0 then
       level:ShowMap()
     elseif rand==1 then
       level:RemoveCurses()
     elseif rand==2 then
-      level:InitializeDevilAngelRoom(true,false)
-      Game():GetRoom():TrySpawnDevilRoomDoor()
-    elseif rand==3 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
-    elseif rand==4 then
+    elseif rand==3 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
     end
     
@@ -258,15 +271,13 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
+Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerPost)
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
-
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
-
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
-
 
 --debug
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
