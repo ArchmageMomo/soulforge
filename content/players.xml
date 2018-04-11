@@ -2,16 +2,16 @@
          portraitroot="gfx/ui/boss/" 
          nameimageroot="gfx/ui/boss/" 
          bigportraitroot="gfx/ui/stage/">
-	<player name="Ulisandra" skin="character_001_Ulisandra.png" hp="8" items="292,399,452" 
+	<player name="Ulisandra" skin="character_001_Ulisandra.png" hp="8" 
           nameimage="PlayerName_01_Isaac.png" 
           portrait="PlayerPortrait_01_Isaac.png" 
           bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" 
 		  hair gfx="character_001_Ulisandrahair.png"/>
-	<player name="Dead Spider" skin="Character_001_Isaac.png" black="2" bombs="1"  items="266,393,603" 
+	<player name="Dead Spider" skin="Character_001_Isaac.png" black="2" bombs="1"  
           nameimage="PlayerName_01_Isaac.png" 
           portrait="PlayerPortrait_01_Isaac.png" 
           bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
-	<player name="Neofantasia" skin="Character_001_Isaac.png" armor="4" keys="3"  items="512,495,604" 
+	<player name="Neofantasia" skin="Character_001_Isaac.png" armor="4" keys="3"  
           nameimage="PlayerName_01_Isaac.png" 
           portrait="PlayerPortrait_01_Isaac.png" 
           bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />	  
