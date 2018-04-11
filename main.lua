@@ -194,8 +194,6 @@ function Soulforge:AddPlayerStats()
     end
     
     player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
-    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_MAW_OF_VOID,true)
-    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_VARICOSE_VEINS,true)
     
   end
   
@@ -217,8 +215,6 @@ function Soulforge:AddPlayerStats()
       player.Luck = 1
     end
     
-    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_JUICY_SACK,false)
-    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_SERPENTS_KISS ,false)
     
   end
 
@@ -241,9 +237,10 @@ function Soulforge:AddPlayerStats()
     end
     
     player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
-    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_GHOST_PEPPER ,false)
     
   end
+  
+  player:ClearCostumes()
   
 end
 
