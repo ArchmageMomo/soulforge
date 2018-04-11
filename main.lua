@@ -178,11 +178,11 @@ end
 
 --Environmental callbacks (Contain callbacks for some items)
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
-Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
+--Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
 
 --Callbacks for Itemcolors (Mostly for testing purpose)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
+--Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
 --Callback for Items
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
@@ -193,5 +193,4 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 
 --Callbacks for Characters
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Spidermanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, Soulforge.Fantasiamanager)
+
