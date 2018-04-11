@@ -2,7 +2,8 @@
 	<Info CreatedBy="Unknown" CreatedOn="04-Apr-18 11:24:59" Version="34" Fps="30"/>
 	<Content>
 		<Spritesheets>
-			<Spritesheet Path="CharacterMenu.png" Id="0"/>
+			<Spritesheet Path="charactermenu.png" Id="0"/>
+
 		</Spritesheets>
 		<Layers>
 			<Layer Name="Background" Id="0" SpritesheetId="0"/>
