@@ -195,4 +195,3 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 --Callbacks for Characters
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Spidermanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, Soulforge.Fantasiamanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
