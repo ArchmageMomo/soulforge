@@ -23,6 +23,19 @@ local stainedMama=false
 local flameFirst=true
 local itemsupdated=false
 
+local bumDmg=0
+local bumRange=0
+local bumSpeed=0
+local bumShot=0
+local bumLuck=0
+local bumbcoin=0
+
+local demonDmg=0
+local demonRange=0
+local demonShot=0
+local demonSpeed=0
+local demonLuck=0
+
 --Function to set default values
 function Soulforge:Reset()
   player = Isaac.GetPlayer(0);
@@ -31,7 +44,20 @@ function Soulforge:Reset()
   currBombs = player:GetNumBombs();
   currHearts = player:GetHearts();
   stainedState=0;
-
+  
+  bumDmg=0
+  bumRange=0
+  bumSpeed=0
+  bumShot=0
+  bumLuck=0
+  bumbcoin=0
+  
+  demonDmg=0
+  demonRange=0
+  demonShot=0
+  demonSpeed=0
+  demonLuck=0
+  
 end
 
 
@@ -45,7 +71,15 @@ function Soulforge:checkConsumables()
  
   if(currCoins < player:GetNumCoins()) then
       --debugText = "picked up a coin";
-      bumboAfterPickup()
+      if Isaac.GetPlayer(0):HasCollectible(BumboSoul) then
+        bumbcoin=bumbcoin+player:GetNumCoins()-currCoins
+        
+        while bumbcoin>1 do
+          bumboAfterPickup()
+          bumbcoin=bumbcoin-2
+          player:AddCoins(-1)
+        end
+      end
   end
  
   if(currKeys < player:GetNumKeys()) then
@@ -77,6 +111,7 @@ function Soulforge:FlamethrowerF(player,flag)
       Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*1.5/3
     elseif flag == CacheFlag.CACHE_FIREDELAY then
       itemsupdated=true
+    elseif flag == CacheFlag.CACHE_RANGE then
       Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed-3
     end
     
@@ -109,22 +144,48 @@ function Soulforge:FlamethrowerPost()
   end
 end
 
---Bumbo Soul Function
+--Bumbo Soul Functions
 function bumboAfterPickup()
   player = Isaac.GetPlayer(0);
-  if Isaac.GetPlayer(0):HasCollectible(BumboSoul) == true then
-    local rand = math.random(0,5)
-    if rand==0 then
-      player.Damage=player.Damage+0.3;
-    elseif rand==1 then
-      player.MoveSpeed=player.MoveSpeed+0.2;
-    elseif rand==1 then
-      player.ShotSpeed=player.ShotSpeed+0.1;
-    elseif rand==1 then
-      player.TearHeight = player.TearHeight +0.1;
-    elseif rand==1 then
-      player.Luck = player.Luck+0.3;
+  local rand = math.random(0,5)
+  
+  if rand==0 then
+    bumDmg=bumDmg+1
+    player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+  elseif rand==1 then
+    bumSpeed=bumSpeed+1
+    player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+  elseif rand==2 then
+    bumShot=bumShot+1
+    player:AddCacheFlags(CacheFlag.CACHE_SHOTSPEED)
+  elseif rand==3 then
+    bumRange=bumRange+1
+    player:AddCacheFlags(CacheFlag.CACHE_RANGE)
+  elseif rand==4 then
+    bumLuck=bumLuck+1
+    player:AddCacheFlags(CacheFlag.CACHE_LUCK)
+  end
+  
+  player:EvaluateItems()
+end
+
+function Soulforge:BumboUp(pla,flag)
+  
+  if player:HasCollectible(BumboSoul) then
+    player = Isaac.GetPlayer(0);
+    
+    if flag == CacheFlag.CACHE_DAMAGE then 
+      player.Damage=player.Damage+0.1*bumDmg
+    elseif flag == CacheFlag.CACHE_RANGE then
+      player.TearFallingSpeed = player.TearFallingSpeed+0.04*bumRange
+    elseif flag == CacheFlag.CACHE_LUCK then
+      player.Luck = player.Luck+0.4*bumLuck
+    elseif flag == CacheFlag.CACHE_SHOTSPEED then
+      player.ShotSpeed=player.ShotSpeed+0.004*bumShot
+    elseif flag == CacheFlag.CACHE_SPEED then
+      player.MoveSpeed=player.MoveSpeed+0.06*bumSpeed
     end
+    --debugText="dmg:" .. bumDmg .. " spd:" .. bumSpeed .." sspd:" .. bumShot .. " rng:" .. bumRange .. " lck:" .. bumLuck
   end
 end
 
@@ -153,19 +214,45 @@ function Soulforge:DemonFloor()
   if player:HasCollectible(DemonSoul) == true then 
     rand = math.random(0,5)
     if rand==0 then
-      player.Damage=player.Damage+1;
+      demonDmg=demonDmg+1
+      player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
     elseif rand==1 then
-      player.MoveSpeed=player.MoveSpeed+1;
+      demonSpeed=demonSpeed+1
+      player:AddCacheFlags(CacheFlag.CACHE_SPEED)
     elseif rand==2 then
-      player.ShotSpeed=player.ShotSpeed+0.4;
+      demonShot=demonShot+1
+      player:AddCacheFlags(CacheFlag.CACHE_SHOTSPEED)
     elseif rand==3 then
-      player.TearHeight = player.TearHeight +0.6;
+      demonRange=demonRange+1
+      player:AddCacheFlags(CacheFlag.CACHE_RANGE)
     elseif rand==4 then
-      player.Luck = player.Luck+1;
+      demonLuck=demonLuck+1
+      player:AddCacheFlags(CacheFlag.CACHE_LUCK)
     end
     
     Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+    player:EvaluateItems()
     
+  end
+end
+
+function Soulforge:DemonUp(pla,flag)
+  
+  if player:HasCollectible(DemonSoul) then
+    player = Isaac.GetPlayer(0);
+    
+    if flag == CacheFlag.CACHE_DAMAGE then 
+      player.Damage=player.Damage+2*demonDmg
+    elseif flag == CacheFlag.CACHE_RANGE then
+      player.TearFallingSpeed = player.TearFallingSpeed+0.1*demonRange
+    elseif flag == CacheFlag.CACHE_LUCK then
+      player.Luck = player.Luck+1*demonLuck
+    elseif flag == CacheFlag.CACHE_SHOTSPEED then
+      player.ShotSpeed=player.ShotSpeed+0.4*demonShot
+    elseif flag == CacheFlag.CACHE_SPEED then
+      player.MoveSpeed=player.MoveSpeed+0.1*demonSpeed
+    end
+    debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
   end
 end
 
@@ -174,20 +261,26 @@ end
 function Soulforge:StainedFloor()
   if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
     player=Isaac.GetPlayer(0)
-    if stainedState==1 then
-      player.Damage=player.Damage-2
-    elseif stainedState==3 then
+    
+    stainedStateold=stainedState
+    stainedState = math.random(0,4)
+    
+    if stainedStateold==1 then
+      player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+      player:EvaluateItems()
+    elseif stainedStateold==3 then
       stainedMama=false
     end
   
     
-    stainedState = math.random(0,4)
+    
     if stainedState==0 then
       --debugText="Add Coins"
       player:AddCoins(15)
     elseif stainedState==1 then
       --debugText="Add Damage"
-      player.Damage=player.Damage+2
+      player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+      player:EvaluateItems()
     elseif stainedState==2 then
       --debugText="Add Hearts"
       player:AddBlackHearts(4)
@@ -204,6 +297,16 @@ function Soulforge:StainedM()
     rand=math.random(0,4)
     if (rand == 0) then
       Game():GetRoom():MamaMegaExplossion()
+    end
+  end
+end
+
+function Soulforge:StainedDmg(pla,flag)
+  if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
+    if stainedState==1 then
+      if flag == CacheFlag.CACHE_DAMAGE then 
+        Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+2
+      end
     end
   end
 end
@@ -272,6 +375,10 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
 Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerPost)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.BumboUp)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedDmg)
+
 
 --Callback for Floorupdate
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
