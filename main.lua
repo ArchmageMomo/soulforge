@@ -252,7 +252,7 @@ function Soulforge:DemonUp(pla,flag)
     elseif flag == CacheFlag.CACHE_SPEED then
       player.MoveSpeed=player.MoveSpeed+0.1*demonSpeed
     end
-    debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
+    --debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
   end
 end
 
