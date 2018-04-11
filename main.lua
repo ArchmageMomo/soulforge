@@ -173,43 +173,7 @@ end
 -- Manages the starting-stats of the player
 function Soulforge:AddPlayerStats()
   player=Isaac.GetPlayer(0)
-  player:GetName() == "Dead Spider" then
-    
-    if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = 10
-    else if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = 1
-    else if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-      player.MaxFireDelay = player.MaxFireDelay + 10
-    else if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = 1.5
-    else if cacheFlag == CacheFlag.CACHE_LUCK then
-      player.Luck = 1
-    end
-    
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_JUICY_SACK,false)
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_SERPENTS_KISS ,false)
-    
-  end
-
-  player:GetName() == "Neofantasia" then
-   
-   if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = 10
-    else if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = 1
-    else if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-      player.MaxFireDelay = player.MaxFireDelay + 8
-    else if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = 1.5
-    else if cacheFlag == CacheFlag.CACHE_LUCK then
-      player.Luck = 1
-    end
-    
-    player:AddCollectible(CollectiblType.COLLECTIBLE_BLACK_HOLE, 6, false)
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_GHOST_PEPPER ,false)
-    
-  end
+  
 
   player:GetName() == "Ullisandra" then
     if cacheFlag == CacheFlag.CACHE_DAMAGE then
