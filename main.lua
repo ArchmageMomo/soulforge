@@ -338,23 +338,17 @@ function Soulforge:Colorupdate()
   player = Isaac.GetPlayer(0);
   if player:HasCollectible(FlameThrower) == true then
     Isaac.GetPlayer(0).TearColor = Color(255.0,93,0,1,1,0,0)
-  end
-  if player:HasCollectible(DarkSoul) == true then
+  elseif player:HasCollectible(DarkSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(0,0,0,1,1,0,0)
-  end
-  if player:HasCollectible(DemonSoul) == true then
+  elseif player:HasCollectible(DemonSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(159,117,117,1,1,0,0)
-  end
-  if player:HasCollectible(AngelSoul) == true then
+  elseif player:HasCollectible(AngelSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(108,122,189,1,1,0,0)
-  end
-  if player:HasCollectible(BumboSoul) == true then
+  elseif player:HasCollectible(BumboSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(255,215,0,1,1,0,0)
-  end
-  if player:HasCollectible(PureSoul) == true then
+  elseif player:HasCollectible(PureSoul) == true then
     Isaac.GetPlayer(0).TearColor = Color(255,255,255,1,1,0,0)
-  end
-  if player:HasCollectible(Stained) == true then
+  elseif player:HasCollectible(Stained) == true then
     Isaac.GetPlayer(0).TearColor = Color(94,110,98,1,1,0,0)
   end
 end
