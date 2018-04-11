@@ -193,13 +193,13 @@ function Soulforge:AddPlayerStats()
         player.Luck = 1
     end
     
-    player:AddCollectible(CollectiblType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_MAW_OF_VOID,false)
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_VARICOSE_VEINS,false)
+    player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
+    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_MAW_OF_VOID,true)
+    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_VARICOSE_VEINS,true)
     
   end
   
-  player:GetName() == "Dead Spider" then
+  if player:GetName() == "Dead Spider" then
     
     if cacheFlag == CacheFlag.CACHE_DAMAGE then
       player.Damage = 10
@@ -217,12 +217,12 @@ function Soulforge:AddPlayerStats()
       player.Luck = 1
     end
     
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_JUICY_SACK,false)
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_SERPENTS_KISS ,false)
+    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_JUICY_SACK,false)
+    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_SERPENTS_KISS ,false)
     
   end
 
-  player:GetName() == "Neofantasia" then
+  if player:GetName() == "Neofantasia" then
    
    if cacheFlag == CacheFlag.CACHE_DAMAGE then
       player.Damage = 10
@@ -240,8 +240,8 @@ function Soulforge:AddPlayerStats()
       player.Luck = 1
     end
     
-    player:AddCollectible(CollectiblType.COLLECTIBLE_BLACK_HOLE, 6, false)
-    player:GetEffect():AddCollectibleEffect(CollectibleType.COLLECTIBLE_GHOST_PEPPER ,false)
+    player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
+    player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_GHOST_PEPPER ,false)
     
   end
   
@@ -308,5 +308,5 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 
 --Callbacks for Characters
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
---Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE , Soulforge.SpiderManager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE , Soulforge.Spidermanager)
