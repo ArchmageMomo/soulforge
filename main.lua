@@ -29,25 +29,29 @@ function Soulforge:Reset()
 
 end
 
+function Soulforge:debug()
+  Isaac.RenderText(debugText,100,100,255,0,0,255)
+end
+
 --Function to check if any consumable changed
 function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
  
   if(currCoins < player:GetNumCoins()) then
-      debugText = "picked up a coin";
+      --debugText = "picked up a coin";
       bumboAfterPickup()
   end
  
   if(currKeys < player:GetNumKeys()) then
-      debugText = "picked up a key"; -- HasGoldenKey()
+      --debugText = "picked up a key"; -- HasGoldenKey()
   end
  
   if(currBombs < player:GetNumBombs()) then
-      debugText = "picked up a bomb"; -- HasGoldenBomb()
+      --debugText = "picked up a bomb"; -- HasGoldenBomb()
   end
  
   if(currHearts < player:GetHearts()) then
-      debugText = "picked up a heart";
+      --debugText = "picked up a heart";
       darkAfterPickup()
   end
  
@@ -245,7 +249,6 @@ function Soulforge:AddPlayerStats()
 end
 
 
-
 function Soulforge:Spidermanager()
   if Isaac.GetPlayer(0):GetName()=="Dead Spider" and spiderlist<8 and Game():GetFrameCount()==1 then
     Soulforge.AddSpider()
@@ -268,6 +271,44 @@ function Soulforge:AddSpider()
   end
   spider.AddCharmed(-1)
   table.insert(spiderlist,spider)
+local spiderlist={}
+
+function Soulforge:Spidermanager()
+  if Isaac.GetPlayer(0):GetName()=="Dead Spider" and #spiderlist<8 and Game():GetRoom():IsFirstVisit()then
+    AddSpider()
+    --debugText="triggered"
+  end
+end
+
+function AddSpider()
+  luck=Isaac.GetPlayer(0).Luck
+  if 16-luck>3 then
+    rand=math.random(0,16-luck)
+  else
+    rand=math.random(0,4)
+  end
+  if rand==0 then
+    spider= Isaac.Spawn(EntityType.ENTITY_RAGLING,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 0"
+    addspidertolist(spiderlist,spider)
+  elseif rand==1 then
+    spider= Isaac.Spawn(EntityType.ENTITY_SPIDER_L2,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 1"
+    addspidertolist(spiderlist,spider)
+  elseif rand==2 then
+    spider= Isaac.Spawn(EntityType.ENTITY_BIGSPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 2"
+    addspidertolist(spiderlist,spider)
+  elseif rand==3 then
+    spider= Isaac.Spawn(EntityType.ENTITY_SPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 3"
+    addspidertolist(spiderlist,spider)
+  end
+end
+
+function addspidertolist(list,entity)
+  entity:AddCharmed(-1)
+  table.insert(list,entity)
 end
 
 function Soulforge:Fantasiamanager()
@@ -277,6 +318,8 @@ function Soulforge:Fantasiamanager()
       tear=Isaac.spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(0,1),math.random(0,1),0),Isaac.GetPlayer(0))
       tear.TearHeight=40
       tear.TearDamage=Isaac.GetPlayer(0).damage*1.2
+      tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
+      tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
     end
   end
 end
@@ -307,3 +350,8 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
 Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE , Soulforge.Spidermanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
+
+--debug
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
