@@ -4,8 +4,8 @@
          bigportraitroot="gfx/ui/stage/">
 	<player name="Ulisandra" skin="character_001_Ulisandra.png" hp="8" items="452,399"
           nameimage="PlayerName_01_Isaac.png"
-          portrait="PlayerPortrait_01_Isaac.png"
-          bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
+          portrait="playerportrait_01_ulisandra.png"
+          bigportrait="playerportraitBig_01_ulisandra.png" skinColor="-1" />
 		        <hair gfx="character_001_Ulisandrahair.png"/>
 	<player name="Dead Spider" skin="Character_002_DeadSpider.png" black="2" bombs="1"  items="266,393,603"
           nameimage="PlayerName_01_Isaac.png"
