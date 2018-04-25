@@ -29,25 +29,29 @@ function Soulforge:Reset()
 
 end
 
+function Soulforge:debug()
+  Isaac.RenderText(debugText,100,100,255,0,0,255)
+end
+
 --Function to check if any consumable changed
 function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
  
   if(currCoins < player:GetNumCoins()) then
-      debugText = "picked up a coin";
+      --debugText = "picked up a coin";
       bumboAfterPickup()
   end
  
   if(currKeys < player:GetNumKeys()) then
-      debugText = "picked up a key"; -- HasGoldenKey()
+      --debugText = "picked up a key"; -- HasGoldenKey()
   end
  
   if(currBombs < player:GetNumBombs()) then
-      debugText = "picked up a bomb"; -- HasGoldenBomb()
+      --debugText = "picked up a bomb"; -- HasGoldenBomb()
   end
  
   if(currHearts < player:GetHearts()) then
-      debugText = "picked up a heart";
+      --debugText = "picked up a heart";
       darkAfterPickup()
   end
  
@@ -171,6 +175,156 @@ end
 
 
 -- Manages the starting-stats of the player
+function Soulforge:AddPlayerStats()
+  player=Isaac.GetPlayer(0)
+  
+
+  if player:GetName() == "Ulisandra" then
+    
+    if cacheFlag == CacheFlag.CACHE_DAMAGE then
+        player.Damage = 10
+    end
+	if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
+        player.ShotSpeed = 1
+    end
+	if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+        player.MaxFireDelay = player.MaxFireDelay + 2
+    end
+	if cacheFlag == CacheFlag.CACHE_SPEED then
+        player.MoveSpeed = 1.5
+	end
+    if cacheFlag == CacheFlag.CACHE_LUCK then
+        player.Luck = 1
+    end
+    
+    player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
+    
+  end
+  
+  if player:GetName() == "Dead Spider" then
+    
+    if cacheFlag == CacheFlag.CACHE_DAMAGE then
+      player.Damage = 10
+    end
+    if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
+      player.ShotSpeed = 1
+    end
+    if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+      player.MaxFireDelay = player.MaxFireDelay + 10
+    end
+    if cacheFlag == CacheFlag.CACHE_SPEED then
+      player.MoveSpeed = 1.5
+    end
+    if cacheFlag == CacheFlag.CACHE_LUCK then
+      player.Luck = 1
+    end
+    
+    
+  end
+
+  if player:GetName() == "Neofantasia" then
+   
+   if cacheFlag == CacheFlag.CACHE_DAMAGE then
+      player.Damage = 10
+    end
+    if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
+      player.ShotSpeed = 1
+    end
+    if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+      player.MaxFireDelay = player.MaxFireDelay + 8
+    end
+    if cacheFlag == CacheFlag.CACHE_SPEED then
+      player.MoveSpeed = 1.5
+    end
+    if cacheFlag == CacheFlag.CACHE_LUCK then
+      player.Luck = 1
+    end
+    
+    player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
+    
+  end
+  
+  player:ClearCostumes()
+  
+end
+
+
+function Soulforge:Spidermanager()
+  if Isaac.GetPlayer(0):GetName()=="Dead Spider" and spiderlist<8 and Game():GetFrameCount()==1 then
+    Soulforge.AddSpider()
+  end
+end
+
+function Soulforge:AddSpider()
+  rand=math.random(0,6)
+  if rand==0 then
+    local spider= Isaac.spawn(EntityType.ENTITY_RAGLING,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+  end
+  if rand==1 then
+    local spider= Isaac.spawn(EntityType.ENTITY_SPIDER_L2,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+  end
+  if rand==2 then
+    local spider= Isaac.spawn(EntityType.ENTITY_BIGSPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+  end
+  if rand==3 then
+    local spider= Isaac.spawn(EntityType.ENTITY_SPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+  end
+  spider.AddCharmed(-1)
+  table.insert(spiderlist,spider)
+local spiderlist={}
+
+function Soulforge:Spidermanager()
+  if Isaac.GetPlayer(0):GetName()=="Dead Spider" and #spiderlist<8 and Game():GetRoom():IsFirstVisit()then
+    AddSpider()
+    --debugText="triggered"
+  end
+end
+
+function AddSpider()
+  luck=Isaac.GetPlayer(0).Luck
+  if 16-luck>3 then
+    rand=math.random(0,16-luck)
+  else
+    rand=math.random(0,4)
+  end
+  if rand==0 then
+    spider= Isaac.Spawn(EntityType.ENTITY_RAGLING,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 0"
+    addspidertolist(spiderlist,spider)
+  elseif rand==1 then
+    spider= Isaac.Spawn(EntityType.ENTITY_SPIDER_L2,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 1"
+    addspidertolist(spiderlist,spider)
+  elseif rand==2 then
+    spider= Isaac.Spawn(EntityType.ENTITY_BIGSPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 2"
+    addspidertolist(spiderlist,spider)
+  elseif rand==3 then
+    spider= Isaac.Spawn(EntityType.ENTITY_SPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
+    --debugText="Triggered 3"
+    addspidertolist(spiderlist,spider)
+  end
+end
+
+function addspidertolist(list,entity)
+  entity:AddCharmed(-1)
+  table.insert(list,entity)
+end
+
+function Soulforge:Fantasiamanager()
+  if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
+    rand=math.random(0,100)
+    if rand*(Isaac.GetPlayer(0).Luck+0.5)<36 then
+      tear=Isaac.spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(0,1),math.random(0,1),0),Isaac.GetPlayer(0))
+      tear.TearHeight=40
+      tear.TearDamage=Isaac.GetPlayer(0).damage*1.2
+      tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
+      tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
+    end
+  end
+end
+
+
 
 
 
@@ -178,11 +332,11 @@ end
 
 --Environmental callbacks (Contain callbacks for some items)
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
---Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
+Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
 
 --Callbacks for Itemcolors (Mostly for testing purpose)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
---Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
+Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
 --Callback for Items
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
@@ -193,4 +347,11 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
 
 --Callbacks for Characters
+Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
+Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE , Soulforge.Spidermanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
 
+--debug
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)

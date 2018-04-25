@@ -2,7 +2,7 @@
          portraitroot="gfx/ui/boss/"
          nameimageroot="gfx/ui/boss/"
          bigportraitroot="gfx/ui/stage/">
-	<player name="Ulisandra" skin="character_001_Ulisandra.png" hp="8" items=""
+	<player name="Ulisandra" skin="character_001_Ulisandra.png" hp="8" items="452,399"
           nameimage="PlayerName_01_Isaac.png"
           portrait="PlayerPortrait_01_Isaac.png"
           bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
@@ -11,7 +11,7 @@
           nameimage="PlayerName_01_Isaac.png"
           portrait="PlayerPortrait_01_Isaac.png"
           bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
-	<player name="Neofantasia" skin="Character_001_Isaac.png" armor="4" keys="3"  items="512,495,604"
+	<player name="Neofantasia" skin="Character_001_Isaac.png" armor="4" keys="3"  items="495,604"
           nameimage="PlayerName_01_Isaac.png"
           portrait="PlayerPortrait_01_Isaac.png"
           bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
