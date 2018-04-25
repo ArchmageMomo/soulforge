@@ -354,14 +354,20 @@ function Soulforge:PureSoul ()
     level = game:GetLevel()
     
     rand = math.random(0,4)
+    
+    -- read the debugText strings for information on what each of the effects does
     if rand==0 then
       level:ShowMap()
+      debugText="Show Map"
     elseif rand==1 then
       level:RemoveCurses()
+      debugText="Remove curses"
     elseif rand==2 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+      debugText="Spawn Golden Key"
     elseif rand==3 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
+      debugText="Spawn Golden Bomb"
     end
     
 
@@ -390,7 +396,7 @@ end
 
 
 
--- Manages the starting-stats of the player
+-- Manages the starting-stats and spacebar-items of the custom player characters. also clears costumes on startup
 function Soulforge:AddPlayerStats()
   player=Isaac.GetPlayer(0)
   
@@ -464,53 +470,58 @@ function Soulforge:AddPlayerStats()
   
 end
 
+-- list for spawned spiders
 local spiderlist={}
 
+-- function for managing the passive effect of "Dead Spider" (spawning spiders on visiting new rooms)
 function Soulforge:Spidermanager()
-  if Isaac.GetPlayer(0):GetName()=="Dead Spider" and #spiderlist<8 and Game():GetRoom():IsFirstVisit()then
+  if Isaac.GetPlayer(0):GetName()=="Dead Spider" and Game():GetRoom():IsFirstVisit()then
     AddSpider()
-    --debugText="triggered"
+    debugText="Spider spawned"
   end
 end
 
+-- function that spawns spiders depending on the players luck.
 function AddSpider()
   luck=Isaac.GetPlayer(0).Luck
+  -- spawn-chance and randomizer
   if 16-luck>3 then
     rand=math.random(0,16-luck)
   else
     rand=math.random(0,4)
   end
+  
   if rand==0 then
     spider= Isaac.Spawn(EntityType.ENTITY_RAGLING,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    --debugText="Triggered 0"
+    debugText="Spider type 0"
     addspidertolist(spiderlist,spider)
   elseif rand==1 then
     spider= Isaac.Spawn(EntityType.ENTITY_SPIDER_L2,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    --debugText="Triggered 1"
+    debugText="Spider type 1"
     addspidertolist(spiderlist,spider)
   elseif rand==2 then
     spider= Isaac.Spawn(EntityType.ENTITY_BIGSPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    --debugText="Triggered 2"
+    debugText="Spider type 2"
     addspidertolist(spiderlist,spider)
   elseif rand==3 then
     spider= Isaac.Spawn(EntityType.ENTITY_SPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    --debugText="Triggered 3"
+    debugText="Spider type 3"
     addspidertolist(spiderlist,spider)
   end
 end
 
+-- functions that adds spiders to the list (duh :P) and charms them.
 function addspidertolist(list,entity)
   entity:AddCharmed(-1)
   table.insert(list,entity)
 end
 
+-- function for managing the passive effect of "Neofantasia" (Spawning floating tears depending on luck)
 function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     rand=math.random(0,100)
-    if rand*(Isaac.GetPlayer(0).Luck+0.5)<36 then
-      tear=Isaac.spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(0,1),math.random(0,1),0),Isaac.GetPlayer(0))
-      tear.TearHeight=40
-      tear.TearDamage=Isaac.GetPlayer(0).damage*1.2
+    -- just an overly complicated way for determining the chance of spawning an floating tear
+    if rand*(Isaac.GetPlayer(0).Luck+0.5)>74 then
       tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
       tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
     end
@@ -522,41 +533,36 @@ end
 
 
 
---Environmental callbacks (Contain callbacks for some items)
+-- Environmental callbacks
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
 Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
 
---Callbacks for Itemcolors (Mostly for testing purpose)
+-- Callbacks for colors
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
 
---Callback for Items
+-- Callbacks for the flamethrower
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
 Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
-
---Callback for Floorupdate
-Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonFloor)
-
---Callbacks for Characters
-Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
-Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE , Soulforge.Spidermanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
-Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
-Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerPost)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.BumboUp)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedDmg)
 
-
---Callback for Floorupdate
+-- Callbacks for functions that need to be called at the begining of each floor
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.DemonFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
 
---debug
+-- Callbacks for the Character specific functions
+Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
+Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
+
+-- Callbacks for the dynamic reevaluation of some items and Mama Mega 
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.BumboUp)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedDmg)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
+
+-- debug callback (not in environmental because it doesn't have any effects on the mod in casual use)
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
