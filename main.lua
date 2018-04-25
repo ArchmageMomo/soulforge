@@ -141,13 +141,14 @@ function Soulforge:FlamethrowerF(player,flag)
     elseif flag == CacheFlag.CACHE_FIREDELAY then
       itemsupdated=true
     elseif flag == CacheFlag.CACHE_RANGE then
-      Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed-3
+      -- I don't know the reason why this appearently doesn't get called .-.
+      -- Moved it to the flame First block below as it seems to work there
     end
-    
     
     if flameFirst==true then
       Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
       flameFirst=false
+      Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed-1.7
     end
   end
 end
@@ -327,9 +328,8 @@ end
 -- function to manage the stained soul Mama Mega effect
 function Soulforge:StainedM()
   if stainedMama==true then
-    -- TODO: Balancing and luck dependence
-    rand=math.random(0,4)
-    if (rand == 0) then
+    rand=math.random(0,100)
+    if rand*(Isaac.GetPlayer(0).Luck+1)>80 then
       Game():GetRoom():MamaMegaExplossion()
     end
   end
@@ -521,7 +521,7 @@ function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     rand=math.random(0,100)
     -- just an overly complicated way for determining the chance of spawning an floating tear
-    if rand*(Isaac.GetPlayer(0).Luck+0.5)>74 then
+    if 1+rand*(Isaac.GetPlayer(0).Luck+0.5)>74 then
       tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
       tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
     end
