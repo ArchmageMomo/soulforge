@@ -1,5 +1,7 @@
+-- loading the mod
 local Soulforge = RegisterMod("Soulforge",1)
 
+-- initializing the items
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamethrower")
 local AngelSoul = Isaac.GetItemIdByName ("Angel Soul")  --Hallo
@@ -8,21 +10,25 @@ local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
 local Stained = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
 
-local log = {}
-
+-- variables for debuging
 local debugText = ""
 local debugbool=true
 
+-- variables to keep track of the current pickups and red health
 local currCoins = 0
 local currKeys = 0
 local currBombs = 0
 local currHearts = 0
 
+-- variables to manage the stained soul
 local stainedState=0
 local stainedMama=false
-local flameFirst=true
-local itemsupdated=false
 
+-- variables to manage the "flamethrower"
+local flameFirst=true
+local itemsupdated=false -- workaround for firerate update
+
+-- variables to manage bumbo soul
 local bumDmg=0
 local bumRange=0
 local bumSpeed=0
@@ -30,19 +36,24 @@ local bumShot=0
 local bumLuck=0
 local bumbcoin=0
 
+-- variables to manage demon soul
 local demonDmg=0
 local demonRange=0
 local demonShot=0
 local demonSpeed=0
 local demonLuck=0
 
---Function to set default values
+-- function to set default values for the mod
 function Soulforge:Reset()
+  debugText=""
+  debugbool=false
+  
   player = Isaac.GetPlayer(0);
   currCoins = player:GetNumCoins();
   currKeys = player:GetNumKeys();
   currBombs = player:GetNumBombs();
   currHearts = player:GetHearts();
+  
   stainedState=0;
   
   bumDmg=0
@@ -60,20 +71,27 @@ function Soulforge:Reset()
   
 end
 
+-- function to display debug text in game if needed. not in use until debugbool gets set true
 function Soulforge:debug()
-  Isaac.RenderText(debugText,100,100,255,0,0,255)
+  if debugbool==true then
+    -- to display a debug message comment all other messages and set debugbool to true in the reset function.
+    Isaac.RenderText(debugText,100,100,255,0,0,255)
+  end
 end
 
---Function to check if any consumable changed
+-- function to check if any consumable or red hearts changed
 function Soulforge:checkConsumables()
   player = Isaac.GetPlayer(0);
- 
+  
+  -- generaly it compares the old coin value with the new one if the game got updated
+  
   if(currCoins < player:GetNumCoins()) then
-      --debugText = "picked up a coin";
-      bumboAfterPickup()
+      debugText = "picked up a coin"
+      
+      -- checks if the player has the bumbo soul and updates the bumbo coin value.
       if Isaac.GetPlayer(0):HasCollectible(BumboSoul) then
         bumbcoin=bumbcoin+player:GetNumCoins()-currCoins
-        
+        -- if the player has 2 or more coins, the bumboAfterPickup function gets called and coin and bumbo coin values get updated acordingly
         while bumbcoin>1 do
           bumboAfterPickup()
           bumbcoin=bumbcoin-2
@@ -81,20 +99,31 @@ function Soulforge:checkConsumables()
         end
       end
   end
- 
-  if(currKeys < player:GetNumKeys()) then
-      --debugText = "picked up a key"; -- HasGoldenKey()
-  end
- 
-  if(currBombs < player:GetNumBombs()) then
-      --debugText = "picked up a bomb"; -- HasGoldenBomb()
-  end
- 
+  
+  -- calls darkAfterPickup if a red heart gets picked up
   if(currHearts < player:GetHearts()) then
-      --debugText = "picked up a heart";
+      debugText = "picked up a heart";
       darkAfterPickup()
   end
  
+  -- unused pickup checks
+  if(currKeys < player:GetNumKeys()) then
+      debugText = "picked up a key"
+  end
+  
+  if HasGoldenKey() then
+    debugText=  "picked up a golden key"
+  end
+ 
+  if(currBombs < player:GetNumBombs()) then
+      debugText = "picked up a bomb"
+  end
+ 
+  if HasGoldenBomb() then
+    debugText=  "picked up a golden bomb"
+  end
+ 
+  -- updates the current values of their respective type
   currCoins = player:GetNumCoins();
   currKeys = player:GetNumKeys();
   currBombs = player:GetNumBombs();
@@ -102,13 +131,11 @@ function Soulforge:checkConsumables()
 end
 
 
--- Code for the Flamethrower
+-- function to set the stats and TearFlags for flamethrower.
 function Soulforge:FlamethrowerF(player,flag)
   if Isaac.GetPlayer(0):HasCollectible(FlameThrower) == true then
-    
-    
-    pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
-    --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, CollectibleType.COLLECTIBLE_PYROMANIAC, pos, Vector(0,0), Isaac.GetPlayer(0))
+
+    pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y)
     if flag == CacheFlag.CACHE_DAMAGE then 
       Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*1.5/3
     elseif flag == CacheFlag.CACHE_FIREDELAY then
@@ -125,18 +152,19 @@ function Soulforge:FlamethrowerF(player,flag)
   end
 end
 
--- deny explosion damage
+-- function to prevent explosion damage on player
 function Soulforge:FlamethrowerDamage(player_x, damage, flag, source, countdown)
-  local player = Isaac.GetPlayer(0);
+  local player = Isaac.GetPlayer(0)
     if player:HasCollectible(FlameThrower) and flag == DamageFlag.DAMAGE_EXPLOSION then
         return false;
     end
 end
 
---Needed to change the Max-Firedelay
+-- Workaround function seemingly needed to change the Max-Firedelay.
 function Soulforge:FlamethrowerPost()
   if player:HasCollectible(FlameThrower) and itemsupdated==true then
     itemsupdated=false
+    -- increases tearrate drasticaly without making it negative. 
     if Isaac.GetPlayer(0).MaxFireDelay - 8>0 then
       Isaac.GetPlayer(0).MaxFireDelay = Isaac.GetPlayer(0).MaxFireDelay - 8
     else
@@ -145,7 +173,7 @@ function Soulforge:FlamethrowerPost()
   end
 end
 
---Bumbo Soul Functions
+-- function to randomly add stacks on stats and force a reevaluation 
 function bumboAfterPickup()
   player = Isaac.GetPlayer(0);
   local rand = math.random(0,5)
@@ -170,6 +198,7 @@ function bumboAfterPickup()
   player:EvaluateItems()
 end
 
+-- function to set stats acordingly to bumbo-stat-stacks
 function Soulforge:BumboUp(pla,flag)
   
   if player:HasCollectible(BumboSoul) then
@@ -186,7 +215,7 @@ function Soulforge:BumboUp(pla,flag)
     elseif flag == CacheFlag.CACHE_SPEED then
       player.MoveSpeed=player.MoveSpeed+0.06*bumSpeed
     end
-    --debugText="dmg:" .. bumDmg .. " spd:" .. bumSpeed .." sspd:" .. bumShot .. " rng:" .. bumRange .. " lck:" .. bumLuck
+    debugText="dmg:" .. bumDmg .. " spd:" .. bumSpeed .." sspd:" .. bumShot .. " rng:" .. bumRange .. " lck:" .. bumLuck
   end
 end
 
