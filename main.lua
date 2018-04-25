@@ -111,7 +111,7 @@ function Soulforge:checkConsumables()
       debugText = "picked up a key"
   end
   
-  if HasGoldenKey() then
+  if player:HasGoldenKey() then
     debugText=  "picked up a golden key"
   end
  
@@ -119,7 +119,7 @@ function Soulforge:checkConsumables()
       debugText = "picked up a bomb"
   end
  
-  if HasGoldenBomb() then
+  if player:HasGoldenBomb() then
     debugText=  "picked up a golden bomb"
   end
  
@@ -219,7 +219,7 @@ function Soulforge:BumboUp(pla,flag)
   end
 end
 
---Dark Soul Function
+-- function for either damaging the players red hearts or adding a black heart
 function darkAfterPickup()
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
@@ -231,14 +231,14 @@ function darkAfterPickup()
   end
 end
   
---Angel Soul Function
+-- function for adding an eternal heart at the begining of each floor
 function Soulforge:AngelFloor()
   if Isaac.GetPlayer(0):HasCollectible(AngelSoul) == true then
     Isaac.GetPlayer(0):AddEternalHearts(1)
   end
 end
 
---Demon Soul Function
+-- function for adding stacks on demon-soul-stats, damaging the player and reevaluating the stats at the begining of each floor
 function Soulforge:DemonFloor()
   player=Isaac.GetPlayer(0)
   if player:HasCollectible(DemonSoul) == true then 
@@ -266,6 +266,7 @@ function Soulforge:DemonFloor()
   end
 end
 
+-- function to set stats acordingly to demon-soul-stat-stacks
 function Soulforge:DemonUp(pla,flag)
   
   if player:HasCollectible(DemonSoul) then
@@ -282,16 +283,18 @@ function Soulforge:DemonUp(pla,flag)
     elseif flag == CacheFlag.CACHE_SPEED then
       player.MoveSpeed=player.MoveSpeed+0.1*demonSpeed
     end
-    --debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
+    debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
   end
 end
 
 
---Stained Soul Floor function
+-- function for giving diverse effects at the begining of each floor if player obsesses the stained soul
 function Soulforge:StainedFloor()
   if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
     player=Isaac.GetPlayer(0)
     
+    -- neccessary to remove some effects: Mama Mega explosion chance and damage up
+    -- stainedState decides which effect will be called later in this function
     stainedStateold=stainedState
     stainedState = math.random(0,4)
     
@@ -303,27 +306,28 @@ function Soulforge:StainedFloor()
     end
   
     
-    
+    -- read the debugText strings for information on what each of the effects does
     if stainedState==0 then
-      --debugText="Add Coins"
+      debugText="Add Coins"
       player:AddCoins(15)
     elseif stainedState==1 then
-      --debugText="Add Damage"
+      debugText="Add Damage"
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
       player:EvaluateItems()
     elseif stainedState==2 then
-      --debugText="Add Hearts"
+      debugText="Add Black Heart"
       player:AddBlackHearts(4)
     elseif stainedState==3 then
-      --debugText="Add Mama"
+      debugText="Add Mama Mega "
       stainedMama=true
     end
   end
 end
 
---Stained Soul Mama Mega effect
+-- function to manage the stained soul Mama Mega effect
 function Soulforge:StainedM()
   if stainedMama==true then
+    -- TODO: Balancing and luck dependence
     rand=math.random(0,4)
     if (rand == 0) then
       Game():GetRoom():MamaMegaExplossion()
@@ -331,6 +335,7 @@ function Soulforge:StainedM()
   end
 end
 
+-- function to update the damage if the stained soul requires it.
 function Soulforge:StainedDmg(pla,flag)
   if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
     if stainedState==1 then
@@ -341,6 +346,7 @@ function Soulforge:StainedDmg(pla,flag)
   end
 end
 
+-- function for giving diverse effects at the begining of each floor if player obsesses the pure soul
 function Soulforge:PureSoul () 
   if Isaac.GetPlayer(0):HasCollectible(PureSoul) == true then
     player=Isaac.GetPlayer(0)
@@ -348,7 +354,6 @@ function Soulforge:PureSoul ()
     level = game:GetLevel()
     
     rand = math.random(0,4)
-    rand= 3
     if rand==0 then
       level:ShowMap()
     elseif rand==1 then
