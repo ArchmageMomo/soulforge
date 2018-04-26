@@ -3,16 +3,18 @@
          nameimageroot="gfx/ui/boss/"
          bigportraitroot="gfx/ui/stage/">
 	<player name="Ulisandra" skin="character_001_Ulisandra.png" hp="8" items="452,399"
-          nameimage="PlayerName_01_Isaac.png"
-          portrait="PlayerPortrait_01_Isaac.png"
-          bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
-		        <hair gfx="character_001_Ulisandrahair.png"/>
+          nameimage="playername_ulisandra.png"
+          portrait="playerportrait_ulisandra.png"
+          bigportrait="playerportraitbig_ulisandra.png"
+		  skinColor="-1" />
 	<player name="Dead Spider" skin="Character_002_DeadSpider.png" black="2" bombs="1"  items="266,393,603"
-          nameimage="PlayerName_01_Isaac.png"
-          portrait="PlayerPortrait_01_Isaac.png"
-          bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
-	<player name="Neofantasia" skin="Character_001_Isaac.png" armor="4" keys="3"  items="495,604"
-          nameimage="PlayerName_01_Isaac.png"
-          portrait="PlayerPortrait_01_Isaac.png"
-          bigportrait="PlayerPortraitBig_01_Isaac.png" skinColor="-1" />
+          nameimage="playername_dead-spider.png"
+          portrait="playerportrait_dead-spider.png"
+          bigportrait="playerportraitbig_dead-spider.png"
+		  skinColor="-1" />
+	<player name="Neofantasia" skin="Character_003_Neofantasia.png" armor="4" keys="3"  items="495,604"
+          nameimage="playername_neofantasia.png"
+          portrait="playerportrait_neofantasia.png"
+          bigportrait="playerportraitbig_neofantasia.png"
+		  skinColor="-1" />
 </players>
