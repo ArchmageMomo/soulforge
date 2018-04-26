@@ -69,6 +69,7 @@ function Soulforge:Reset()
   demonSpeed=0
   demonLuck=0
   
+  
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -395,78 +396,89 @@ function Soulforge:Colorupdate()
 end
 
 
-
--- Manages the starting-stats and spacebar-items of the custom player characters. also clears costumes on startup
-function Soulforge:AddPlayerStats()
+-- function that manages starting stats of custom player characters
+function Soulforge:SetPlayerStats(p,cacheFlag)
   player=Isaac.GetPlayer(0)
   
-
   if player:GetName() == "Ulisandra" then
     
     if cacheFlag == CacheFlag.CACHE_DAMAGE then
-        player.Damage = 10
-    end
-	if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-        player.ShotSpeed = 1
-    end
-	if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-        player.MaxFireDelay = player.MaxFireDelay + 2
-    end
-	if cacheFlag == CacheFlag.CACHE_SPEED then
-        player.MoveSpeed = 1.5
-	end
-    if cacheFlag == CacheFlag.CACHE_LUCK then
-        player.Luck = 1
-    end
-    
-    player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
-    
-  end
-  
-  if player:GetName() == "Dead Spider" then
-    
-    if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = 10
+      player.Damage = player.Damage + 2
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = 1
+      player.ShotSpeed =player.ShotSpeed + 0.3
     end
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
       player.MaxFireDelay = player.MaxFireDelay + 10
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = 1.5
+      player.MoveSpeed = player.MoveSpeed - 0.5
     end
     if cacheFlag == CacheFlag.CACHE_LUCK then
-      player.Luck = 1
+      player.Luck = player.Luck + 1
     end
-    
-    
   end
-
+  
+  if player:GetName() == "Dead Spider" then
+    
+    if cacheFlag == CacheFlag.CACHE_DAMAGE then
+      player.Damage = player.Damage + 2
+    end
+    if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
+      player.ShotSpeed = player.ShotSpeed - 1
+    end
+    if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+      player.MaxFireDelay = player.MaxFireDelay + 2
+    end
+    if cacheFlag == CacheFlag.CACHE_SPEED then
+      player.MoveSpeed = player.MoveSpeed + 0.5
+    end
+    if cacheFlag == CacheFlag.CACHE_LUCK then
+      player.Luck = player.Luck + 1
+    end
+  end
+  
   if player:GetName() == "Neofantasia" then
    
    if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = 10
+      player.Damage = player.Damage + 5
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = 1
+      player.ShotSpeed = player.ShotSpeed - 2
     end
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
       player.MaxFireDelay = player.MaxFireDelay + 8
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = 1.5
+      player.MoveSpeed = player.MoveSpeed -- redundant but kept because of balancing reasons
     end
     if cacheFlag == CacheFlag.CACHE_LUCK then
-      player.Luck = 1
+      player.Luck = player.Luck + 1
     end
     
+  end
+end
+
+-- function that manages the spacebar-items of the custom player characters. also clears costumes on initialization
+function  Soulforge:Playermanager()
+  player=Isaac.GetPlayer(0)
+  player:ClearCostumes()
+  
+
+  if player:GetName() == "Ulisandra" then
+    player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
+    -- sets the hair as costume with high priority
+    Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_ulisandrahair.anm2")
+    player:AddNullCostume(Costume)
+    
+  end
+
+  if player:GetName() == "Neofantasia" then
+   
     player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
     
   end
   
-  player:ClearCostumes()
   
 end
 
@@ -537,10 +549,6 @@ end
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
 Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
 
--- Callbacks for colors
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
-
 -- Callbacks for the flamethrower
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
 Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
@@ -553,7 +561,8 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.StainedFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
 
 -- Callbacks for the Character specific functions
-Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.AddPlayerStats)
+Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Playermanager)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.SetPlayerStats)
 Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
 
@@ -564,5 +573,7 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedDmg)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 
--- debug callback (not in environmental because it doesn't have any effects on the mod in casual use)
+-- debug callback (not in environmental because it doesn't have any effects on the mod in casual use). also callbacks for debug colors
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
+Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
+Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
