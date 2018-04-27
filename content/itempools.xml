@@ -1,0 +1,110 @@
+<ItemPools>
+    <Pool Name="treasure">
+    </Pool>
+ 
+    <Pool Name="shop">
+		<Item Name="Pure Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="boss">
+		<Item Name="Flamethrower" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="devil">
+		<Item Name="Dark Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Demon Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="angel">
+		<Item Name="BumBo Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Angel Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="secret">
+		<Item Name="Stained Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="library">
+		<Item Name="Angel Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="challenge">
+		<Item Name="Flamethrower" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="goldenChest">
+		<Item Name="Pure Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="redChest">
+		<Item Name="Flamethrower" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Stained Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="beggar">
+		<Item Name="BumBo Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="demonBeggar">
+		<Item Name="Dark Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Demon Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="curse">
+		<Item Name="Dark Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="keyMaster">
+		<Item Name="Stained Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Pure Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="bossrush">
+		<Item Name="BumBo Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Flamethrower" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="dungeon">
+		<Item Name="Stained Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedTreasure">
+    </Pool>
+ 
+    <Pool Name="greedBoss">
+    </Pool>
+ 
+    <Pool Name="greedShop">
+		<Item Name="Pure Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedCurse">
+		<Item Name="Flamethrower" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedDevil">
+		<Item Name="Dark Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Demon Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedAngel">
+		<Item Name="BumBo Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Angel Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedLibrary">
+		<Item Name="Angel Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedSecret">
+		<Item Name="Stained Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+ 
+    <Pool Name="greedGoldenChest">
+		<Item Name="Pure Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+   
+    <Pool Name="bombBum">
+		<Item Name="Dark Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+</ItemPools>
