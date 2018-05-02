@@ -7,12 +7,12 @@
           portrait="playerportrait_ulisandra.png"
           bigportrait="playerportraitbig_ulisandra.png"
 		  skinColor="-1" />
-	<player name="Dead Spider" skin="Character_002_DeadSpider.png" black="2" bombs="1"  items="266,393,603"
+	<player name="Dead Spider" skin="Character_002_DeadSpider.png" black="6" bombs="1"  items="266,393,603"
           nameimage="playername_dead-spider.png"
           portrait="playerportrait_dead-spider.png"
           bigportrait="playerportraitbig_dead-spider.png"
 		  skinColor="-1" />
-	<player name="Neofantasia" skin="Character_003_Neofantasia.png" armor="4" keys="3"  items="495,604"
+	<player name="Neofantasia" skin="Character_003_Neofantasia.png" armor="3" keys="3"  items="495,604"
           nameimage="playername_neofantasia.png"
           portrait="playerportrait_neofantasia.png"
           bigportrait="playerportraitbig_neofantasia.png"

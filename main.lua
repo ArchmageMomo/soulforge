@@ -450,7 +450,7 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
       player.MaxFireDelay = player.MaxFireDelay + 8
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = player.MoveSpeed -- redundant but kept because of balancing reasons
+      player.MoveSpeed = player.MoveSpeed + 2
     end
     if cacheFlag == CacheFlag.CACHE_LUCK then
       player.Luck = player.Luck + 1
