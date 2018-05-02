@@ -1,5 +1,5 @@
 <AnimatedActor>
-	<Info CreatedBy="Unknown" CreatedOn="26.04.2018 10:00:33" Version="24" Fps="30"/>
+	<Info CreatedBy="Momo" CreatedOn="02.05.2018 12:35:08" Version="25" Fps="30"/>
 	<Content>
 		<Spritesheets>
 			<Spritesheet Path="death portraits.png" Id="0"/>
@@ -51,7 +51,7 @@
 			</RootAnimation>
 			<LayerAnimations>
 				<LayerAnimation LayerId="0" Visible="true">
-					<Frame XPosition="17" YPosition="82" XPivot="32" YPivot="8" XCrop="0" YCrop="159" Width="64" Height="16" XScale="100" YScale="100" Delay="1" Visible="true" RedTint="255" GreenTint="255" BlueTint="255" AlphaTint="255" RedOffset="0" GreenOffset="0" BlueOffset="0" Rotation="0" Interpolated="false"/>
+					<Frame XPosition="17" YPosition="82" XPivot="32" YPivot="8" XCrop="10" YCrop="159" Width="43" Height="18" XScale="100" YScale="100" Delay="1" Visible="true" RedTint="255" GreenTint="255" BlueTint="255" AlphaTint="255" RedOffset="0" GreenOffset="0" BlueOffset="0" Rotation="0" Interpolated="false"/>
 				</LayerAnimation>
 			</LayerAnimations>
 			<NullAnimations>
