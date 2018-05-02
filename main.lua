@@ -472,9 +472,16 @@ function  Soulforge:Playermanager()
     player:AddNullCostume(Costume)
     
   end
-
+  
+  if player:GetName() == "Dead Spider" then
+    player:AddCollectible(DarkSoul,0 , true)
+    player:ClearCostumes()
+    
+  end
+  
   if player:GetName() == "Neofantasia" then
-   
+    player:AddCollectible(Stained,0 , true)
+    player:ClearCostumes()
     player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
     
   end
