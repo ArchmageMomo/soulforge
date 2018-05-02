@@ -409,13 +409,13 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
       player.ShotSpeed =player.ShotSpeed + 0.3
     end
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-      player.MaxFireDelay = player.MaxFireDelay + 10
+      player.MaxFireDelay = player.MaxFireDelay + 20
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = player.MoveSpeed - 0.5
+      player.MoveSpeed = player.MoveSpeed - 0.7
     end
     if cacheFlag == CacheFlag.CACHE_LUCK then
-      player.Luck = player.Luck + 1
+      player.Luck = player.Luck -- Redundant but kept for possible rebalancing purpose
     end
   end
   
@@ -434,23 +434,23 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
       player.MoveSpeed = player.MoveSpeed + 0.5
     end
     if cacheFlag == CacheFlag.CACHE_LUCK then
-      player.Luck = player.Luck + 1
+      player.Luck = player.Luck - 1
     end
   end
   
   if player:GetName() == "Neofantasia" then
    
    if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = player.Damage + 5
+      player.Damage = player.Damage -2
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed - 2
     end
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-      player.MaxFireDelay = player.MaxFireDelay + 8
+      player.MaxFireDelay = player.MaxFireDelay - 4
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed = player.MoveSpeed + 2
+      player.MoveSpeed = player.MoveSpeed + 3
     end
     if cacheFlag == CacheFlag.CACHE_LUCK then
       player.Luck = player.Luck + 1
@@ -466,6 +466,8 @@ function  Soulforge:Playermanager()
   
 
   if player:GetName() == "Ulisandra" then
+    player:AddBoneHearts(4)
+    player:AddHearts(8) --Those lines set the hearts of the character to 4 fully filled bone hearts. Pre Booster 5 Ulisandra had 4 Hearts and "VARICOSE VEINS". Rebalanced some power into starting stats
     player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
     -- sets the hair as costume with high priority
     Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_ulisandrahair.anm2")
