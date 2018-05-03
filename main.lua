@@ -660,10 +660,10 @@ end
 
 function Soulforge:FantasiaNewRoom()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
+    NeofantasiaStage()
     if costcount==7 then
       Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, false);
     end
-    NeofantasiaStage()
   end
 end
 
