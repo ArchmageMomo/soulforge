@@ -43,6 +43,12 @@ local demonShot=0
 local demonSpeed=0
 local demonLuck=0
 
+-- to keep track of how many stages the player has passed
+local stagecount=0
+
+-- to keep track which costume was enabled previously
+local costcount=0
+
 -- function to set default values for the mod
 function Soulforge:Reset()
   debugText=""
@@ -69,6 +75,8 @@ function Soulforge:Reset()
   demonSpeed=0
   demonLuck=0
   
+  stagecount=0
+  costcount=0
   
 end
 
@@ -99,6 +107,9 @@ function Soulforge:checkConsumables()
           player:AddCoins(-1)
         end
       end
+      if player:GetNumCoins()==99 then
+        EvaluateNeofantasiaStage()
+      end
   end
   
   -- calls darkAfterPickup if a red heart gets picked up
@@ -110,6 +121,9 @@ function Soulforge:checkConsumables()
   -- unused pickup checks
   if(currKeys < player:GetNumKeys()) then
       debugText = "picked up a key"
+      if player:GetNumKeys()==42 then
+        EvaluateNeofantasiaStage()
+      end
   end
   
   if player:HasGoldenKey() then
@@ -549,8 +563,109 @@ function Soulforge:Fantasiamanager()
   end
 end
 
+-- to evaluate if the player meets the requirement for the next costume and setting the costume
+function EvaluateNeofantasiaStage()
+	player=Isaac.GetPlayer(0)
+	if player:GetName()=="Neofantasia" then
+		stage=0
+		soul=0
+		
+		if stagecount > 1 then
+			stage=stage+1
+		end
+		if stagecount > 3 then
+			stage=stage+1
+		end
+		if stagecount > 5 then
+			stage=stage+1
+		end
+		if stagecount > 7 then
+			stage=stage+1
+		end
+		
+		if player:HasCollectible(DemonSoul) then
+			soul=soul+1
+		end
+		if player:HasCollectible(DarkSoul) then
+			soul=soul+1
+		end
+		if player:HasCollectible(AngelSoul) then
+			soul=soul+1
+		end
+		if player:HasCollectible(BumboSoul) then
+			soul=soul+1
+		end
+		if player:HasCollectible(PureSoul) then
+			soul=soul+1
+		end
+		if player:HasCollectible(Stained) then
+			soul=soul+1
+		end
+		if soul > 2 then
+			stage=stage+1
+		end
+		
+		if player:HasCollectible("The Soul") then
+			stage=stage+1
+		end
+		if player:GetCollectibleCount() > 10 then
+			stage=stage+1
+		end
+		if player:GetNumCoins() == 99 then
+			stage=stage+1
+		end
+		if player:GetNumKeys() > 41 then
+			stage=stage+1
+		end
+		if player.Damage > 14 then
+			stage=stage+1
+		end
+		
+		
+		-- which costume to load?
+		if stage >= 0 and stage <= 6 then
+			if checkcostume(stage) then
+				Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair"+stage+".anm2")
+				player:AddNullCostume(Costume)
+			end
+		elseif stage > 6 then
+			if checkcostume(stage) then
+				Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair7.anm2")
+				player:AddNullCostume(Costume)
+			end
+		end
+		costcount=stage
+		
+	end
+end
 
+-- function to remove costumes if neccessary
+function checkcostume(stage)
+	if stage ~= costcount then
+		Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair"+costcount+".anm2")
+		Isaac.GetPlayer(0).RemoveCostume(Costume)
+		return true
+	else
+		return false
+	end
+end
 
+--
+function Soulforge:FantasiaNewFloor()
+	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
+    stagecount=stagecount+1
+    NeofantasiaStage()
+  end
+end
+
+function Soulforge:FantasiaNewRoom()
+	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
+    if costcount==7 then
+      Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, false);
+    end
+    NeofantasiaStage()
+  end
+end
 
 
 
@@ -574,6 +689,8 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Playermanager
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.SetPlayerStats)
 Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL , Soulforge.FantasiaNewFloor)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.FantasiaNewRoom)
 
 -- Callbacks for the dynamic reevaluation of some items and Mama Mega 
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, Soulforge.StainedM)
