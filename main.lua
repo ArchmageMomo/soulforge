@@ -559,14 +559,14 @@ function Soulforge:Fantasiamanager()
     if 1+rand*(Isaac.GetPlayer(0).Luck+0.5)>74 or costcount>4 then
       if costcount>6 then
         n=2
-      elseif costcount>2 then
-        n=1
+      elseif costcount>1 then
+        n=0
       else
         n=-1
       end
       for i=0,n do
         tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
-        tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
+        tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.3
         debugText=i
       end
     end
@@ -676,7 +676,7 @@ end
 function Soulforge:FantasiaNewRoom()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     EvaluateNeofantasiaStage()
-    if costcount>5 then
+    if costcount>4 then
       Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, true);
     end
   end
