@@ -49,10 +49,14 @@ local stagecount=0
 -- to keep track which costume was enabled previously
 local costcount=0
 
+-- keeps track of which side of isaac and in which direction neofantasias tear got fired
+local firedtear=1
+local fireddir=0
+
 -- function to set default values for the mod
 function Soulforge:Reset()
   debugText=""
-  debugbool=true
+  debugbool=false
   
   player = Isaac.GetPlayer(0);
   currCoins = player:GetNumCoins();
@@ -75,9 +79,10 @@ function Soulforge:Reset()
   demonSpeed=0
   demonLuck=0
   
-  stagecount=0
-  costcount=-1
+  firedtear=0
   
+  stagecount=0
+  costcount=1
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -344,7 +349,7 @@ end
 function Soulforge:StainedM()
   if stainedMama==true then
     rand=math.random(0,100)
-    if rand*(Isaac.GetPlayer(0).Luck+1)>80 then
+    if rand+(Isaac.GetPlayer(0).Luck*2)>80 then
       Game():GetRoom():MamaMegaExplossion()
     end
   end
@@ -455,13 +460,13 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
   if player:GetName() == "Neofantasia" then
    
    if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = player.Damage -2
+      player.Damage = player.Damage -3
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = player.ShotSpeed - 2
+      player.ShotSpeed = player.ShotSpeed - 10
     end
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-      player.MaxFireDelay = player.MaxFireDelay - 4
+      player.MaxFireDelay = player.MaxFireDelay-6
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
       player.MoveSpeed = player.MoveSpeed + 3
@@ -500,13 +505,14 @@ function  Soulforge:Playermanager()
     player:ClearCostumes()
     player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
     EvaluateNeofantasiaStage()
+    
+    Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair0.anm2")
+    player:AddNullCostume(Costume)
+    
   end
   
   
 end
-
--- list for spawned spiders
-local spiderlist={}
 
 -- function for managing the passive effect of "Dead Spider" (spawning spiders on visiting new rooms)
 function Soulforge:Spidermanager()
@@ -551,12 +557,47 @@ function addspidertolist(list,entity)
   table.insert(list,entity)
 end
 
+-- function for managing the offset of the tears 
+function Soulforge:NeoTearsOff(entity)
+  if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
+    player=Isaac.GetPlayer(0)
+    --debugText=player:GetFireDirection() --returns 0 to 3 for l,u,r,d
+    
+    offsetx=0
+    offsety=0
+    offsetval1=2
+    offsetval2=32
+    if player:GetFireDirection()==0 then
+      offsetx=offsetval1
+      offsety=firedtear*offsetval2/1.2
+    elseif player:GetFireDirection()==2 then
+      offsetx=offsetval1
+      offsety=-firedtear*offsetval2/1.2
+    elseif player:GetFireDirection()== 1 then
+      offsety=-offsetval1
+      offsetx=-firedtear*offsetval2
+    elseif player:GetFireDirection()==3 then
+      offsety=-offsetval1
+      offsetx=firedtear*offsetval2
+    end
+    player.TearsOffset=Vector(offsetx, offsety)
+    
+    if firedtear==1 then
+      firedtear=-1
+    else
+      firedtear=1
+    end
+    fireddir=player:GetFireDirection()
+  end
+  
+end
+
 -- function for managing the passive effect of "Neofantasia" (Spawning floating tears depending on luck)
 function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     rand=math.random(0,100)
     -- just an overly complicated way for determining the chance of spawning an floating tear
-    if 1+rand*(Isaac.GetPlayer(0).Luck+0.5)>74 or costcount>4 then
+    if 1+rand+(Isaac.GetPlayer(0).Luck*3)>74 or costcount>4 then
       if costcount>6 then
         n=2
       elseif costcount>1 then
@@ -567,7 +608,7 @@ function Soulforge:Fantasiamanager()
       for i=0,n do
         tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
         tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.3
-        debugText=i
+        --debugText=i
       end
     end
   end
@@ -702,7 +743,8 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
 -- Callbacks for the Character specific functions
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Playermanager)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.SetPlayerStats)
-Soulforge:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.NeoTearsOff)
+Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL , Soulforge.FantasiaNewFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.FantasiaNewRoom)
