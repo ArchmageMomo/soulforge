@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
 <costumes anm2root="gfx/characters/">
 	<costume type="none" anm2path="costume_ulisandrahair.anm2" priority="200"/> 
+	<costume type="none" anm2path="costume_neohair0.anm2" priority="200"/> 
+	<costume type="none" anm2path="costume_neohair1.anm2" priority="201"/> 
+	<costume type="none" anm2path="costume_neohair2.anm2" priority="202"/> 
+	<costume type="none" anm2path="costume_neohair3.anm2" priority="203"/> 
+	<costume type="none" anm2path="costume_neohair4.anm2" priority="204"/> 
+	<costume type="none" anm2path="costume_neohair5.anm2" priority="205"/> 
+	<costume type="none" anm2path="costume_neohair6.anm2" priority="206"/> 
+	<costume type="none" anm2path="costume_neohair7.anm2" priority="207"/> 
 </costumes>

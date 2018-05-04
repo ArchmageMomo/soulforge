@@ -52,7 +52,7 @@ local costcount=0
 -- function to set default values for the mod
 function Soulforge:Reset()
   debugText=""
-  debugbool=false
+  debugbool=true
   
   player = Isaac.GetPlayer(0);
   currCoins = player:GetNumCoins();
@@ -76,7 +76,7 @@ function Soulforge:Reset()
   demonLuck=0
   
   stagecount=0
-  costcount=0
+  costcount=-1
   
 end
 
@@ -95,7 +95,7 @@ function Soulforge:checkConsumables()
   -- generaly it compares the old coin value with the new one if the game got updated
   
   if(currCoins < player:GetNumCoins()) then
-      debugText = "picked up a coin"
+      --debugText = "picked up a coin"
       
       -- checks if the player has the bumbo soul and updates the bumbo coin value.
       if Isaac.GetPlayer(0):HasCollectible(BumboSoul) then
@@ -114,28 +114,28 @@ function Soulforge:checkConsumables()
   
   -- calls darkAfterPickup if a red heart gets picked up
   if(currHearts < player:GetHearts()) then
-      debugText = "picked up a heart";
+      --debugText = "picked up a heart";
       darkAfterPickup()
   end
  
   -- unused pickup checks
   if(currKeys < player:GetNumKeys()) then
-      debugText = "picked up a key"
+      --debugText = "picked up a key"
       if player:GetNumKeys()==42 then
         EvaluateNeofantasiaStage()
       end
   end
   
   if player:HasGoldenKey() then
-    debugText=  "picked up a golden key"
+    --debugText=  "picked up a golden key"
   end
  
   if(currBombs < player:GetNumBombs()) then
-      debugText = "picked up a bomb"
+      --debugText = "picked up a bomb"
   end
  
   if player:HasGoldenBomb() then
-    debugText=  "picked up a golden bomb"
+    --debugText=  "picked up a golden bomb"
   end
  
   -- updates the current values of their respective type
@@ -231,7 +231,7 @@ function Soulforge:BumboUp(pla,flag)
     elseif flag == CacheFlag.CACHE_SPEED then
       player.MoveSpeed=player.MoveSpeed+0.06*bumSpeed
     end
-    debugText="dmg:" .. bumDmg .. " spd:" .. bumSpeed .." sspd:" .. bumShot .. " rng:" .. bumRange .. " lck:" .. bumLuck
+    --debugText="dmg:" .. bumDmg .. " spd:" .. bumSpeed .." sspd:" .. bumShot .. " rng:" .. bumRange .. " lck:" .. bumLuck
   end
 end
 
@@ -299,7 +299,7 @@ function Soulforge:DemonUp(pla,flag)
     elseif flag == CacheFlag.CACHE_SPEED then
       player.MoveSpeed=player.MoveSpeed+0.1*demonSpeed
     end
-    debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
+    --debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
   end
 end
 
@@ -324,17 +324,17 @@ function Soulforge:StainedFloor()
     
     -- read the debugText strings for information on what each of the effects does
     if stainedState==0 then
-      debugText="Add Coins"
+      --debugText="Add Coins"
       player:AddCoins(15)
     elseif stainedState==1 then
-      debugText="Add Damage"
+      --debugText="Add Damage"
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
       player:EvaluateItems()
     elseif stainedState==2 then
-      debugText="Add Black Heart"
+      --debugText="Add Black Heart"
       player:AddBlackHearts(4)
     elseif stainedState==3 then
-      debugText="Add Mama Mega "
+      --debugText="Add Mama Mega "
       stainedMama=true
     end
   end
@@ -373,16 +373,16 @@ function Soulforge:PureSoul ()
     -- read the debugText strings for information on what each of the effects does
     if rand==0 then
       level:ShowMap()
-      debugText="Show Map"
+      --debugText="Show Map"
     elseif rand==1 then
       level:RemoveCurses()
-      debugText="Remove curses"
+      --debugText="Remove curses"
     elseif rand==2 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, KeySubType.KEY_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
-      debugText="Spawn Golden Key"
+      --debugText="Spawn Golden Key"
     elseif rand==3 then
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_GOLDEN, Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y), Vector(0,0), Isaac.GetPlayer(0))
-      debugText="Spawn Golden Bomb"
+      --debugText="Spawn Golden Bomb"
     end
     
 
@@ -499,7 +499,7 @@ function  Soulforge:Playermanager()
     player:AddCollectible(Stained,0 , true)
     player:ClearCostumes()
     player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
-    
+    EvaluateNeofantasiaStage()
   end
   
   
@@ -512,7 +512,7 @@ local spiderlist={}
 function Soulforge:Spidermanager()
   if Isaac.GetPlayer(0):GetName()=="Dead Spider" and Game():GetRoom():IsFirstVisit()then
     AddSpider()
-    debugText="Spider spawned"
+    --debugText="Spider spawned"
   end
 end
 
@@ -528,19 +528,19 @@ function AddSpider()
   
   if rand==0 then
     spider= Isaac.Spawn(EntityType.ENTITY_RAGLING,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    debugText="Spider type 0"
+    --debugText="Spider type 0"
     addspidertolist(spiderlist,spider)
   elseif rand==1 then
     spider= Isaac.Spawn(EntityType.ENTITY_SPIDER_L2,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    debugText="Spider type 1"
+    --debugText="Spider type 1"
     addspidertolist(spiderlist,spider)
   elseif rand==2 then
     spider= Isaac.Spawn(EntityType.ENTITY_BIGSPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    debugText="Spider type 2"
+    --debugText="Spider type 2"
     addspidertolist(spiderlist,spider)
   elseif rand==3 then
     spider= Isaac.Spawn(EntityType.ENTITY_SPIDER,0,0,Isaac.GetPlayer(0).Position,Vector(0,0),Isaac.GetPlayer(0))
-    debugText="Spider type 3"
+    --debugText="Spider type 3"
     addspidertolist(spiderlist,spider)
   end
 end
@@ -556,9 +556,19 @@ function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     rand=math.random(0,100)
     -- just an overly complicated way for determining the chance of spawning an floating tear
-    if 1+rand*(Isaac.GetPlayer(0).Luck+0.5)>74 then
-      tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
-      tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
+    if 1+rand*(Isaac.GetPlayer(0).Luck+0.5)>74 or costcount>4 then
+      if costcount>6 then
+        n=2
+      elseif costcount>2 then
+        n=1
+      else
+        n=-1
+      end
+      for i=0,n do
+        tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
+        tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.2
+        debugText=i
+      end
     end
   end
 end
@@ -582,6 +592,7 @@ function EvaluateNeofantasiaStage()
 		if stagecount > 7 then
 			stage=stage+1
 		end
+    
 		
 		if player:HasCollectible(DemonSoul) then
 			soul=soul+1
@@ -605,7 +616,7 @@ function EvaluateNeofantasiaStage()
 			stage=stage+1
 		end
 		
-		if player:HasCollectible("The Soul") then
+		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOUL) then
 			stage=stage+1
 		end
 		if player:GetCollectibleCount() > 10 then
@@ -621,11 +632,13 @@ function EvaluateNeofantasiaStage()
 			stage=stage+1
 		end
 		
-		
+    --debugText="stages: " .. stagecount .. " souls:" .. soul .. " collectibles: " .. player:GetCollectibleCount() .. " coins: " .. player:GetNumCoins() .. " keys: " .. player:GetNumKeys() .. " damage: " .. player.Damage
+    
 		-- which costume to load?
 		if stage >= 0 and stage <= 6 then
 			if checkcostume(stage) then
-				Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair"+stage+".anm2")
+        --debugText="gfx/characters/costume_neohair" .. stage .. ".anm2"
+				Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair" .. stage .. ".anm2")
 				player:AddNullCostume(Costume)
 			end
 		elseif stage > 6 then
@@ -641,11 +654,13 @@ end
 
 -- function to remove costumes if neccessary
 function checkcostume(stage)
-	if stage ~= costcount then
-		Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair"+costcount+".anm2")
-		Isaac.GetPlayer(0).RemoveCostume(Costume)
+	if stage ~= costcount and costcount ~= -1 then
+		Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair" .. costcount .. ".anm2")
+		Isaac.GetPlayer(0):TryRemoveNullCostume(Costume)
 		return true
-	else
+	elseif costcount==-1 then
+    return true
+  else
 		return false
 	end
 end
@@ -654,15 +669,15 @@ end
 function Soulforge:FantasiaNewFloor()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     stagecount=stagecount+1
-    NeofantasiaStage()
+    EvaluateNeofantasiaStage()
   end
 end
 
 function Soulforge:FantasiaNewRoom()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
-    NeofantasiaStage()
-    if costcount==7 then
-      Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, false);
+    EvaluateNeofantasiaStage()
+    if costcount>5 then
+      Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, true);
     end
   end
 end
