@@ -51,7 +51,11 @@ local costcount=0
 
 -- keeps track of which side of isaac and in which direction neofantasias tear got fired
 local firedtear=1
-local fireddir=0
+
+--keeps track of the offset values for neofantasia
+local offsetval1=2
+local offsetval2=32
+local offsetmod=0
 
 -- function to set default values for the mod
 function Soulforge:Reset()
@@ -82,7 +86,12 @@ function Soulforge:Reset()
   firedtear=0
   
   stagecount=0
-  costcount=1
+  costcount=0
+  
+  
+  offsetval1=2
+  offsetval2=32
+  offsetmod=0
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -460,7 +469,7 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
   if player:GetName() == "Neofantasia" then
    
    if cacheFlag == CacheFlag.CACHE_DAMAGE then
-      player.Damage = player.Damage -3
+      player.Damage = player.Damage -2.5
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed - 10
@@ -565,29 +574,27 @@ function Soulforge:NeoTearsOff(entity)
     
     offsetx=0
     offsety=0
-    offsetval1=2
-    offsetval2=32
     if player:GetFireDirection()==0 then
       offsetx=offsetval1
-      offsety=firedtear*offsetval2/1.2
+      offsety=firedtear*offsetval2/1.2+offsetmod
     elseif player:GetFireDirection()==2 then
       offsetx=offsetval1
-      offsety=-firedtear*offsetval2/1.2
+      offsety=-firedtear*offsetval2/1.2-offsetmod
     elseif player:GetFireDirection()== 1 then
       offsety=-offsetval1
-      offsetx=-firedtear*offsetval2
+      offsetx=-firedtear*offsetval2+offsetmod
     elseif player:GetFireDirection()==3 then
       offsety=-offsetval1
-      offsetx=firedtear*offsetval2
+      offsetx=firedtear*offsetval2-offsetmod
     end
     player.TearsOffset=Vector(offsetx, offsety)
     
     if firedtear==1 then
       firedtear=-1
+      offsetmod=offsetmod*-1
     else
       firedtear=1
     end
-    fireddir=player:GetFireDirection()
   end
   
 end
@@ -606,9 +613,19 @@ function Soulforge:Fantasiamanager()
         n=-1
       end
       for i=0,n do
-        tear=Isaac.Spawn(EntityType.ENTITY_TEAR,0,0,Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),Isaac.GetPlayer(0))
+        tear=Isaac.GetPlayer(0):FireTear(Isaac.GetPlayer(0).Position,Vector(math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,math.random(-1,1)*Isaac.GetPlayer(0).MoveSpeed,0),false,true,false)
         tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.3
         --debugText=i
+        
+          
+        if costcount>2 then
+          tear.TearFlags = tear.TearFlags | TearFlags.TEAR_HOMING
+          tear.HomingFriction=1.3
+        end
+        
+        if costcount>3 then
+          tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.5
+        end
       end
     end
   end
@@ -717,6 +734,10 @@ end
 function Soulforge:FantasiaNewRoom()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     EvaluateNeofantasiaStage()
+    
+    if costcount>0 then
+      offsetmod=13
+    end
     if costcount>4 then
       Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, true);
     end
@@ -744,7 +765,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.PureSoul)
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Playermanager)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.SetPlayerStats)
 Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.NeoTearsOff)
-Soulforge:AddCallback(ModCallbacks.MC_POST_TEAR_INIT , Soulforge.Fantasiamanager)
+Soulforge:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION  , Soulforge.Fantasiamanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.Spidermanager)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL , Soulforge.FantasiaNewFloor)
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_ROOM , Soulforge.FantasiaNewRoom)
@@ -758,5 +779,5 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 
 -- debug callback (not in environmental because it doesn't have any effects on the mod in casual use). also callbacks for debug colors
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
-Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
+--Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
+--Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
