@@ -4,11 +4,12 @@ local Soulforge = RegisterMod("Soulforge",1)
 -- initializing the items
 local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamethrower")
-local AngelSoul = Isaac.GetItemIdByName ("Angel Soul")  --Hallo
+TearVariant.FLAMETHROWER = Isaac.GetEntityVariantByName("FlameTear") --Loads the animation for the Flamethrower
+local AngelSoul = Isaac.GetItemIdByName ("Angel Soul")
 local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
-local Stained = Isaac.GetItemIdByName ("Stained Soul") -- Sample Image
-local PureSoul = Isaac.GetItemIdByName ("Pure Soul") -- Sample Image
+local Stained = Isaac.GetItemIdByName ("Stained Soul")
+local PureSoul = Isaac.GetItemIdByName ("Pure Soul")
 
 -- variables for debuging
 local debugText = ""
@@ -178,8 +179,31 @@ function Soulforge:FlamethrowerF(player,flag)
       Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
       flameFirst=false
       Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed-1.7
+      Isaac.GetPlayer(0).TearHeight=Isaac.GetPlayer(0).TearHeight-5
     end
   end
+end
+
+--function that adds the flame graphics to flamethrower
+function Soulforge:FlamethrowerV()
+  if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
+    --[[if ent.Variant ~= TearVariant.FLAMETHROWER then
+      ent:ChangeVariant(TearVariant.FLAMETHROWER)
+    end]]--
+    
+    for _,entity in pairs(Isaac.GetRoomEntities()) do
+        if entity.Type == EntityType.ENTITY_TEAR then
+            local tearData = entity:GetData()
+            local tear = entity:ToTear()
+            if tearData.FlameTear == nil then
+                tearData.FlameTear = 1
+                tear:ChangeVariant(TearVariant.FLAMETHROWER)
+            end
+        end
+    end
+  end
+  
+  
 end
 
 -- function to prevent explosion damage on player
@@ -195,6 +219,7 @@ function Soulforge:FlamethrowerPost()
   if player:HasCollectible(FlameThrower) and itemsupdated==true then
     itemsupdated=false
     -- increases tearrate drasticaly without making it negative. 
+    
     if Isaac.GetPlayer(0).MaxFireDelay - 8>0 then
       Isaac.GetPlayer(0).MaxFireDelay = Isaac.GetPlayer(0).MaxFireDelay - 8
     else
@@ -619,7 +644,7 @@ function Soulforge:Fantasiamanager()
         
           
         if costcount>2 then
-          tear.TearFlags = tear.TearFlags | TearFlags.TEAR_HOMING
+          tear.TearFlags = tear.TearFlags + TearFlags.TEAR_HOMING
           tear.HomingFriction=1.3
         end
         
@@ -754,6 +779,7 @@ Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
 Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
 Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerPost)
+Soulforge:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE,Soulforge.FlamethrowerV)
 
 -- Callbacks for functions that need to be called at the begining of each floor
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, Soulforge.AngelFloor)
