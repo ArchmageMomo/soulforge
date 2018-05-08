@@ -2,7 +2,7 @@
 local Soulforge = RegisterMod("Soulforge",1)
 
 -- initializing the items
-local BumboSoul = Isaac.GetItemIdByName ("BumBo Soul")
+local BumboSoul = Isaac.GetItemIdByName ("Bumbo Soul")
 local FlameThrower = Isaac.GetItemIdByName ("Flamethrower")
 TearVariant.FLAMETHROWER = Isaac.GetEntityVariantByName("FlameTear") --Loads the animation for the Flamethrower
 local AngelSoul = Isaac.GetItemIdByName ("Angel Soul")
@@ -169,17 +169,20 @@ function Soulforge:FlamethrowerF(player,flag)
     if flag == CacheFlag.CACHE_DAMAGE then 
       Isaac.GetPlayer(0).Damage = Isaac.GetPlayer(0).Damage*1.5/3
     elseif flag == CacheFlag.CACHE_FIREDELAY then
-      itemsupdated=true
+      if Isaac.GetPlayer(0).MaxFireDelay - 8>0 then
+        Isaac.GetPlayer(0).MaxFireDelay = Isaac.GetPlayer(0).MaxFireDelay - 8
+      else
+        Isaac.GetPlayer(0).MaxFireDelay= 1
+      end
     elseif flag == CacheFlag.CACHE_RANGE then
-      -- I don't know the reason why this appearently doesn't get called .-.
-      -- Moved it to the flame First block below as it seems to work there
+      Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed+10
+      Isaac.GetPlayer(0).TearFallingAcceleration = Isaac.GetPlayer(0).TearFallingAcceleration+1
+      Isaac.GetPlayer(0).TearHeight=Isaac.GetPlayer(0).TearHeight/2
     end
     
     if flameFirst==true then
       Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
       flameFirst=false
-      Isaac.GetPlayer(0).TearFallingSpeed = Isaac.GetPlayer(0).TearFallingSpeed-1.7
-      Isaac.GetPlayer(0).TearHeight=Isaac.GetPlayer(0).TearHeight-5
     end
   end
 end
@@ -187,10 +190,6 @@ end
 --function that adds the flame graphics to flamethrower
 function Soulforge:FlamethrowerV()
   if Isaac.GetPlayer(0):HasCollectible(FlameThrower) then
-    --[[if ent.Variant ~= TearVariant.FLAMETHROWER then
-      ent:ChangeVariant(TearVariant.FLAMETHROWER)
-    end]]--
-    
     for _,entity in pairs(Isaac.GetRoomEntities()) do
         if entity.Type == EntityType.ENTITY_TEAR then
             local tearData = entity:GetData()
@@ -214,17 +213,13 @@ function Soulforge:FlamethrowerDamage(player_x, damage, flag, source, countdown)
     end
 end
 
--- Workaround function seemingly needed to change the Max-Firedelay.
+-- Workaround function seemingly needed to change the Max-Firedelay in this case.
 function Soulforge:FlamethrowerPost()
   if player:HasCollectible(FlameThrower) and itemsupdated==true then
     itemsupdated=false
     -- increases tearrate drasticaly without making it negative. 
     
-    if Isaac.GetPlayer(0).MaxFireDelay - 8>0 then
-      Isaac.GetPlayer(0).MaxFireDelay = Isaac.GetPlayer(0).MaxFireDelay - 8
-    else
-      Isaac.GetPlayer(0).MaxFireDelay= 1
-    end
+    
   end
 end
 
