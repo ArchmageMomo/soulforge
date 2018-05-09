@@ -21,34 +21,33 @@ local currKeys = 0
 local currBombs = 0
 local currHearts = 0
 
--- variables to manage the stained soul
-local stainedState=0
-local stainedMama=false
 
--- variables to manage the "flamethrower"
-local flameFirst=true
-local itemsupdated=false -- workaround for firerate update
+local defaultrundata={
+  weakcounter=0,
+  
+  bumDmg=0,
+  bumRange=0,
+  bumSpeed=0,
+  bumShot=0,
+  bumLuck=0,
+  bumcoin=0,
 
--- variables to manage bumbo soul
-local bumDmg=0
-local bumRange=0
-local bumSpeed=0
-local bumShot=0
-local bumLuck=0
-local bumbcoin=0
+  demonDmg=0,
+  demonRange=0,
+  demonShot=0,
+  demonSpeed=0,
+  demonLuck=0,
 
--- variables to manage demon soul
-local demonDmg=0
-local demonRange=0
-local demonShot=0
-local demonSpeed=0
-local demonLuck=0
+  stagecount=0,
+  costcount=0,
+  stainedState=0,
 
--- to keep track of how many stages the player has passed
-local stagecount=0
+  stainedMama=false,
+  flameFirst=true,
 
--- to keep track which costume was enabled previously
-local costcount=0
+  runseed=""
+}
+dupestate=defaultrundata
 
 -- keeps track of which side of isaac and in which direction neofantasias tear got fired
 local firedtear=1
@@ -61,7 +60,7 @@ local offsetmod=0
 -- function to set default values for the mod
 function Soulforge:Reset()
   debugText=""
-  debugbool=false
+  debugbool=true
   
   player = Isaac.GetPlayer(0);
   currCoins = player:GetNumCoins();
@@ -69,35 +68,18 @@ function Soulforge:Reset()
   currBombs = player:GetNumBombs();
   currHearts = player:GetHearts();
   
-  stainedState=0;
-  
-  bumDmg=0
-  bumRange=0
-  bumSpeed=0
-  bumShot=0
-  bumLuck=0
-  bumbcoin=0
-  
-  demonDmg=0
-  demonRange=0
-  demonShot=0
-  demonSpeed=0
-  demonLuck=0
-  
   firedtear=0
-  
-  stagecount=0
-  costcount=0
-  
   
   offsetval1=2
   offsetval2=32
   offsetmod=0
+  
+  dupestate.runseed=Game():GetSeeds():GetStartSeedString()
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
 function Soulforge:debug()
-  if debugbool==true then
+  if debugbool then
     -- to display a debug message comment all other messages and set debugbool to true in the reset function.
     Isaac.RenderText(debugText,100,100,255,0,0,255)
   end
@@ -114,11 +96,11 @@ function Soulforge:checkConsumables()
       
       -- checks if the player has the bumbo soul and updates the bumbo coin value.
       if Isaac.GetPlayer(0):HasCollectible(BumboSoul) then
-        bumbcoin=bumbcoin+player:GetNumCoins()-currCoins
+        defaultrundata.bumcoin=defaultrundata.bumcoin+player:GetNumCoins()-currCoins
         -- if the player has 2 or more coins, the bumboAfterPickup function gets called and coin and bumbo coin values get updated acordingly
-        while bumbcoin>1 do
+        while defaultrundata.bumcoin>1 do
           bumboAfterPickup()
-          bumbcoin=bumbcoin-2
+          defaultrundata.bumcoin=defaultrundata.bumcoin-2
           player:AddCoins(-1)
         end
       end
@@ -180,9 +162,9 @@ function Soulforge:FlamethrowerF(player,flag)
       Isaac.GetPlayer(0).TearHeight=Isaac.GetPlayer(0).TearHeight/2
     end
     
-    if flameFirst==true then
+    if defaultrundata.flameFirst==true then
       Isaac.GetPlayer(0).TearFlags = Isaac.GetPlayer(0).TearFlags + TearFlags.TEAR_PIERCING + TearFlags.TEAR_BURN
-      flameFirst=false
+      defaultrundata.flameFirst=false
     end
   end
 end
@@ -213,15 +195,7 @@ function Soulforge:FlamethrowerDamage(player_x, damage, flag, source, countdown)
     end
 end
 
--- Workaround function seemingly needed to change the Max-Firedelay in this case.
-function Soulforge:FlamethrowerPost()
-  if player:HasCollectible(FlameThrower) and itemsupdated==true then
-    itemsupdated=false
-    -- increases tearrate drasticaly without making it negative. 
-    
-    
-  end
-end
+
 
 -- function to randomly add stacks on stats and force a reevaluation 
 function bumboAfterPickup()
@@ -229,19 +203,19 @@ function bumboAfterPickup()
   local rand = math.random(0,5)
   
   if rand==0 then
-    bumDmg=bumDmg+1
+    defaultrundata.bumDmg=defaultrundata.bumDmg+1
     player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
   elseif rand==1 then
-    bumSpeed=bumSpeed+1
+    defaultrundata.bumSpeed=defaultrundata.bumSpeed+1
     player:AddCacheFlags(CacheFlag.CACHE_SPEED)
   elseif rand==2 then
-    bumShot=bumShot+1
+    defaultrundata.bumShot=defaultrundata.bumShot+1
     player:AddCacheFlags(CacheFlag.CACHE_SHOTSPEED)
   elseif rand==3 then
-    bumRange=bumRange+1
+    defaultrundata.bumRange=defaultrundata.bumRange+1
     player:AddCacheFlags(CacheFlag.CACHE_RANGE)
   elseif rand==4 then
-    bumLuck=bumLuck+1
+    defaultrundata.bumLuck=defaultrundata.bumLuck+1
     player:AddCacheFlags(CacheFlag.CACHE_LUCK)
   end
   
@@ -255,17 +229,17 @@ function Soulforge:BumboUp(pla,flag)
     player = Isaac.GetPlayer(0);
     
     if flag == CacheFlag.CACHE_DAMAGE then 
-      player.Damage=player.Damage+0.1*bumDmg
+      player.Damage=player.Damage+0.1*defaultrundata.bumDmg
     elseif flag == CacheFlag.CACHE_RANGE then
-      player.TearFallingSpeed = player.TearFallingSpeed+0.04*bumRange
+      player.TearFallingSpeed = player.TearFallingSpeed+0.04*defaultrundata.bumRange
     elseif flag == CacheFlag.CACHE_LUCK then
-      player.Luck = player.Luck+0.4*bumLuck
+      player.Luck = player.Luck+0.4*defaultrundata.bumLuck
     elseif flag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed=player.ShotSpeed+0.004*bumShot
+      player.ShotSpeed=player.ShotSpeed+0.004*defaultrundata.bumShot
     elseif flag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed=player.MoveSpeed+0.06*bumSpeed
+      player.MoveSpeed=player.MoveSpeed+0.06*defaultrundata.bumSpeed
     end
-    --debugText="dmg:" .. bumDmg .. " spd:" .. bumSpeed .." sspd:" .. bumShot .. " rng:" .. bumRange .. " lck:" .. bumLuck
+    --debugText="dmg:" .. defaultrundata.bumDmg .. " spd:" .. defaultrundata.bumSpeed .." sspd:" .. defaultrundata.bumShot .. " rng:" .. defaultrundata.bumRange .. " lck:" .. defaultrundata.bumLuck
   end
 end
 
@@ -294,19 +268,19 @@ function Soulforge:DemonFloor()
   if player:HasCollectible(DemonSoul) == true then 
     rand = math.random(0,5)
     if rand==0 then
-      demonDmg=demonDmg+1
+      defaultrundata.demonDmg=defaultrundata.demonDmg+1
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
     elseif rand==1 then
-      demonSpeed=demonSpeed+1
+      defaultrundata.demonSpeed=defaultrundata.demonSpeed+1
       player:AddCacheFlags(CacheFlag.CACHE_SPEED)
     elseif rand==2 then
-      demonShot=demonShot+1
+      defaultrundata.demonShot=defaultrundata.demonShot+1
       player:AddCacheFlags(CacheFlag.CACHE_SHOTSPEED)
     elseif rand==3 then
-      demonRange=demonRange+1
+      defaultrundata.demonRange=defaultrundata.demonRange+1
       player:AddCacheFlags(CacheFlag.CACHE_RANGE)
     elseif rand==4 then
-      demonLuck=demonLuck+1
+      defaultrundata.demonLuck=defaultrundata.demonLuck+1
       player:AddCacheFlags(CacheFlag.CACHE_LUCK)
     end
     
@@ -323,17 +297,17 @@ function Soulforge:DemonUp(pla,flag)
     player = Isaac.GetPlayer(0);
     
     if flag == CacheFlag.CACHE_DAMAGE then 
-      player.Damage=player.Damage+2*demonDmg
+      player.Damage=player.Damage+2*defaultrundata.demonDmg
     elseif flag == CacheFlag.CACHE_RANGE then
-      player.TearFallingSpeed = player.TearFallingSpeed+0.1*demonRange
+      player.TearFallingSpeed = player.TearFallingSpeed+0.1*defaultrundata.demonRange
     elseif flag == CacheFlag.CACHE_LUCK then
-      player.Luck = player.Luck+1*demonLuck
+      player.Luck = player.Luck+1*defaultrundata.demonLuck
     elseif flag == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed=player.ShotSpeed+0.4*demonShot
+      player.ShotSpeed=player.ShotSpeed+0.4*defaultrundata.demonShot
     elseif flag == CacheFlag.CACHE_SPEED then
-      player.MoveSpeed=player.MoveSpeed+0.1*demonSpeed
+      player.MoveSpeed=player.MoveSpeed+0.1*defaultrundata.demonSpeed
     end
-    --debugText="dmg:" .. demonDmg .. " spd:" .. demonSpeed .." sspd:" .. demonShot .. " rng:" .. demonRange .. " lck:" .. demonLuck
+    --debugText="dmg:" .. defaultrundata.demonDmg .. " spd:" .. defaultrundata.demonSpeed .." sspd:" .. defaultrundata.demonShot .. " rng:" .. defaultrundata.demonRange .. " lck:" .. defaultrundata.demonLuck
   end
 end
 
@@ -346,37 +320,37 @@ function Soulforge:StainedFloor()
     -- neccessary to remove some effects: Mama Mega explosion chance and damage up
     -- stainedState decides which effect will be called later in this function
     stainedStateold=stainedState
-    stainedState = math.random(0,4)
+    defaultrundata.stainedState = math.random(0,4)
     
     if stainedStateold==1 then
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
       player:EvaluateItems()
     elseif stainedStateold==3 then
-      stainedMama=false
+      defaultrundata.stainedMama=false
     end
   
     
     -- read the debugText strings for information on what each of the effects does
-    if stainedState==0 then
+    if defaultrundata.stainedState==0 then
       --debugText="Add Coins"
       player:AddCoins(15)
-    elseif stainedState==1 then
+    elseif defaultrundata.stainedState==1 then
       --debugText="Add Damage"
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
       player:EvaluateItems()
-    elseif stainedState==2 then
+    elseif defaultrundata.stainedState==2 then
       --debugText="Add Black Heart"
       player:AddBlackHearts(4)
-    elseif stainedState==3 then
+    elseif defaultrundata.stainedState==3 then
       --debugText="Add Mama Mega "
-      stainedMama=true
+      defaultrundata.stainedMama=true
     end
   end
 end
 
 -- function to manage the stained soul Mama Mega effect
 function Soulforge:StainedM()
-  if stainedMama==true then
+  if defaultrundata.stainedMama==true then
     rand=math.random(0,100)
     if rand+(Isaac.GetPlayer(0).Luck*2)>80 then
       Game():GetRoom():MamaMegaExplossion()
@@ -387,7 +361,7 @@ end
 -- function to update the damage if the stained soul requires it.
 function Soulforge:StainedDmg(pla,flag)
   if Isaac.GetPlayer(0):HasCollectible(Stained) == true then
-    if stainedState==1 then
+    if defaultrundata.stainedState==1 then
       if flag == CacheFlag.CACHE_DAMAGE then 
         Isaac.GetPlayer(0).Damage=Isaac.GetPlayer(0).Damage+2
       end
@@ -624,10 +598,11 @@ function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     rand=math.random(0,100)
     -- just an overly complicated way for determining the chance of spawning an floating tear
-    if 1+rand+(Isaac.GetPlayer(0).Luck*3)>74 or costcount>4 then
-      if costcount>6 then
+    if 1+rand+(Isaac.GetPlayer(0).Luck*3)>74 or defaultrundata.costcount>4 then
+      --determins how many tears to spawn depending on costume-stage
+      if defaultrundata.costcount>6 then
         n=2
-      elseif costcount>1 then
+      elseif defaultrundata.costcount>1 then
         n=0
       else
         n=-1
@@ -638,12 +613,12 @@ function Soulforge:Fantasiamanager()
         --debugText=i
         
           
-        if costcount>2 then
+        if defaultrundata.costcount>2 then
           tear.TearFlags = tear.TearFlags + TearFlags.TEAR_HOMING
           tear.HomingFriction=1.3
         end
         
-        if costcount>3 then
+        if defaultrundata.costcount>3 then
           tear.CollisionDamage=Isaac.GetPlayer(0).Damage*1.5
         end
       end
@@ -658,20 +633,21 @@ function EvaluateNeofantasiaStage()
 		stage=0
 		soul=0
 		
-		if stagecount > 1 then
+    -- Has the player cleared 2,4,6,8 floors?
+		if defaultrundata.stagecount > 1 then
 			stage=stage+1
 		end
-		if stagecount > 3 then
+		if defaultrundata.stagecount > 3 then
 			stage=stage+1
 		end
-		if stagecount > 5 then
+		if defaultrundata.stagecount > 5 then
 			stage=stage+1
 		end
-		if stagecount > 7 then
+		if defaultrundata.stagecount > 7 then
 			stage=stage+1
 		end
     
-		
+		-- How many of the soul item does the player have? (>=2 -> proc)
 		if player:HasCollectible(DemonSoul) then
 			soul=soul+1
 		end
@@ -694,25 +670,30 @@ function EvaluateNeofantasiaStage()
 			stage=stage+1
 		end
 		
+    -- does the player have "The Soul"?
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_SOUL) then
 			stage=stage+1
 		end
+    -- does the Player have more than 10 collectibles?
 		if player:GetCollectibleCount() > 10 then
 			stage=stage+1
 		end
+    -- does the player reach the coin limit?
 		if player:GetNumCoins() == 99 then
 			stage=stage+1
 		end
+    -- does the player hold 42 keys or more?
 		if player:GetNumKeys() > 41 then
 			stage=stage+1
 		end
+    -- has the player overcome his abysmally low damage?
 		if player.Damage > 14 then
 			stage=stage+1
 		end
 		
-    --debugText="stages: " .. stagecount .. " souls:" .. soul .. " collectibles: " .. player:GetCollectibleCount() .. " coins: " .. player:GetNumCoins() .. " keys: " .. player:GetNumKeys() .. " damage: " .. player.Damage
+    --debugText="stages: " .. defaultrundata.stagecount .. " souls:" .. soul .. " collectibles: " .. player:GetCollectibleCount() .. " coins: " .. player:GetNumCoins() .. " keys: " .. player:GetNumKeys() .. " damage: " .. player.Damage
     
-		-- which costume to load?
+		-- loads a costume for every costume stage (starts with 0, caped at 7)
 		if stage >= 0 and stage <= 6 then
 			if checkcostume(stage) then
         --debugText="gfx/characters/costume_neohair" .. stage .. ".anm2"
@@ -725,40 +706,43 @@ function EvaluateNeofantasiaStage()
 				player:AddNullCostume(Costume)
 			end
 		end
-		costcount=stage
+		defaultrundata.costcount=stage
 		
 	end
 end
 
 -- function to remove costumes if neccessary
 function checkcostume(stage)
-	if stage ~= costcount and costcount ~= -1 then
-		Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair" .. costcount .. ".anm2")
+	if stage ~= defaultrundata.costcount and defaultrundata.costcount ~= -1 then
+		Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair" .. defaultrundata.costcount .. ".anm2")
 		Isaac.GetPlayer(0):TryRemoveNullCostume(Costume)
 		return true
-	elseif costcount==-1 then
+	elseif defaultrundata.costcount==-1 then
     return true
   else
 		return false
 	end
 end
 
---
+-- function needed for keeping track of the number of floors the player cleared
 function Soulforge:FantasiaNewFloor()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
-    stagecount=stagecount+1
+    defaultrundata.stagecount=defaultrundata.stagecount+1
     EvaluateNeofantasiaStage()
   end
 end
 
+-- function activates two of the passive abilities that come with higher skin stages: holy mantle; more tear coverage
 function Soulforge:FantasiaNewRoom()
 	if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
     EvaluateNeofantasiaStage()
     
-    if costcount>0 then
+    if defaultrundata.costcount>0 then
       offsetmod=13
+    else
+      offsetmod=0
     end
-    if costcount>4 then
+    if defaultrundata.costcount>4 then
       Isaac.GetPlayer(0):GetEffects():AddCollectibleEffect(313, true);
     end
   end
@@ -768,12 +752,11 @@ end
 
 -- Environmental callbacks
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
-Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables);
+Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.checkConsumables)
 
 -- Callbacks for the flamethrower
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.FlamethrowerF)
 Soulforge:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, Soulforge.FlamethrowerDamage, EntityType.ENTITY_PLAYER)
-Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.FlamethrowerPost)
 Soulforge:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE,Soulforge.FlamethrowerV)
 
 -- Callbacks for functions that need to be called at the begining of each floor
@@ -802,3 +785,137 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
 --Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.Colorupdate)
 --Soulforge:AddCallback(ModCallbacks.MC_POST_UPDATE, Soulforge.Colorupdate)
+
+
+
+-- code for saving run-states between multiple starts of the game. code inspired by `the ritual_910051385` mod
+function Soulforge:SaveState()
+	local savedata = ""
+
+  if defaultrundata.flameFirst then
+    flame=1
+  else
+    flame=0
+  end
+  if defaultrundata.stainedMama then
+    mama=1
+  else
+    mama=0
+  end
+  
+  
+  --Saves the seed followed by every relevant value of the mod as one string. Values get converted to a number with 4 digits before getting appended to the string.
+	savedata=savedata..dupestate.runseed
+  savedata=savedata..(1000+flame)
+  savedata=savedata..(1005+mama)
+  savedata=savedata..(1010+defaultrundata.stainedState)
+  savedata=savedata..(1020+defaultrundata.costcount)
+  savedata=savedata..(1040+defaultrundata.stagecount)
+  savedata=savedata..(1100+defaultrundata.demonLuck)
+  savedata=savedata..(1120+defaultrundata.demonSpeed)
+  savedata=savedata..(1140+defaultrundata.demonShot)
+  savedata=savedata..(1160+defaultrundata.demonRange)
+  savedata=savedata..(1180+defaultrundata.demonDmg)
+  savedata=savedata..(1200+defaultrundata.bumcoin)
+  savedata=savedata..(2000+defaultrundata.bumLuck)
+  savedata=savedata..(3000+defaultrundata.bumShot)
+  savedata=savedata..(4000+defaultrundata.bumSpeed)
+  savedata=savedata..(5000+defaultrundata.bumRange)
+  savedata=savedata..(6000+defaultrundata.bumDmg)
+  savedata=savedata..(7777+defaultrundata.weakcounter)
+
+	Isaac.SaveModData(Soulforge,savedata)
+  
+  --debugText=savedata
+  
+end
+
+
+function Soulforge:LoadState()
+  local save = Isaac.LoadModData(Soulforge)
+  
+  -- runs as long as there are values left to load
+  while string.len(save) > 3 do
+    -- special part of the loop for loading the seed and checking if there is a new one 
+    if string.len(save)>=4*18 then
+      num=string.sub(save, 1, 9)
+      if num==Game():GetSeeds():GetStartSeedString() then
+        save = string.sub(save, 10)
+        --debugText="Same Seed"
+      else
+        --loads the default state instead and exits the loop
+        save=""
+        defaultrundata=dupestate
+        --debugText="Other Seed "
+      end
+    else
+      -- one by one loads the values
+      num = tonumber(string.sub(save, 1, 4))
+      save = string.sub(save, 5)
+      
+      if num>=7777 then
+        defaultrundata.weakcounter=num-7777
+      elseif num>=6000 then
+        defaultrundata.bumDmg=num-6000
+      elseif num>=5000 then
+        defaultrundata.bumRange=num-5000
+      elseif num>=4000 then
+        defaultrundata.bumSpeed=num-4000
+      elseif num>=3000 then
+        defaultrundata.bumShot=num-3000
+      elseif num>=2000 then
+        defaultrundata.bumLuck=num-2000
+      elseif num>=1200 then
+        defaultrundata.bumcoin=num-1200
+      elseif num>=1180 then
+        defaultrundata.demonDmg=num-1180
+      elseif num>=1160 then
+        defaultrundata.demonRange=num-1160
+      elseif num>=1140 then
+        defaultrundata.demonShot=num-1140
+      elseif num>=1120 then
+        defaultrundata.demonSpeed=num-1120
+      elseif num>=1100 then
+        defaultrundata.demonLuck=num-1100
+      elseif num>=1040 then
+        defaultrundata.stagecount=num-1040
+      elseif num>=1020 then
+        defaultrundata.costcount=num-1020
+      elseif num>=1010 then
+        defaultrundata.stainedState=num-1020
+      elseif num>=1005 then
+        if num-1005==1 then
+          num=true
+        else
+          num=false
+        end
+        defaultrundata.stainedMama=num
+      elseif num>=1000 then
+        if num-1000==1 then
+          num=true
+        else
+          num=false
+        end
+        defaultrundata.flameFirst=num
+      end
+    end
+  end
+  
+  player=Isaac.GetPlayer(0)
+  
+  -- uncomment to make sure that the value changes get applied propperly (sometimes doesn't for me, so i left the code in)
+  
+  --[[
+  player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+  player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+  player:AddCacheFlags(CacheFlag.CACHE_SHOTSPEED)
+  player:AddCacheFlags(CacheFlag.CACHE_RANGE)
+  player:AddCacheFlags(CacheFlag.CACHE_LUCK)
+
+  player:EvaluateItems()
+  ]]--
+end
+
+Soulforge:AddCallback( ModCallbacks.MC_POST_NEW_ROOM, Soulforge.SaveState)
+Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.SaveState)
+Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED, Soulforge.LoadState)
