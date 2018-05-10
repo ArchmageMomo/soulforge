@@ -73,8 +73,6 @@ function Soulforge:Reset()
   offsetval1=2
   offsetval2=32
   offsetmod=0
-  
-  dupestate.runseed=Game():GetSeeds():GetStartSeedString()
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -834,12 +832,32 @@ end
 function Soulforge:LoadState()
   local save = Isaac.LoadModData(Soulforge)
   
+  --making sure dupestate has the right values
+  dupestate.runseed=Game():GetSeeds():GetStartSeedString()
+  dupestate.weakcounter=0
+  dupestate.bumDmg=0
+  dupestate.bumRange=0
+  dupestate.bumSpeed=0
+  dupestate.bumShot=0
+  dupestate.bumLuck=0
+  dupestate.bumcoin=0
+  dupestate.demonDmg=0
+  dupestate.demonRange=0
+  dupestate.demonShot=0
+  dupestate.demonSpeed=0
+  dupestate.demonLuck=0
+  dupestate.stagecount=0
+  dupestate.costcount=0
+  dupestate.stainedState=0
+  dupestate.stainedMama=false
+  dupestate.flameFirst=true
+  
   -- runs as long as there are values left to load
   while string.len(save) > 3 do
     -- special part of the loop for loading the seed and checking if there is a new one 
     if string.len(save)>=4*18 then
-      num=string.sub(save, 1, 9)
-      if num==Game():GetSeeds():GetStartSeedString() then
+      seed=string.sub(save, 1, 9)
+      if seed==Game():GetSeeds():GetStartSeedString() then
         save = string.sub(save, 10)
         --debugText="Same Seed"
       else
@@ -900,20 +918,6 @@ function Soulforge:LoadState()
       end
     end
   end
-  
-  player=Isaac.GetPlayer(0)
-  
-  -- uncomment to make sure that the value changes get applied propperly (sometimes doesn't for me, so i left the code in)
-  
-  --[[
-  player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-  player:AddCacheFlags(CacheFlag.CACHE_SPEED)
-  player:AddCacheFlags(CacheFlag.CACHE_SHOTSPEED)
-  player:AddCacheFlags(CacheFlag.CACHE_RANGE)
-  player:AddCacheFlags(CacheFlag.CACHE_LUCK)
-
-  player:EvaluateItems()
-  ]]--
 end
 
 Soulforge:AddCallback( ModCallbacks.MC_POST_NEW_ROOM, Soulforge.SaveState)
