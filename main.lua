@@ -45,7 +45,7 @@ local defaultrundata={
   stainedMama=false,
   flameFirst=true,
 
-  runseed=""
+  runseed=Game():GetSeeds():GetStartSeedString()
 }
 dupestate=defaultrundata
 
@@ -56,6 +56,9 @@ local firedtear=1
 local offsetval1=2
 local offsetval2=32
 local offsetmod=0
+
+--for save management
+local loaded=false
 
 -- function to set default values for the mod
 function Soulforge:Reset()
@@ -73,6 +76,28 @@ function Soulforge:Reset()
   offsetval1=2
   offsetval2=32
   offsetmod=0
+  
+  --making sure dupestate has the right values
+  dupestate.runseed=Game():GetSeeds():GetStartSeedString()
+  dupestate.weakcounter=0
+  dupestate.bumDmg=0
+  dupestate.bumRange=0
+  dupestate.bumSpeed=0
+  dupestate.bumShot=0
+  dupestate.bumLuck=0
+  dupestate.bumcoin=0
+  dupestate.demonDmg=0
+  dupestate.demonRange=0
+  dupestate.demonShot=0
+  dupestate.demonSpeed=0
+  dupestate.demonLuck=0
+  dupestate.stagecount=0
+  dupestate.costcount=0
+  dupestate.stainedState=0
+  dupestate.stainedMama=false
+  dupestate.flameFirst=true
+  
+  loaded=false
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -788,6 +813,12 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
 
 -- code for saving run-states between multiple starts of the game. code inspired by `the ritual_910051385` mod
 function Soulforge:SaveState()
+  
+  if not loaded then
+    LoadState()
+    loaded=true
+  end
+  
 	local savedata = ""
 
   if defaultrundata.flameFirst then
@@ -800,7 +831,6 @@ function Soulforge:SaveState()
   else
     mama=0
   end
-  
   
   --Saves the seed followed by every relevant value of the mod as one string. Values get converted to a number with 4 digits before getting appended to the string.
 	savedata=savedata..dupestate.runseed
@@ -829,48 +859,29 @@ function Soulforge:SaveState()
 end
 
 
-function Soulforge:LoadState()
+function LoadState()
   local save = Isaac.LoadModData(Soulforge)
-  
-  --making sure dupestate has the right values
-  dupestate.runseed=Game():GetSeeds():GetStartSeedString()
-  dupestate.weakcounter=0
-  dupestate.bumDmg=0
-  dupestate.bumRange=0
-  dupestate.bumSpeed=0
-  dupestate.bumShot=0
-  dupestate.bumLuck=0
-  dupestate.bumcoin=0
-  dupestate.demonDmg=0
-  dupestate.demonRange=0
-  dupestate.demonShot=0
-  dupestate.demonSpeed=0
-  dupestate.demonLuck=0
-  dupestate.stagecount=0
-  dupestate.costcount=0
-  dupestate.stainedState=0
-  dupestate.stainedMama=false
-  dupestate.flameFirst=true
   
   -- runs as long as there are values left to load
   while string.len(save) > 3 do
     -- special part of the loop for loading the seed and checking if there is a new one 
     if string.len(save)>=4*18 then
       seed=string.sub(save, 1, 9)
+      
       if seed==Game():GetSeeds():GetStartSeedString() then
         save = string.sub(save, 10)
+        defaultrundata.runseed=Game():GetSeeds():GetStartSeedString()
         --debugText="Same Seed"
       else
         --loads the default state instead and exits the loop
         save=""
         defaultrundata=dupestate
-        --debugText="Other Seed "
+        --debugText="Other Seed"
       end
     else
       -- one by one loads the values
       num = tonumber(string.sub(save, 1, 4))
       save = string.sub(save, 5)
-      
       if num>=7777 then
         defaultrundata.weakcounter=num-7777
       elseif num>=6000 then
@@ -900,7 +911,7 @@ function Soulforge:LoadState()
       elseif num>=1020 then
         defaultrundata.costcount=num-1020
       elseif num>=1010 then
-        defaultrundata.stainedState=num-1020
+        defaultrundata.stainedState=num-1010
       elseif num>=1005 then
         if num-1005==1 then
           num=true
@@ -920,6 +931,7 @@ function Soulforge:LoadState()
   end
 end
 
-Soulforge:AddCallback( ModCallbacks.MC_POST_NEW_ROOM, Soulforge.SaveState)
-Soulforge:AddCallback( ModCallbacks.MC_POST_UPDATE, Soulforge.SaveState)
-Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED, Soulforge.LoadState)
+Soulforge:AddCallback( ModCallbacks.MC_POST_PLAYER_UPDATE , Soulforge.SaveState)
+Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED , Soulforge.SaveState)
+Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED , Soulforge.SaveState)
+--Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED, LoadState)
