@@ -231,7 +231,7 @@ end
 -- function to randomly add stacks on stats and force a reevaluation 
 function bumboAfterPickup()
   player = Isaac.GetPlayer(0);
-  local rand = math.random(0,5)
+  rand = RNG():RandomInt(5)
   
   if rand==0 then
     defaultrundata.bumDmg=defaultrundata.bumDmg+1
@@ -278,7 +278,7 @@ end
 function darkAfterPickup()
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
-    if math.random(0,100) < 30 then
+    if RNG():RandomInt(100) < 30 then
       Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     else 
       Isaac.GetPlayer(0):AddBlackHearts(2)
@@ -297,7 +297,7 @@ end
 function Soulforge:DemonFloor()
   player=Isaac.GetPlayer(0)
   if player:HasCollectible(DemonSoul) == true then 
-    rand = math.random(0,5)
+    rand = RNG():RandomInt(5)
     if rand==0 then
       defaultrundata.demonDmg=defaultrundata.demonDmg+1
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -351,7 +351,7 @@ function Soulforge:StainedFloor()
     -- neccessary to remove some effects: Mama Mega explosion chance and damage up
     -- stainedState decides which effect will be called later in this function
     stainedStateold=stainedState
-    defaultrundata.stainedState = math.random(0,4)
+    defaultrundata.stainedState = RNG():RandomInt(4)
     
     if stainedStateold==1 then
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -382,7 +382,7 @@ end
 -- function to manage the stained soul Mama Mega effect
 function Soulforge:StainedM()
   if defaultrundata.stainedMama==true then
-    rand=math.random(0,100)
+    rand=RNG():RandomInt(100)
     if rand+(Isaac.GetPlayer(0).Luck*2)>80 then
       Game():GetRoom():MamaMegaExplossion()
     end
@@ -407,7 +407,7 @@ function Soulforge:PureSoul ()
     game = Game() 
     level = game:GetLevel()
     
-    rand = math.random(0,4)
+    rand = RNG():RandomInt(4)
     
     -- read the debugText strings for information on what each of the effects does
     if rand==0 then
@@ -561,9 +561,9 @@ function AddSpider()
   luck=Isaac.GetPlayer(0).Luck
   -- spawn-chance and randomizer
   if 16-luck>3 then
-    rand=math.random(0,16-luck)
+    rand=RNG():RandomInt(16-luck)
   else
-    rand=math.random(0,4)
+    rand=RNG():RandomInt(4)
   end
   
   if rand==0 then
@@ -627,7 +627,7 @@ end
 -- function for managing the passive effect of "Neofantasia" (Spawning floating tears depending on luck)
 function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
-    rand=math.random(0,100)
+    rand=RNG():RandomInt(100)
     -- just an overly complicated way for determining the chance of spawning an floating tear
     if 1+rand+(Isaac.GetPlayer(0).Luck*3)>74 or defaultrundata.costcount>4 then
       --determins how many tears to spawn depending on costume-stage
@@ -806,7 +806,7 @@ function Soulforge:WeakSpawn(entity)
         Position = entity.Position
       else
         --you have to be lucky.
-        rand=math.random(0,100)
+        rand=RNG():RandomInt(100)
         if rand+player.Luck>95 then
           spawn = true
           Position = entity.Position
