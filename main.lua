@@ -10,6 +10,10 @@ local DemonSoul = Isaac.GetItemIdByName ("Demon Soul")
 local DarkSoul = Isaac.GetItemIdByName ("Dark Soul")
 local Stained = Isaac.GetItemIdByName ("Stained Soul")
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul")
+PickupVariant.WeakSoul=Isaac.GetEntityVariantByName("Weak Soul")
+
+local HudPickup=Sprite()
+HudPickup:Load("gfx/ui/NumUI.anm2",true)
 
 -- variables for debuging
 local debugText = ""
@@ -60,6 +64,8 @@ local offsetmod=0
 --for save management
 local loaded=false
 
+local showSouls=0
+
 -- function to set default values for the mod
 function Soulforge:Reset()
   debugText=""
@@ -98,6 +104,8 @@ function Soulforge:Reset()
   dupestate.flameFirst=true
   
   loaded=false
+  
+  showSouls=player.FrameCount+90
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -771,7 +779,83 @@ function Soulforge:FantasiaNewRoom()
   end
 end
 
+--function displays how many weak souls the player has picked up after he actually picked one up (TODO: also when a Soulforge is in the same room.)
+function Soulforge:WeakRender()
+  player=Isaac.GetPlayer(0)
+  if player.FrameCount<showSouls then
+    HudPickup:SetFrame("Idle",0)
+    HudPickup:RenderLayer(0,Vector(55,69))
+    HudPickup:SetFrame("Idle",math.floor(defaultrundata.weakcounter/10)+1)
+    HudPickup:RenderLayer(0,Vector(60,69))
+    HudPickup:SetFrame("Idle",defaultrundata.weakcounter%10 +1)
+    HudPickup:RenderLayer(0,Vector(66,69))
+  end
+end
 
+-- function handles the spawn of weak souls after enemies died.
+function Soulforge:WeakSpawn(entity)
+  spawn=false
+  --checks if the entity is dead (duh?)
+  if entity:IsDead() then
+    --checks if the entity is an actual enemy (duh?)
+    if entity:IsEnemy() then
+      --checks if the enemy is an boss (duh?)
+      if entity:IsBoss() then
+        --guaranteed spawn
+        spawn = true
+        Position = entity.Position
+      else
+        --you have to be lucky.
+        rand=math.random(0,100)
+        if rand+player.Luck>95 then
+          spawn = true
+          Position = entity.Position
+        end
+      end
+    end
+    --Spawns a soul if the boolean got switched to true
+    if spawn == true then
+      soul= Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.WeakSoul, math.random(0,2), Position, Vector(0,0), Isaac.GetPlayer(0))
+      soul.Position = Game():GetRoom():FindFreePickupSpawnPosition(Position, 0, true)
+      soul.Visible = true
+      soul:GetSprite():Play("Appear",true)
+    end
+  end
+end
+
+-- function handles the pickup of the weak souls
+function Soulforge:WeakColl(ent,coll)
+  if coll.Type==Isaac.GetPlayer(0).Type and ent.Variant==PickupVariant.WeakSoul then
+    player=Isaac.GetPlayer(0)
+    s=ent:GetSprite()
+    if s:IsPlaying("Idle") then
+			s:Play("Collect",true)
+			defaultrundata.weakcounter = math.min(99,defaultrundata.weakcounter + 1)
+			Soulforge:SaveState(player)
+			showSouls = player.FrameCount + 90
+      ent.EntityCollisionClass=EntityCollisionClass.ENTCOLL_NONE
+    end
+  end
+end
+
+-- function handles the transition between the different states of the weak souls and removes them after being picked up.
+function Soulforge:WeakUpdate(ent)
+  if ent.Variant==PickupVariant.WeakSoul then
+    local	s = ent:GetSprite()
+    if s:IsFinished("Appear") then
+      s:Play("Idle",true)
+    elseif s:IsFinished("Collect") then
+      ent:Remove()
+    end
+  end
+end
+
+--callback for dynamicaly displaying your collected weak souls
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.WeakRender)
+-- callback for spawning and picking up weak souls
+Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE, Soulforge.WeakSpawn)
+Soulforge:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION  , Soulforge.WeakColl)
+Soulforge:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE , Soulforge.WeakUpdate)
 
 -- Environmental callbacks
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
@@ -933,5 +1017,3 @@ end
 
 Soulforge:AddCallback( ModCallbacks.MC_POST_PLAYER_UPDATE , Soulforge.SaveState)
 Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED , Soulforge.SaveState)
-Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED , Soulforge.SaveState)
---Soulforge:AddCallback( ModCallbacks.MC_POST_GAME_STARTED, LoadState)
