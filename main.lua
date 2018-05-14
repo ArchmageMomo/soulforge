@@ -841,7 +841,7 @@ function Soulforge:WeakSpawn(entity)
     --checks if the entity is an actual enemy (duh?)
     if entity:IsEnemy() then
       --checks if the enemy is an boss (duh?)
-      if entity:IsBoss() then
+      if entity:IsBoss() and entity.Type~=EntityType.ENTITY_LARRYJR then
         --guaranteed spawn
         spawn = true
         Position = entity.Position
