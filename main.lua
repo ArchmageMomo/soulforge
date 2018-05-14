@@ -12,6 +12,8 @@ local Stained = Isaac.GetItemIdByName ("Stained Soul")
 local PureSoul = Isaac.GetItemIdByName ("Pure Soul")
 PickupVariant.WeakSoul=Isaac.GetEntityVariantByName("Weak Soul")
 
+local SoulforgeVariant=Isaac.GetEntityVariantByName("Soulforge")
+
 local HudPickup=Sprite()
 HudPickup:Load("gfx/ui/NumUI.anm2",true)
 
@@ -470,9 +472,7 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
     if cacheFlag == CacheFlag.CACHE_LUCK then
       player.Luck = player.Luck -- Redundant but kept for possible rebalancing purpose
     end
-  end
-  
-  if player:GetName() == "Dead Spider" then
+  elseif player:GetName() == "Dead Spider" then
     
     if cacheFlag == CacheFlag.CACHE_DAMAGE then
       player.Damage = player.Damage + 2
@@ -489,9 +489,7 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
     if cacheFlag == CacheFlag.CACHE_LUCK then
       player.Luck = player.Luck - 1
     end
-  end
-  
-  if player:GetName() == "Neofantasia" then
+  elseif player:GetName() == "Neofantasia" then
    
    if cacheFlag == CacheFlag.CACHE_DAMAGE then
       player.Damage = player.Damage -2.5
@@ -512,13 +510,43 @@ function Soulforge:SetPlayerStats(p,cacheFlag)
   end
 end
 
--- function that manages the spacebar-items of the custom player characters. also clears costumes on initialization
+-- function that manages the spacebar-items of the custom player characters. also clears their costumes on initialization and sets the weak souls for ALL characters in the game.
 function  Soulforge:Playermanager()
   player=Isaac.GetPlayer(0)
   player:ClearCostumes()
   
 
-  if player:GetName() == "Ulisandra" then
+  if player:GetName() == "Isaac" then
+    defaultrundata.weakcounter=0
+  elseif player:GetName() == "Magdalene" then
+    defaultrundata.weakcounter=5
+  elseif player:GetName() == "Cain" then
+    defaultrundata.weakcounter=2
+  elseif player:GetName() == "Judas" then
+    defaultrundata.weakcounter=1
+  elseif player:GetName() == "???" then
+    defaultrundata.weakcounter=0
+  elseif player:GetName() == "Eve" then
+    defaultrundata.weakcounter=6
+  elseif player:GetName() == "Samson" then
+    defaultrundata.weakcounter=0
+  elseif player:GetName() == "Azazel" then
+    defaultrundata.weakcounter=0
+  elseif player:GetName() == "Lazarus" then
+    defaultrundata.weakcounter=1
+  elseif player:GetName() == "Eden" then
+    defaultrundata.weakcounter=RNG():RandomInt(8)
+  elseif player:GetName() == "The Lost" then
+    defaultrundata.weakcounter=10
+  elseif player:GetName() == "Lilith" then
+    defaultrundata.weakcounter=8
+  elseif player:GetName() == "Keeper" then
+    defaultrundata.weakcounter=4
+  elseif player:GetName() == "Apollyon" then
+    defaultrundata.weakcounter=0
+  elseif player:GetName() == "The Forgotten" then
+    defaultrundata.weakcounter=1
+  elseif player:GetName() == "Ulisandra" then
     player:AddBoneHearts(4)
     player:AddHearts(8) --Those lines set the hearts of the character to 4 fully filled bone hearts. Pre Booster 5 Ulisandra had 4 Hearts and "VARICOSE VEINS". Rebalanced some power into starting stats
     player:AddCollectible(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, 6, false)
@@ -526,15 +554,15 @@ function  Soulforge:Playermanager()
     Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_ulisandrahair.anm2")
     player:AddNullCostume(Costume)
     
-  end
-  
-  if player:GetName() == "Dead Spider" then
+    defaultrundata.weakcounter=4
+    
+  elseif player:GetName() == "Dead Spider" then
     player:AddCollectible(DarkSoul,0 , true)
     player:ClearCostumes()
     
-  end
-  
-  if player:GetName() == "Neofantasia" then
+    defaultrundata.weakcounter=0
+    
+  elseif player:GetName() == "Neofantasia" then
     player:AddCollectible(Stained,0 , true)
     player:ClearCostumes()
     player:AddCollectible(CollectibleType.COLLECTIBLE_BLACK_HOLE, 6, false)
@@ -543,6 +571,19 @@ function  Soulforge:Playermanager()
     Costume = Isaac.GetCostumeIdByPath("gfx/characters/costume_neohair0.anm2")
     player:AddNullCostume(Costume)
     
+    defaultrundata.weakcounter=10
+    
+    
+  -- sets souls for seemingly popular modded characters
+  elseif player:GetName() == "Mei" then
+    defaultrundata.weakcounter=7
+  elseif player:GetName() == "Nemesis" then
+      defaultrundata.weakcounter=0
+  elseif player:GetName() == "Samael" then
+    defaultrundata.weakcounter=4
+  else
+    -- Sets souls for any character not in this function. IS CONSISTENT FOR EACH CHARACTER
+    defaultrundata.weakcounter=RNG():RandomInt(8)
   end
   
   
@@ -840,7 +881,7 @@ end
 
 -- function handles the transition between the different states of the weak souls and removes them after being picked up.
 function Soulforge:WeakUpdate(ent)
-  if ent.Variant==PickupVariant.WeakSoul then
+  if ent.Type==5 and ent.Variant==PickupVariant.WeakSoul then
     local	s = ent:GetSprite()
     if s:IsFinished("Appear") then
       s:Play("Idle",true)
@@ -850,12 +891,33 @@ function Soulforge:WeakUpdate(ent)
   end
 end
 
---callback for dynamicaly displaying your collected weak souls
-Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.WeakRender)
--- callback for spawning and picking up weak souls
-Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE, Soulforge.WeakSpawn)
-Soulforge:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION  , Soulforge.WeakColl)
-Soulforge:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE , Soulforge.WeakUpdate)
+-- 
+function Soulforge:SoulforgeCollision(player,entity)
+  if entity.Type==6 and entity.Variant==SoulforgeVariant then
+    --TODO On Collision logic (logic by Elias, animation by Momo)
+    
+    debugText="Soulforge Collider works"
+  end
+end
+
+--
+function Soulforge:SoulforgeUpdate(entity)
+  if entity.Type==6 and entity.Variant==souldata.SoulforgeVariant then
+    --TODO Post Animation logic (logic by Elias, animation by Momo)
+    
+    local	s = entity:GetSprite()
+    if s:IsFinished("Active") then
+      Isaac:Explode(entity.Position,entity,0)
+      --[[ TODO Spawn one random soul item based on which Souls the Player has (no duplicates, no conflicting souls (like Stained if pure)); use RNG():RandomInt(max) to keep seed-consistent
+      Syntax to spawn:
+      Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
+      
+      ]]--
+      entity:Remove()
+      debugText="Soulforge Despawned"
+    end
+  end
+end
 
 -- Environmental callbacks
 Soulforge:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, Soulforge.Reset)
@@ -887,6 +949,18 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.BumboUp)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedDmg)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
+
+--callback for dynamicaly displaying your collected weak souls
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.WeakRender)
+-- callback for spawning and picking up weak souls
+Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE, Soulforge.WeakSpawn)
+Soulforge:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION  , Soulforge.WeakColl)
+Soulforge:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE , Soulforge.WeakUpdate)
+
+
+--callbacks for the soulforge
+Soulforge:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION , Soulforge.SoulforgeCollision)
+Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE , Soulforge.SoulforgeUpdate)
 
 -- debug callback (not in environmental because it doesn't have any effects on the mod in casual use). also callbacks for debug colors
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
