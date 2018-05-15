@@ -891,10 +891,26 @@ function Soulforge:WeakUpdate(ent)
   end
 end
 
+--
+function Soulforge:SoulforgeSpawn()
+  -- TODO: randomly spawning the Soulforge in the upper left corner of the starting room (normal/hard) or somewhere fitting in the greed shop (greed mode, guaranted) (Elias)
+end
+
 -- 
 function Soulforge:SoulforgeCollision(player,entity)
   if entity.Type==6 and entity.Variant==SoulforgeVariant then
-    --TODO On Collision logic (logic by Elias, animation by Momo)
+    -- TODO On Collision logic (logic by Elias, animation by Momo)
+    -- it is IMPORTANT to save how many weak souls (10/15/20) are needed for powering the soulforge after entering a new floor if a forge is present (Elias pls do this. defaultrundata.??? and add it to save and load functions with a suiting wrapper-int)
+    --[[
+      Soulforge Animations (TODO):
+        Idle10
+        Idle15
+        Idle20
+        Load10
+        Load15
+        Load20
+        Active
+    ]]--
     
     debugText="Soulforge Collider works"
   end
@@ -903,7 +919,7 @@ end
 --
 function Soulforge:SoulforgeUpdate(entity)
   if entity.Type==6 and entity.Variant==souldata.SoulforgeVariant then
-    --TODO Post Animation logic (logic by Elias, animation by Momo)
+    -- TODO Post Animation logic (logic by Elias, animation by Momo)
     
     local	s = entity:GetSprite()
     if s:IsFinished("Active") then
@@ -959,6 +975,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE , Soulforge.WeakUpdate)
 
 
 --callbacks for the soulforge
+Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL , Soulforge.SoulforgeSpawn)
 Soulforge:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION , Soulforge.SoulforgeCollision)
 Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE , Soulforge.SoulforgeUpdate)
 
@@ -1009,6 +1026,7 @@ function Soulforge:SaveState()
   savedata=savedata..(5000+defaultrundata.bumRange)
   savedata=savedata..(6000+defaultrundata.bumDmg)
   savedata=savedata..(7777+defaultrundata.weakcounter)
+  --TODO: adding a new save value. recommended next wrapper:8000
 
 	Isaac.SaveModData(Soulforge,savedata)
   
@@ -1023,7 +1041,7 @@ function LoadState()
   -- runs as long as there are values left to load
   while string.len(save) > 3 do
     -- special part of the loop for loading the seed and checking if there is a new one 
-    if string.len(save)>=4*18 then
+    if string.len(save)>=4*18 then-- TODO: change 18 to 19 when adding a new value
       seed=string.sub(save, 1, 9)
       
       if seed==Game():GetSeeds():GetStartSeedString() then
@@ -1040,6 +1058,9 @@ function LoadState()
       -- one by one loads the values
       num = tonumber(string.sub(save, 1, 4))
       save = string.sub(save, 5)
+      
+      --TODO: adding the unwrap of the new value
+      
       if num>=7777 then
         defaultrundata.weakcounter=num-7777
       elseif num>=6000 then
