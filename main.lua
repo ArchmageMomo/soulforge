@@ -16,6 +16,8 @@ local SoulforgeVariant=Isaac.GetEntityVariantByName("Soulforge")
 
 local HudPickup=Sprite()
 HudPickup:Load("gfx/ui/NumUI.anm2",true)
+local HudSouls=Sprite()
+HudSouls:Load("gfx/ui/SoulsUI.anm2",true)
 
 -- variables for debuging
 local debugText = ""
@@ -820,7 +822,7 @@ function Soulforge:FantasiaNewRoom()
   end
 end
 
---function displays how many weak souls the player has picked up after he actually picked one up (TODO: also when a Soulforge is in the same room.)
+--function displays how many weak souls the player has picked up after he actually picked one up (also when a Soulforge is in the same room.) Also displays which souls you actualy have.
 function Soulforge:UIRender()
   player=Isaac.GetPlayer(0)
   if player.FrameCount<showSouls then
@@ -831,6 +833,43 @@ function Soulforge:UIRender()
     HudPickup:SetFrame("Idle",defaultrundata.weakcounter%10 +1)
     HudPickup:RenderLayer(0,Vector(66,69))
   end
+  
+  if player:HasCollectible(BumboSoul) then
+    HudSouls:SetFrame("Idle",0)
+  else
+    HudSouls:SetFrame("Transparent",0)
+  end
+  HudSouls:RenderLayer(0,Vector(10,210))
+  if player:HasCollectible(DarkSoul) then
+    HudSouls:SetFrame("Idle",1)
+  else
+    HudSouls:SetFrame("Transparent",1)
+  end
+  HudSouls:RenderLayer(0,Vector(25,210))
+  if player:HasCollectible(AngelSoul) then
+    HudSouls:SetFrame("Idle",2)
+  else
+    HudSouls:SetFrame("Transparent",2)
+  end
+  HudSouls:RenderLayer(0,Vector(10,225))
+  if player:HasCollectible(DemonSoul) then
+    HudSouls:SetFrame("Idle",3)
+  else
+    HudSouls:SetFrame("Transparent",3)
+  end
+  HudSouls:RenderLayer(0,Vector(25,225))
+  if player:HasCollectible(PureSoul) then
+    HudSouls:SetFrame("Idle",4)
+  else
+    HudSouls:SetFrame("Transparent",4)
+  end
+  HudSouls:RenderLayer(0,Vector(10,240))
+  if player:HasCollectible(Stained) then
+    HudSouls:SetFrame("Idle",5)
+  else
+    HudSouls:SetFrame("Transparent",5)
+  end
+  HudSouls:RenderLayer(0,Vector(25,240))
 end
 
 -- function handles the spawn of weak souls after enemies died.
@@ -929,6 +968,14 @@ function Soulforge:SoulforgeUpdate()
       -- TODO Post Animation logic (logic by Elias)
       
       local	s = entity:GetSprite()
+      
+      -- replace 10 with defaultrundata.???
+      if s:IsPlaying("Load"..10) then
+        showSouls=player.FrameCount+15
+      elseif s:IsPlaying("Idle"..10) then
+        showSouls=player.FrameCount+2
+      end
+      
       -- replace 10 with defaultrundata.???
       if s:IsFinished("Load"..10) then
         s:Play("Active",true)
