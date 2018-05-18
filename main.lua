@@ -384,7 +384,7 @@ end
 -- function to manage the stained soul Mama Mega effect
 function Soulforge:StainedM()
   if defaultrundata.stainedMama==true then
-    rand=RNG():RandomInt(100)
+    rand=math.random(0,100)
     if rand+(Isaac.GetPlayer(0).Luck*2)>80 then
       Game():GetRoom():MamaMegaExplossion()
     end
@@ -899,10 +899,11 @@ end
 -- 
 function Soulforge:SoulforgeCollision(player,entity)
   if entity.Type==6 and entity.Variant==SoulforgeVariant then
-    -- TODO On Collision logic (logic by Elias, animation by Momo)
+    
+    -- TODO On Collision logic (logic by Elias)
     -- it is IMPORTANT to save how many weak souls (10/15/20) are needed for powering the soulforge after entering a new floor if a forge is present (Elias pls do this. defaultrundata.??? and add it to save and load functions with a suiting wrapper-int)
     --[[
-      Soulforge Animations (TODO):
+      Soulforge Animations:
         Idle10
         Idle15
         Idle20
@@ -912,17 +913,24 @@ function Soulforge:SoulforgeCollision(player,entity)
         Active
     ]]--
     
-    debugText="Soulforge Collider works"
+    -- replace 10 with defaultrundata.???
+    entity:GetSprite():Play("Load"..10,true)
+    
+    debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
   end
 end
 
 --
 function Soulforge:SoulforgeUpdate(entity)
   if entity.Type==6 and entity.Variant==souldata.SoulforgeVariant then
-    -- TODO Post Animation logic (logic by Elias, animation by Momo)
+    -- TODO Post Animation logic (logic by Elias)
     
     local	s = entity:GetSprite()
-    if s:IsFinished("Active") then
+    -- replace 10 with defaultrundata.???
+    if s:IsFinished("Load"..10) then
+      s:Play("Active",true)
+      debugText="Soulforge Idle finished"
+    elseif s:IsFinished("Active") then
       Isaac:Explode(entity.Position,entity,0)
       --[[ TODO Spawn one random soul item based on which Souls the Player has (no duplicates, no conflicting souls (like Stained if pure)); use RNG():RandomInt(max) to keep seed-consistent
       Syntax to spawn:
@@ -977,7 +985,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE , Soulforge.WeakUpdate)
 --callbacks for the soulforge
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL , Soulforge.SoulforgeSpawn)
 Soulforge:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION , Soulforge.SoulforgeCollision)
-Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE , Soulforge.SoulforgeUpdate)
+Soulforge:AddCallback(ModCallbacks.MC_POST_NPC_RENDER  , Soulforge.SoulforgeUpdate)
 
 -- debug callback (not in environmental because it doesn't have any effects on the mod in casual use). also callbacks for debug colors
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)
