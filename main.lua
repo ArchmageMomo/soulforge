@@ -821,7 +821,7 @@ function Soulforge:FantasiaNewRoom()
 end
 
 --function displays how many weak souls the player has picked up after he actually picked one up (TODO: also when a Soulforge is in the same room.)
-function Soulforge:WeakRender()
+function Soulforge:UIRender()
   player=Isaac.GetPlayer(0)
   if player.FrameCount<showSouls then
     HudPickup:SetFrame("Idle",0)
@@ -898,7 +898,8 @@ end
 
 -- 
 function Soulforge:SoulforgeCollision(player,entity)
-  if entity.Type==6 and entity.Variant==SoulforgeVariant then
+  -- replace 10 with defaultrundata.???
+  if entity.Type==6 and entity.Variant==SoulforgeVariant and entity:GetSprite():IsPlaying("Idle"..10) then
     
     -- TODO On Collision logic (logic by Elias)
     -- it is IMPORTANT to save how many weak souls (10/15/20) are needed for powering the soulforge after entering a new floor if a forge is present (Elias pls do this. defaultrundata.??? and add it to save and load functions with a suiting wrapper-int)
@@ -915,30 +916,37 @@ function Soulforge:SoulforgeCollision(player,entity)
     
     -- replace 10 with defaultrundata.???
     entity:GetSprite():Play("Load"..10,true)
-    
-    debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
+    --debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
   end
 end
 
 --
-function Soulforge:SoulforgeUpdate(entity)
-  if entity.Type==6 and entity.Variant==souldata.SoulforgeVariant then
-    -- TODO Post Animation logic (logic by Elias)
-    
-    local	s = entity:GetSprite()
-    -- replace 10 with defaultrundata.???
-    if s:IsFinished("Load"..10) then
-      s:Play("Active",true)
-      debugText="Soulforge Idle finished"
-    elseif s:IsFinished("Active") then
-      Isaac:Explode(entity.Position,entity,0)
-      --[[ TODO Spawn one random soul item based on which Souls the Player has (no duplicates, no conflicting souls (like Stained if pure)); use RNG():RandomInt(max) to keep seed-consistent
-      Syntax to spawn:
-      Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
+function Soulforge:SoulforgeUpdate()
+  entities=Isaac:GetRoomEntities()
+  for i = 1, #entities do
+    entity=entities[i]
+    if entity.Type==6 and entity.Variant==SoulforgeVariant then
+      -- TODO Post Animation logic (logic by Elias)
       
-      ]]--
-      entity:Remove()
-      debugText="Soulforge Despawned"
+      local	s = entity:GetSprite()
+      -- replace 10 with defaultrundata.???
+      if s:IsFinished("Load"..10) then
+        s:Play("Active",true)
+        --debugText="Soulforge Idle finished"
+      elseif s:IsFinished("Active") then
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, entity.Position, Vector(0,0), entity)
+        
+        
+        --[[ TODO Spawn one random soul item based on which Souls the Player has (no duplicates, no conflicting souls (like Stained if pure)); use RNG():RandomInt(max) to keep seed-consistent
+        Syntax to spawn:
+        Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
+        
+        ]]--
+        
+        
+        entity:Remove()
+        --debugText="Soulforge Despawned"
+      end
     end
   end
 end
@@ -975,7 +983,7 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.StainedDmg)
 Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 
 --callback for dynamicaly displaying your collected weak souls
-Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.WeakRender)
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.UIRender)
 -- callback for spawning and picking up weak souls
 Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE, Soulforge.WeakSpawn)
 Soulforge:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION  , Soulforge.WeakColl)
@@ -985,7 +993,7 @@ Soulforge:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE , Soulforge.WeakUpdate)
 --callbacks for the soulforge
 Soulforge:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL , Soulforge.SoulforgeSpawn)
 Soulforge:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION , Soulforge.SoulforgeCollision)
-Soulforge:AddCallback(ModCallbacks.MC_POST_NPC_RENDER  , Soulforge.SoulforgeUpdate)
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER , Soulforge.SoulforgeUpdate)
 
 -- debug callback (not in environmental because it doesn't have any effects on the mod in casual use). also callbacks for debug colors
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.debug)

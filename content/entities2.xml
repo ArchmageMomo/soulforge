@@ -11,7 +11,7 @@
     <entity anm2path="weaksoul.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="10" collisionRadius="9" friction="0.5" id="5" name="Weak Soul Solid" numGridCollisionPoints="12" shadowSize="6" stageHP="0" variant="6001" subtype="2">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
-    <entity anm2path="soulforge.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="100" collisionRadius="15" friction="0" id="6" name="Soulforge" numGridCollisionPoints="12" shadowSize="20" stageHP="0" variant="6002">
+    <entity anm2path="soulforge.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="100" collisionRadius="15" friction="0" id="6" name="Soulforge" numGridCollisionPoints="12" shadowSize="40" stageHP="0" variant="6002">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
 </entities>
