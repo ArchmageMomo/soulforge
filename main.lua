@@ -1126,10 +1126,10 @@ function LoadState()
       
       --TODO: adding the unwrap of the new value
       
-      if num>=7777 then
-        defaultrundata.weakcounter=num-7777
-      elseif numm >= 8000 then
-        defaultrundata.soulcounter=num-8000
+      if num>=8000 then
+        defaultrundata.weakcounter=num-8000
+      elseif numm >= 7777 then
+        defaultrundata.soulcounter=num-7777
       elseif num>=6000 then
         defaultrundata.bumDmg=num-6000
       elseif num>=5000 then
