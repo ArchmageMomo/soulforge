@@ -984,7 +984,21 @@ function Soulforge:SoulforgeUpdate()
       elseif s:IsFinished("Active") then
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, entity.Position, Vector(0,0), entity)
         
-        
+        random = RNG():RandomInt(5)
+        if random == 0 and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false then
+          Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
+        elseif random == 1 and Isaac.GetPlayer(0):HasCollectible(BumboSoul)==false then
+          Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,DarkSoul,entity.Position,Vector(0,0),entity)
+        elseif random == 2 and Isaac.GetPlayer(0):HasCollectible(DemonSoul)==false then
+          Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,AngelSoul,entity.Position,Vector(0,0),entity)
+        elseif random == 3 and Isaac.GetPlayer(0):HasCollectible(AngelSoul)==false then
+          Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,DemonSoul,entity.Position,Vector(0,0),entity)
+        elseif random == 4 and Isaac.GetPlayer(0):HasCollectible(Stained)==false then
+          Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,PureSoul,entity.Position,Vector(0,0),entity)
+        elseif random == 5 and Isaac.GetPlayer(0):HasCollectible(PureSoul)==false then
+          Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,Stained,entity.Position,Vector(0,0),entity)
+          
+          
         --[[ TODO Spawn one random soul item based on which Souls the Player has (no duplicates, no conflicting souls (like Stained if pure)); use RNG():RandomInt(max) to keep seed-consistent
         Syntax to spawn:
         Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
