@@ -32,6 +32,7 @@ local currHearts = 0
 
 local defaultrundata={
   weakcounter=0,
+  soulcount=0,
   
   bumDmg=0,
   bumRange=0,
@@ -1089,6 +1090,7 @@ function Soulforge:SaveState()
   savedata=savedata..(5000+defaultrundata.bumRange)
   savedata=savedata..(6000+defaultrundata.bumDmg)
   savedata=savedata..(7777+defaultrundata.weakcounter)
+  savedata=savedata..(8000+defaultrundata.soulcounter)
   --TODO: adding a new save value. recommended next wrapper:8000
 
 	Isaac.SaveModData(Soulforge,savedata)
@@ -1104,7 +1106,7 @@ function LoadState()
   -- runs as long as there are values left to load
   while string.len(save) > 3 do
     -- special part of the loop for loading the seed and checking if there is a new one 
-    if string.len(save)>=4*18 then-- TODO: change 18 to 19 when adding a new value
+    if string.len(save)>=4*19 then-- TODO: change 18 to 19 when adding a new value
       seed=string.sub(save, 1, 9)
       
       if seed==Game():GetSeeds():GetStartSeedString() then
@@ -1126,6 +1128,8 @@ function LoadState()
       
       if num>=7777 then
         defaultrundata.weakcounter=num-7777
+      elseif numm >= 8000 then
+        defaultrundata.soulcounter=num-8000
       elseif num>=6000 then
         defaultrundata.bumDmg=num-6000
       elseif num>=5000 then
