@@ -32,7 +32,7 @@ local currHearts = 0
 
 local defaultrundata={
   weakcounter=0,
-  soulcounter=0,
+  soulforgecost=10,
   
   bumDmg=0,
   bumRange=0,
@@ -70,6 +70,7 @@ local offsetmod=0
 local loaded=false
 
 local showSouls=0
+local checker=true
 
 -- function to set default values for the mod
 function Soulforge:Reset()
@@ -111,6 +112,7 @@ function Soulforge:Reset()
   loaded=false
   
   showSouls=player.FrameCount+90
+  checker=true
 end
 
 -- function to display debug text in game if needed. not in use until debugbool gets set true
@@ -941,13 +943,13 @@ end
 -- 
 function Soulforge:SoulforgeCollision(player,entity)
   -- replace 10 with defaultrundata.???
-  if entity.Type==6 and entity.Variant==SoulforgeVariant and entity:GetSprite():IsPlaying("Idle".defaultrundata.soulforgecost) then
+  if entity.Type==6 and entity.Variant==SoulforgeVariant and entity:GetSprite():IsPlaying("Idle"..defaultrundata.soulforgecost) then
     
-    if defaultrundata.soulforgecost<=defaultrundata.weakcount then
-      entity:GetSprite():Play("Load".defaultrundata.soulforgecost,true)
-    defaultrundata.weakcount=defaultrundata.weakcount-defaultrundata.soulforgecost
+    if defaultrundata.soulforgecost<=defaultrundata.weakcounter then
+      entity:GetSprite():Play("Load"..defaultrundata.soulforgecost,true)
+    defaultrundata.weakcounter=defaultrundata.weakcounter-defaultrundata.soulforgecost
     end
-end
+  end
    
     -- TODO On Collision logic (logic by Elias)
     -- it is IMPORTANT to save how many weak souls (10/15/20) are needed for powering the soulforge after entering a new floor if a forge is present (Elias pls do this. defaultrundata.??? and add it to save and load functions with a suiting wrapper-int)
@@ -965,7 +967,6 @@ end
     -- replace 10 with defaultrundata.???
     
     --debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
-  end
 end
 
 --
@@ -979,41 +980,46 @@ function Soulforge:SoulforgeUpdate()
       local	s = entity:GetSprite()
       
       -- replace 10 with defaultrundata.???
-      if s:IsPlaying("Load"..10) then
+      if s:IsPlaying("Load"..defaultrundata.soulforgecost) then
         showSouls=player.FrameCount+15
-      elseif s:IsPlaying("Idle"..10) then
+      elseif s:IsPlaying("Idle"..defaultrundata.soulforgecost) then
         showSouls=player.FrameCount+2
       end
       
       -- replace 10 with defaultrundata.???
-      if s:IsFinished("Load"..10) then
+      if s:IsFinished("Load"..defaultrundata.soulforgecost) then
+        checker=true
         s:Play("Active",true)
         --debugText="Soulforge Idle finished"
       elseif s:IsFinished("Active") then
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, entity.Position, Vector(0,0), entity)
         
-        
-        checker=true
-        while checker do
-          random = RNG():RandomInt(5)
-          if random == 0 and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false then
-            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
+        random = RNG():RandomInt(5)
+        mod=0
+        while checker==true do
+          if random == 0 and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false and Isaac.GetPlayer(0):HasCollectible(BumboSoul)==false then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),nil)
             checker=false
-          elseif random == 1 and Isaac.GetPlayer(0):HasCollectible(BumboSoul)==false then
-            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,DarkSoul,entity.Position,Vector(0,0),entity)
+          elseif random == 1 and Isaac.GetPlayer(0):HasCollectible(BumboSoul)==false and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE,DarkSoul,entity.Position,Vector(0,0),nil)
             checker=false
-          elseif random == 2 and Isaac.GetPlayer(0):HasCollectible(DemonSoul)==false then
-            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,AngelSoul,entity.Position,Vector(0,0),entity)
+          elseif random == 2 and Isaac.GetPlayer(0):HasCollectible(DemonSoul)==false and Isaac.GetPlayer(0):HasCollectible(AngelSoul)==false then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE,AngelSoul,entity.Position,Vector(0,0),nil)
             checker=false
-          elseif random == 3 and Isaac.GetPlayer(0):HasCollectible(AngelSoul)==false then
-            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,DemonSoul,entity.Position,Vector(0,0),entity)
+          elseif random == 3 and Isaac.GetPlayer(0):HasCollectible(AngelSoul)==false and Isaac.GetPlayer(0):HasCollectible(DemonSoul)==false then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE,DemonSoul,entity.Position,Vector(0,0),nil)
             checker=false
-          elseif random == 4 and Isaac.GetPlayer(0):HasCollectible(Stained)==false then
-            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,PureSoul,entity.Position,Vector(0,0),entity)
+          elseif random == 4 and Isaac.GetPlayer(0):HasCollectible(Stained)==false and Isaac.GetPlayer(0):HasCollectible(PureSoul)==false then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE,PureSoul,entity.Position,Vector(0,0),nil)
             checker=false
-          elseif random == 5 and Isaac.GetPlayer(0):HasCollectible(PureSoul)==false then
-            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,Stained,entity.Position,Vector(0,0),entity)
+          elseif random == 5 and Isaac.GetPlayer(0):HasCollectible(PureSoul)==false and Isaac.GetPlayer(0):HasCollectible(Stained)==false then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE,Stained,entity.Position,Vector(0,0),nil)
             checker=false
+          else
+            if mod==5 then checker=false else
+              mod=mod+1
+              random=math.fmod(random+mod,6)
+            end
           end
         end
           
@@ -1122,7 +1128,7 @@ function Soulforge:SaveState()
   savedata=savedata..(5000+defaultrundata.bumRange)
   savedata=savedata..(6000+defaultrundata.bumDmg)
   savedata=savedata..(7777+defaultrundata.weakcounter)
-  savedata=savedata..(8000+defaultrundata.soulcounter)
+  savedata=savedata..(8000+defaultrundata.soulforgecost)
   --TODO: adding a new save value. recommended next wrapper:8000
 
 	Isaac.SaveModData(Soulforge,savedata)
@@ -1159,8 +1165,8 @@ function LoadState()
       --TODO: adding the unwrap of the new value
       
       if num>=8000 then
-        defaultrundata.soulcounter=num-8000
-      elseif numm >= 7777 then
+        defaultrundata.soulforgecost=num-8000
+      elseif num >= 7777 then
         defaultrundata.weakcounter=num-7777
       elseif num>=6000 then
         defaultrundata.bumDmg=num-6000
