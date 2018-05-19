@@ -984,9 +984,10 @@ function Soulforge:SoulforgeUpdate()
       elseif s:IsFinished("Active") then
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, entity.Position, Vector(0,0), entity)
         
-        random = RNG():RandomInt(5)
+        
         checker=true
         while checker do
+          random = RNG():RandomInt(5)
           if random == 0 and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false then
             Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
             checker=false
