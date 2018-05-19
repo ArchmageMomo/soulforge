@@ -939,8 +939,14 @@ end
 -- 
 function Soulforge:SoulforgeCollision(player,entity)
   -- replace 10 with defaultrundata.???
-  if entity.Type==6 and entity.Variant==SoulforgeVariant and entity:GetSprite():IsPlaying("Idle"..10) then
+  if entity.Type==6 and entity.Variant==SoulforgeVariant and entity:GetSprite():IsPlaying("Idle".defaultrundata.soulforgecost) then
     
+    if defaultrundata.soulforgecost<=defaultrundata.weakcount then
+      entity:GetSprite():Play("Load".defaultrundata.soulforgecost,true)
+    defaultrundata.weakcount=defaultrundata.weakcount-defaultrundata.soulforgecost
+    end
+end
+   
     -- TODO On Collision logic (logic by Elias)
     -- it is IMPORTANT to save how many weak souls (10/15/20) are needed for powering the soulforge after entering a new floor if a forge is present (Elias pls do this. defaultrundata.??? and add it to save and load functions with a suiting wrapper-int)
     --[[
@@ -955,7 +961,7 @@ function Soulforge:SoulforgeCollision(player,entity)
     ]]--
     
     -- replace 10 with defaultrundata.???
-    entity:GetSprite():Play("Load"..10,true)
+    
     --debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
   end
 end
@@ -989,22 +995,22 @@ function Soulforge:SoulforgeUpdate()
         while checker do
           random = RNG():RandomInt(5)
           if random == 0 and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false then
-            Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
+            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
             checker=false
           elseif random == 1 and Isaac.GetPlayer(0):HasCollectible(BumboSoul)==false then
-            Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,DarkSoul,entity.Position,Vector(0,0),entity)
+            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,DarkSoul,entity.Position,Vector(0,0),entity)
             checker=false
           elseif random == 2 and Isaac.GetPlayer(0):HasCollectible(DemonSoul)==false then
-            Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,AngelSoul,entity.Position,Vector(0,0),entity)
+            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,AngelSoul,entity.Position,Vector(0,0),entity)
             checker=false
           elseif random == 3 and Isaac.GetPlayer(0):HasCollectible(AngelSoul)==false then
-            Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,DemonSoul,entity.Position,Vector(0,0),entity)
+            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,DemonSoul,entity.Position,Vector(0,0),entity)
             checker=false
           elseif random == 4 and Isaac.GetPlayer(0):HasCollectible(Stained)==false then
-            Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,PureSoul,entity.Position,Vector(0,0),entity)
+            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,PureSoul,entity.Position,Vector(0,0),entity)
             checker=false
           elseif random == 5 and Isaac.GetPlayer(0):HasCollectible(PureSoul)==false then
-            Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,Stained,entity.Position,Vector(0,0),entity)
+            Isaac:Spawn(EntityType.PICKUP_COLLECTIBLE,PickupVariant.PICKUP_COLLECTIBLE,Stained,entity.Position,Vector(0,0),entity)
             checker=false
           end
         end
