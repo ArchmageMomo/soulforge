@@ -32,7 +32,7 @@ local currHearts = 0
 
 local defaultrundata={
   weakcounter=0,
-  soulcount=0,
+  soulcounter=0,
   
   bumDmg=0,
   bumRange=0,
