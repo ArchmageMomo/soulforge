@@ -935,7 +935,7 @@ end
 
 --
 function Soulforge:SoulforgeSpawn()
-   if RNG():RandomInt(1) == 0 then 
+   if RNG():RandomInt(1) == 0 then end
      
   -- TODO: randomly spawning the Soulforge in the upper left corner of the starting room (normal/hard) or somewhere fitting in the greed shop (greed mode, guaranted) (Elias)
 end
