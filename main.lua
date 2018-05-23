@@ -935,8 +935,8 @@ end
 
 --manages if a soulforge gets spawned on a new floor and which amount of souls it takes
 function Soulforge:SoulforgeSpawn()
-  if RNG():RandomInt(2) == 0 then
-    rand=(math.random(3)+2)*5
+  if math.random(4) < 2 then
+    rand=(math.random(0,2)+2)*5
     defaultrundata.soulforgecost=rand
     Isaac.Spawn(6,6002,0,Game():GetRoom():GetGridPosition(32), Vector(0,0), nil)
   end
@@ -982,7 +982,7 @@ function Soulforge:SoulforgeUpdate()
       elseif s:IsFinished("Active") then
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, entity.Position, Vector(0,0), entity)
         
-        random = RNG():RandomInt(5)
+        random = math.random(5)
         mod=0
         while checker==true do
           if random == 0 and Isaac.GetPlayer(0):HasCollectible(DarkSoul)==false and Isaac.GetPlayer(0):HasCollectible(BumboSoul)==false then

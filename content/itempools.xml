@@ -81,4 +81,12 @@
    
     <Pool Name="bombBum">
     </Pool>
+    <Pool Name="soulforge">
+      <Item Name="BumBo Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+      <Item Name="Dark Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+      <Item Name="Angel Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+      <Item Name="Demon Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+      <Item Name="Pure Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+      <Item Name="Stained Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
 </ItemPools>
