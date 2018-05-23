@@ -935,12 +935,12 @@ end
 
 --
 function Soulforge:SoulforgeSpawn()
-  if RNG():RandomInt(1) == 0  or true then 
-    -- defaultrundata.soulforgecost=(RNG():RandomInt(2)+2)*5
-    defaultrundata.soulforgecost=20
+  if RNG():RandomInt(2) == 0 then
+    rand=(math.random(3)+2)*5
+    defaultrundata.soulforgecost=rand
     Isaac.Spawn(6,6002,0,Game():GetRoom():GetGridPosition(32), Vector(0,0), nil)
- end
-
+  end
+  
   -- TODO: randomly spawning the Soulforge in the upper left corner of the starting room (normal/hard) or somewhere fitting in the greed shop (greed mode, guaranted) (Elias)
 end
 
@@ -951,7 +951,7 @@ function Soulforge:SoulforgeCollision(player,entity)
     
     if defaultrundata.soulforgecost<=defaultrundata.weakcounter then
       entity:GetSprite():Play("Load"..defaultrundata.soulforgecost,true)
-    defaultrundata.weakcounter=defaultrundata.weakcounter-defaultrundata.soulforgecost
+      defaultrundata.weakcounter=defaultrundata.weakcounter-defaultrundata.soulforgecost
     end
   end
    
@@ -982,6 +982,12 @@ function Soulforge:SoulforgeUpdate()
       -- TODO Post Animation logic (logic by Elias)
       
       local	s = entity:GetSprite()
+      
+      
+      if s:IsPlaying("Idle10") and defaultrundata.soulforgecost~=10 then 
+        --debugText="different animation"
+        s:Play("Idle"..defaultrundata.soulforgecost,true)
+      end
       
       -- replace 10 with defaultrundata.???
       if s:IsPlaying("Load"..defaultrundata.soulforgecost) then
