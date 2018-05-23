@@ -883,7 +883,7 @@ function Soulforge:WeakSpawn(entity)
     --checks if the entity is an actual enemy (duh?)
     if entity:IsEnemy() then
       --checks if the enemy is an boss (duh?)
-      if entity:IsBoss() and entity.Type~=EntityType.ENTITY_LARRYJR then
+      if entity:IsBoss() and entity.Type~=EntityType.ENTITY_LARRYJR and entity.Type~=EntityType.ENTITY_PIN and entity.Type~=EntityType.ENTITY_ENVY then
         --guaranteed spawn
         spawn = true
         Position = entity.Position
@@ -933,53 +933,33 @@ function Soulforge:WeakUpdate(ent)
   end
 end
 
---
+--manages if a soulforge gets spawned on a new floor and which amount of souls it takes
 function Soulforge:SoulforgeSpawn()
   if RNG():RandomInt(2) == 0 then
     rand=(math.random(3)+2)*5
     defaultrundata.soulforgecost=rand
     Isaac.Spawn(6,6002,0,Game():GetRoom():GetGridPosition(32), Vector(0,0), nil)
   end
-  
-  -- TODO: randomly spawning the Soulforge in the upper left corner of the starting room (normal/hard) or somewhere fitting in the greed shop (greed mode, guaranted) (Elias)
 end
 
--- 
+-- manages the transactions on soulforges and triggers the fitting load animations
 function Soulforge:SoulforgeCollision(player,entity)
-  -- replace 10 with defaultrundata.???
   if entity.Type==6 and entity.Variant==SoulforgeVariant and entity:GetSprite():IsPlaying("Idle"..defaultrundata.soulforgecost) then
     
     if defaultrundata.soulforgecost<=defaultrundata.weakcounter then
       entity:GetSprite():Play("Load"..defaultrundata.soulforgecost,true)
       defaultrundata.weakcounter=defaultrundata.weakcounter-defaultrundata.soulforgecost
     end
+  --debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
   end
-   
-    -- TODO On Collision logic (logic by Elias)
-    -- it is IMPORTANT to save how many weak souls (10/15/20) are needed for powering the soulforge after entering a new floor if a forge is present (Elias pls do this. defaultrundata.??? and add it to save and load functions with a suiting wrapper-int)
-    --[[
-      Soulforge Animations:
-        Idle10
-        Idle15
-        Idle20
-        Load10
-        Load15
-        Load20
-        Active
-    ]]--
-    
-    -- replace 10 with defaultrundata.???
-    
-    --debugText="Soulforge Collider works "..entity.Variant.." "..entity.Type
 end
 
---
+-- manages the animations of the Soulforges and spawns a Soul when all animations are finished
 function Soulforge:SoulforgeUpdate()
   entities=Isaac:GetRoomEntities()
   for i = 1, #entities do
     entity=entities[i]
     if entity.Type==6 and entity.Variant==SoulforgeVariant then
-      -- TODO Post Animation logic (logic by Elias)
       
       local	s = entity:GetSprite()
       
@@ -989,14 +969,12 @@ function Soulforge:SoulforgeUpdate()
         s:Play("Idle"..defaultrundata.soulforgecost,true)
       end
       
-      -- replace 10 with defaultrundata.???
       if s:IsPlaying("Load"..defaultrundata.soulforgecost) then
         showSouls=player.FrameCount+15
       elseif s:IsPlaying("Idle"..defaultrundata.soulforgecost) then
         showSouls=player.FrameCount+2
       end
       
-      -- replace 10 with defaultrundata.???
       if s:IsFinished("Load"..defaultrundata.soulforgecost) then
         checker=true
         s:Play("Active",true)
@@ -1031,15 +1009,7 @@ function Soulforge:SoulforgeUpdate()
               random=math.fmod(random+mod,6)
             end
           end
-        end
-          
-        --[[ TODO Spawn one random soul item based on which Souls the Player has (no duplicates, no conflicting souls (like Stained if pure)); use RNG():RandomInt(max) to keep seed-consistent
-        Syntax to spawn:
-        Isaac:Spawn(EntityType.ENTITY_PICKUP,PickupVariant.PICKUP_COLLECTIBLE,BumboSoul,entity.Position,Vector(0,0),entity)
-        
-        ]]--
-        
-        
+        end   
         entity:Remove()
         --debugText="Soulforge Despawned"
       end
@@ -1139,7 +1109,6 @@ function Soulforge:SaveState()
   savedata=savedata..(6000+defaultrundata.bumDmg)
   savedata=savedata..(7777+defaultrundata.weakcounter)
   savedata=savedata..(8000+defaultrundata.soulforgecost)
-  --TODO: adding a new save value. recommended next wrapper:8000
 
 	Isaac.SaveModData(Soulforge,savedata)
   
@@ -1154,7 +1123,7 @@ function LoadState()
   -- runs as long as there are values left to load
   while string.len(save) > 3 do
     -- special part of the loop for loading the seed and checking if there is a new one 
-    if string.len(save)>=4*19 then-- TODO: change 18 to 19 when adding a new value
+    if string.len(save)>=4*19 then
       seed=string.sub(save, 1, 9)
       
       if seed==Game():GetSeeds():GetStartSeedString() then
@@ -1172,7 +1141,6 @@ function LoadState()
       num = tonumber(string.sub(save, 1, 4))
       save = string.sub(save, 5)
       
-      --TODO: adding the unwrap of the new value
       
       if num>=8000 then
         defaultrundata.soulforgecost=num-8000
