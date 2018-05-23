@@ -889,7 +889,7 @@ function Soulforge:WeakSpawn(entity)
         Position = entity.Position
       else
         --you have to be lucky.
-        rand=RNG():RandomInt(100)
+        rand=math.random(0,100)
         if rand+player.Luck>95 then
           spawn = true
           Position = entity.Position
