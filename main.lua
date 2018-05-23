@@ -238,7 +238,7 @@ end
 -- function to randomly add stacks on stats and force a reevaluation 
 function bumboAfterPickup()
   player = Isaac.GetPlayer(0);
-  rand = RNG():RandomInt(5)
+  rand = math.random(0,4)
   
   if rand==0 then
     defaultrundata.bumDmg=defaultrundata.bumDmg+1
@@ -304,7 +304,7 @@ end
 function Soulforge:DemonFloor()
   player=Isaac.GetPlayer(0)
   if player:HasCollectible(DemonSoul) == true then 
-    rand = RNG():RandomInt(5)
+    rand = math.random(0,4)
     if rand==0 then
       defaultrundata.demonDmg=defaultrundata.demonDmg+1
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -358,7 +358,7 @@ function Soulforge:StainedFloor()
     -- neccessary to remove some effects: Mama Mega explosion chance and damage up
     -- stainedState decides which effect will be called later in this function
     stainedStateold=stainedState
-    defaultrundata.stainedState = RNG():RandomInt(4)
+    defaultrundata.stainedState = math.random(0,4)
     
     if stainedStateold==1 then
       player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
@@ -414,7 +414,7 @@ function Soulforge:PureSoul ()
     game = Game() 
     level = game:GetLevel()
     
-    rand = RNG():RandomInt(4)
+    rand = math.random(0,4)
     
     -- read the debugText strings for information on what each of the effects does
     if rand==0 then
