@@ -938,7 +938,11 @@ function Soulforge:SoulforgeSpawn()
   if math.random(4) < 2 then
     rand=(math.random(0,2)+2)*5
     defaultrundata.soulforgecost=rand
-    Isaac.Spawn(6,6002,0,Game():GetRoom():GetGridPosition(32), Vector(0,0), nil)
+    if Game():GetRoom():GetGridCollision(32) == 0 then
+      Isaac.Spawn(6,6002,0,Game():GetRoom():GetGridPosition(32), Vector(0,0), nil)
+    else
+      Isaac.Spawn(6,6002,0,Isaac.GetPlayer().Position+3, Vector(0,0), nil)
+    end
   end
 end
 
