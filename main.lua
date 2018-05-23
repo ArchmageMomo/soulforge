@@ -935,11 +935,8 @@ end
 
 --
 function Soulforge:SoulforgeSpawn()
-   if RNG():RandomInt(1) == 0  or true then 
-    -- defaultrundata.soulforgecost=(RNG():RandomInt(2)+2)*5
-      defaultrundata.soulforgecost=20
-      Isaac.Spawn(6,6002,0,Game():GetRoom():GetGridPosition(32), Vector(0,0), nil)
-   end
+   if RNG():RandomInt(1) == 0 then 
+     
   -- TODO: randomly spawning the Soulforge in the upper left corner of the starting room (normal/hard) or somewhere fitting in the greed shop (greed mode, guaranted) (Elias)
 end
 
