@@ -825,6 +825,13 @@ function Soulforge:FantasiaNewRoom()
   end
 end
 
+-- triggers the UI element for the number of souls on button press Y
+function Soulforge:WeakUI()
+  if(Input.IsButtonPressed(Keyboard.KEY_Y, 0)) then
+    showSouls=Isaac.GetPlayer(0).FrameCount+2
+  end
+end
+
 --function displays how many weak souls the player has picked up after he actually picked one up (also when a Soulforge is in the same room.) Also displays which souls you actualy have.
 function Soulforge:UIRender()
   player=Isaac.GetPlayer(0)
@@ -1054,6 +1061,8 @@ Soulforge:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, Soulforge.DemonUp)
 
 --callback for dynamicaly displaying your collected weak souls
 Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.UIRender)
+Soulforge:AddCallback(ModCallbacks.MC_POST_RENDER, Soulforge.WeakUI)
+
 -- callback for spawning and picking up weak souls
 Soulforge:AddCallback(ModCallbacks.MC_NPC_UPDATE, Soulforge.WeakSpawn)
 Soulforge:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION  , Soulforge.WeakColl)
