@@ -1,9 +1,9 @@
 <items version="1" gfxroot="gfx/items/">
-	<passive description="Greedy Stats" gfx="bumbo_soul.png" name="Bumbo Soul" id="601"/>
+	<passive description="You greed for gold" gfx="bumbo_soul.png" name="Bumbo Soul" id="601"/>
 	<passive cache="firedelay damage range" description="Burn them all" gfx="flamethrower5.png" name="Flamethrower" id="600"/>
-	<passive description="You Feel Immortal" gfx="angel_soul.png" name="Angel Soul" id="602"/>
-	<passive description="Dark Soul" gfx ="dark_soul.png" name="Dark Soul" id="603"/>
-	<passive description="Stained Soul" gfx="stained_soul.png" name="Stained Soul" id="604"/>
-	<passive dedication="Pure Soul" gfx="pure_soul.png" name ="Pure Soul" id="605"/>
-	<passive description="Demon Soul" gfx="demon_soul.png" name ="Demon Soul" id="606"/>
+	<passive description="You feel immortal" gfx="angel_soul.png" name="Angel Soul" id="602"/>
+	<passive description="You lost trust" gfx ="dark_soul.png" name="Dark Soul" id="603"/>
+	<passive description="You feel corrupted" gfx="stained_soul.png" name="Stained Soul" id="604"/>
+	<passive description="You feel cleansed" gfx="pure_soul.png" name ="Pure Soul" id="605"/>
+	<passive description="You experience power" gfx="demon_soul.png" name ="Demon Soul" id="606"/>
 </items>

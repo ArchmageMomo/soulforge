@@ -285,7 +285,7 @@ end
 function darkAfterPickup()
   if Isaac.GetPlayer(0):HasCollectible(DarkSoul) then
     pos = Vector(Isaac.GetPlayer(0).Position.X, Isaac.GetPlayer(0).Position.Y);
-    if RNG():RandomInt(100) < 30 then
+    if math.random(0,100) < 30 then
       Isaac.GetPlayer(0):TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     else 
       Isaac.GetPlayer(0):AddBlackHearts(2)
@@ -390,7 +390,7 @@ end
 function Soulforge:StainedM()
   if defaultrundata.stainedMama==true then
     rand=math.random(0,100)
-    if rand+(Isaac.GetPlayer(0).Luck*2)>80 then
+    if rand+(Isaac.GetPlayer(0).Luck*2)>90 then
       Game():GetRoom():MamaMegaExplossion()
     end
   end
@@ -540,7 +540,7 @@ function  Soulforge:Playermanager()
   elseif player:GetName() == "Lazarus" then
     defaultrundata.weakcounter=1
   elseif player:GetName() == "Eden" then
-    defaultrundata.weakcounter=RNG():RandomInt(8)
+    defaultrundata.weakcounter=math.random(0,8)
   elseif player:GetName() == "The Lost" then
     defaultrundata.weakcounter=10
   elseif player:GetName() == "Lilith" then
@@ -607,9 +607,9 @@ function AddSpider()
   luck=Isaac.GetPlayer(0).Luck
   -- spawn-chance and randomizer
   if 16-luck>3 then
-    rand=RNG():RandomInt(16-luck)
+    rand=math.random(0,16-luck)
   else
-    rand=RNG():RandomInt(4)
+    rand=math.random(0,4)
   end
   
   if rand==0 then
@@ -673,7 +673,7 @@ end
 -- function for managing the passive effect of "Neofantasia" (Spawning floating tears depending on luck)
 function Soulforge:Fantasiamanager()
   if Isaac.GetPlayer(0):GetName()=="Neofantasia" then
-    rand=RNG():RandomInt(100)
+    rand=math.random(0,100)
     -- just an overly complicated way for determining the chance of spawning an floating tear
     if 1+rand+(Isaac.GetPlayer(0).Luck*3)>74 or defaultrundata.costcount>4 then
       --determins how many tears to spawn depending on costume-stage
@@ -890,7 +890,7 @@ function Soulforge:WeakSpawn(entity)
     --checks if the entity is an actual enemy (duh?)
     if entity:IsEnemy() then
       --checks if the enemy is an boss and NO multi-entity boss (duh?)
-      if entity:IsBoss() and entity.Type~=EntityType.ENTITY_LARRYJR and entity.Type~=EntityType.ENTITY_PIN and entity.Type~=EntityType.ENTITY_ENVY and entity.Type~=EntityType.ENTITY_FISTULA_BIG  and entity.Type~=EntityType.ENTITY_FISTULA_SMALL and entity.Type~=EntityType.ENTITY_BLASTOCYST_BIG   and entity.Type~=EntityType.ENTITY_BLASTOCYST_SMALL  then
+      if entity:IsBoss() and entity.Type~=EntityType.ENTITY_LARRYJR and entity.Type~=EntityType.ENTITY_PIN and entity.Type~=EntityType.ENTITY_ENVY and entity.Type~=EntityType.ENTITY_FISTULA_BIG  and entity.Type~=EntityType.ENTITY_FISTULA_SMALL and entity.Type~=EntityType.ENTITY_BLASTOCYST_BIG   and entity.Type~=EntityType.ENTITY_BLASTOCYST_SMALL and entity.Type~=EntityType.ENTITY_BIG_HORN   then
         --guaranteed spawn
         spawn = true
         Position = entity.Position
